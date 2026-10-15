@@ -7,9 +7,11 @@
       </span>
       <div class="wn-heading-text">
         <h2 class="wn-title">{{ "WHATS-NEW.TITLE" | translate }}</h2>
-        <p class="wn-subtitle" *ngIf="release">
-          {{ "WHATS-NEW.SUBTITLE" | translate: { version: release.version, date: (release.dateKey | translate) } }}
-        </p>
+        @if (release) {
+          <p class="wn-subtitle">
+            {{ "WHATS-NEW.SUBTITLE" | translate: { version: release.version, date: (release.dateKey | translate) } }}
+          </p>
+        }
       </div>
     </div>
     <button
@@ -17,109 +19,120 @@
       class="wn-close"
       (click)="close()"
       [attr.aria-label]="'WHATS-NEW.CLOSE-LABEL' | translate"
-    >
+      >
       <i class="fas fa-times" aria-hidden="true"></i>
     </button>
   </header>
 
   <!-- Version switcher -->
-  <div class="wn-tabs" role="tablist" *ngIf="release && previousReleases.length > 0">
-    <button
-      type="button"
-      class="wn-tab"
-      role="tab"
-      id="wn-tab-current"
-      [class.is-active]="activeTab === 'current'"
-      [attr.aria-selected]="activeTab === 'current'"
-      [attr.aria-controls]="'wn-panel-current'"
-      (click)="activeTab = 'current'"
-    >
-      <i class="fas fa-star" aria-hidden="true"></i>
-      <span>{{ "WHATS-NEW.TAB-CURRENT" | translate: { version: release.version } }}</span>
-    </button>
-    <button
-      type="button"
-      class="wn-tab"
-      role="tab"
-      id="wn-tab-history"
-      [class.is-active]="activeTab === 'history'"
-      [attr.aria-selected]="activeTab === 'history'"
-      [attr.aria-controls]="'wn-panel-history'"
-      (click)="activeTab = 'history'"
-    >
-      <i class="fas fa-history" aria-hidden="true"></i>
-      <span>{{ "WHATS-NEW.TAB-HISTORY" | translate }}</span>
-    </button>
-  </div>
+  @if (release && previousReleases.length > 0) {
+    <div class="wn-tabs" role="tablist">
+      <button
+        type="button"
+        class="wn-tab"
+        role="tab"
+        id="wn-tab-current"
+        [class.is-active]="activeTab === 'current'"
+        [attr.aria-selected]="activeTab === 'current'"
+        [attr.aria-controls]="'wn-panel-current'"
+        (click)="activeTab = 'current'"
+        >
+        <i class="fas fa-star" aria-hidden="true"></i>
+        <span>{{ "WHATS-NEW.TAB-CURRENT" | translate: { version: release.version } }}</span>
+      </button>
+      <button
+        type="button"
+        class="wn-tab"
+        role="tab"
+        id="wn-tab-history"
+        [class.is-active]="activeTab === 'history'"
+        [attr.aria-selected]="activeTab === 'history'"
+        [attr.aria-controls]="'wn-panel-history'"
+        (click)="activeTab = 'history'"
+        >
+        <i class="fas fa-history" aria-hidden="true"></i>
+        <span>{{ "WHATS-NEW.TAB-HISTORY" | translate }}</span>
+      </button>
+    </div>
+  }
 
   <div class="wn-body">
-    <ng-container *ngIf="release">
+    @if (release) {
       <!-- Highlights of the running version -->
-      <section
-        class="wn-panel"
-        id="wn-panel-current"
-        role="tabpanel"
-        aria-labelledby="wn-tab-current"
-        *ngIf="activeTab === 'current'"
-      >
-        <p class="wn-summary">{{ release.summaryKey | translate }}</p>
-
-        <ul class="wn-features">
-          <li class="wn-feature" *ngFor="let feature of illustratedFeatures">
-            <figure class="wn-figure">
-              <img [src]="feature.image" [alt]="feature.imageAltKey | translate" loading="lazy" />
-            </figure>
-            <div class="wn-feature-body">
-              <ng-container *ngTemplateOutlet="featureBody; context: { feature: feature }"></ng-container>
-            </div>
-          </li>
-        </ul>
-
-        <ul class="wn-features wn-features-compact">
-          <li class="wn-feature" *ngFor="let feature of compactFeatures">
-            <div class="wn-feature-body">
-              <ng-container *ngTemplateOutlet="featureBody; context: { feature: feature }"></ng-container>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- Previous versions -->
-      <section
-        class="wn-panel"
-        id="wn-panel-history"
-        role="tabpanel"
-        aria-labelledby="wn-tab-history"
-        *ngIf="activeTab === 'history'"
-      >
-        <div class="wn-history-entry" *ngFor="let previous of previousReleases">
-          <button
-            type="button"
-            class="wn-history-header"
-            [attr.aria-expanded]="expandedVersion === previous.version"
-            (click)="toggleVersion(previous.version)"
+      @if (activeTab === 'current') {
+        <section
+          class="wn-panel"
+          id="wn-panel-current"
+          role="tabpanel"
+          aria-labelledby="wn-tab-current"
           >
-            <span class="wn-history-version">{{ previous.version }}</span>
-            <span class="wn-history-date">{{ previous.dateKey | translate }}</span>
-            <i class="fas fa-chevron-down wn-history-chevron" aria-hidden="true"></i>
-          </button>
-          <div class="wn-history-body" *ngIf="expandedVersion === previous.version">
-            <p class="wn-history-summary">{{ previous.summaryKey | translate }}</p>
-            <ul class="wn-history-list">
-              <li class="wn-history-item" *ngFor="let feature of previous.features">
-                <span class="wn-history-icon" aria-hidden="true">
-                  <i class="fas" [ngClass]="feature.icon"></i>
-                </span>
-                <div class="wn-history-text">
-                  <p class="wn-history-title">{{ feature.titleKey | translate }}</p>
-                  <p class="wn-history-desc">{{ feature.descriptionKey | translate }}</p>
+          <p class="wn-summary">{{ release.summaryKey | translate }}</p>
+          <ul class="wn-features">
+            @for (feature of illustratedFeatures; track feature) {
+              <li class="wn-feature">
+                <figure class="wn-figure">
+                  <img [src]="feature.image" [alt]="feature.imageAltKey | translate" loading="lazy" />
+                </figure>
+                <div class="wn-feature-body">
+                  <ng-container *ngTemplateOutlet="featureBody; context: { feature: feature }"></ng-container>
                 </div>
               </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </ng-container>
+            }
+          </ul>
+          <ul class="wn-features wn-features-compact">
+            @for (feature of compactFeatures; track feature) {
+              <li class="wn-feature">
+                <div class="wn-feature-body">
+                  <ng-container *ngTemplateOutlet="featureBody; context: { feature: feature }"></ng-container>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+      <!-- Previous versions -->
+      @if (activeTab === 'history') {
+        <section
+          class="wn-panel"
+          id="wn-panel-history"
+          role="tabpanel"
+          aria-labelledby="wn-tab-history"
+          >
+          @for (previous of previousReleases; track previous) {
+            <div class="wn-history-entry">
+              <button
+                type="button"
+                class="wn-history-header"
+                [attr.aria-expanded]="expandedVersion === previous.version"
+                (click)="toggleVersion(previous.version)"
+                >
+                <span class="wn-history-version">{{ previous.version }}</span>
+                <span class="wn-history-date">{{ previous.dateKey | translate }}</span>
+                <i class="fas fa-chevron-down wn-history-chevron" aria-hidden="true"></i>
+              </button>
+              @if (expandedVersion === previous.version) {
+                <div class="wn-history-body">
+                  <p class="wn-history-summary">{{ previous.summaryKey | translate }}</p>
+                  <ul class="wn-history-list">
+                    @for (feature of previous.features; track feature) {
+                      <li class="wn-history-item">
+                        <span class="wn-history-icon" aria-hidden="true">
+                          <i class="fas" [ngClass]="feature.icon"></i>
+                        </span>
+                        <div class="wn-history-text">
+                          <p class="wn-history-title">{{ feature.titleKey | translate }}</p>
+                          <p class="wn-history-desc">{{ feature.descriptionKey | translate }}</p>
+                        </div>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+          }
+        </section>
+      }
+    }
   </div>
 
   <!-- Footer -->
@@ -146,18 +159,24 @@
   <p class="wn-feature-desc">
     <ng-container *ngTemplateOutlet="keycapText; context: { text: feature.descriptionKey | translate }"></ng-container>
   </p>
-  <p class="wn-feature-hint" *ngIf="feature.hintKey">
-    <i class="fas fa-location-arrow" aria-hidden="true"></i>
-    <span>
-      <ng-container *ngTemplateOutlet="keycapText; context: { text: feature.hintKey | translate }"></ng-container>
-    </span>
-  </p>
+  @if (feature.hintKey) {
+    <p class="wn-feature-hint">
+      <i class="fas fa-location-arrow" aria-hidden="true"></i>
+      <span>
+        <ng-container *ngTemplateOutlet="keycapText; context: { text: feature.hintKey | translate }"></ng-container>
+      </span>
+    </p>
+  }
 </ng-template>
 
 <!-- Reusable Template: text mixing plain words and keyboard keycaps -->
 <ng-template #keycapText let-text="text">
-  <ng-container *ngFor="let part of parseKeys(text); trackBy: trackByIndex">
-    <span *ngIf="part.type === 'text'">{{ part.value }}</span>
-    <kbd *ngIf="part.type === 'key'" class="shortcut-key shortcut-key-sm">{{ part.value }}</kbd>
-  </ng-container>
+  @for (part of parseKeys(text); track trackByIndex($index, part)) {
+    @if (part.type === 'text') {
+      <span>{{ part.value }}</span>
+    }
+    @if (part.type === 'key') {
+      <kbd class="shortcut-key shortcut-key-sm">{{ part.value }}</kbd>
+    }
+  }
 </ng-template>

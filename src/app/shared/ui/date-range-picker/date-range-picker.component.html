@@ -1,15 +1,19 @@
 <div class="date-range-container">
   <!-- Labels -->
-  <div class="labels-row" *ngIf="!isSingleDate">
-    <span class="label-text start-label">{{ startLabel | translate }}</span>
-    <span class="label-arrow-spacer"></span>
-    <span class="label-text end-label">{{ endLabel | translate }}</span>
-    <span class="label-button-spacer"></span>
-  </div>
-  <div class="labels-row" *ngIf="isSingleDate && singleLabel && singleLabel.trim() !== ''">
-    <span class="label-text single-label">{{ singleLabel | translate }}</span>
-    <span class="label-button-spacer"></span>
-  </div>
+  @if (!isSingleDate) {
+    <div class="labels-row">
+      <span class="label-text start-label">{{ startLabel | translate }}</span>
+      <span class="label-arrow-spacer"></span>
+      <span class="label-text end-label">{{ endLabel | translate }}</span>
+      <span class="label-button-spacer"></span>
+    </div>
+  }
+  @if (isSingleDate && singleLabel && singleLabel.trim() !== '') {
+    <div class="labels-row">
+      <span class="label-text single-label">{{ singleLabel | translate }}</span>
+      <span class="label-button-spacer"></span>
+    </div>
+  }
 
   <!-- Input Trigger -->
   <div class="input-trigger" (click)="togglePopup()">
@@ -17,7 +21,7 @@
       <!-- Start Date Segments -->
       <div class="date-segments" (click)="$event.stopPropagation()">
         <!-- Date Segments (Locale specific order) -->
-        <ng-container *ngIf="isFrench; else enStartFormat">
+        @if (isFrench) {
           <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
             maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')"
             (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
@@ -29,8 +33,7 @@
           <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
             maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
             (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
-        </ng-container>
-        <ng-template #enStartFormat>
+        } @else {
           <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
             maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')"
             (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
@@ -42,10 +45,10 @@
           <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
             maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
             (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
-        </ng-template>
+        }
 
         <!-- Time Segments (Universal format) -->
-        <ng-container *ngIf="isSingleDate && hasTime">
+        @if (isSingleDate && hasTime) {
           <span class="date-time-spacer"></span>
           <input #startHour type="text" class="segment-input hour" placeholder="HH"
             maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, 'hour')"
@@ -54,7 +57,7 @@
           <input #startMinute type="text" class="segment-input minute" placeholder="MM"
             maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, 'minute')"
             (keydown)="onKeyDown($event, true, 'minute')" (blur)="onBlur(true)">
-          <ng-container *ngIf="mode === 'datetime-period'">
+          @if (mode === 'datetime-period') {
             <span class="time-arrow-separator"><i class="fas fa-arrow-right"></i></span>
             <span class="end-time-segments">
               <input #endHour type="text" class="segment-input hour" placeholder="HH"
@@ -65,47 +68,52 @@
               <input #endMinute type="text" class="segment-input minute" placeholder="MM"
                 maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, 'minute')"
                 (keydown)="onKeyDown($event, false, 'minute')" (blur)="onBlur(false)">
-              <span class="tab-suggestion" *ngIf="showTabSuggestion && suggestedEndTime" [class.above]="tabSuggestionAbove" aria-live="polite">
-                <kbd class="shortcut-key shortcut-key-sm" [class.shortcut-pressed-anim]="tabShortcutPressed">⇥ Tab</kbd>
-                <span class="tab-suggestion-text">{{ 'DATE-RANGE-PICKER.TAB-HINT' | translate }}</span>
-                <span class="tab-suggestion-time">{{ suggestedEndTime }}</span>
-              </span>
+              @if (showTabSuggestion && suggestedEndTime) {
+                <span class="tab-suggestion" [class.above]="tabSuggestionAbove" aria-live="polite">
+                  <kbd class="shortcut-key shortcut-key-sm" [class.shortcut-pressed-anim]="tabShortcutPressed">⇥ Tab</kbd>
+                  <span class="tab-suggestion-text">{{ 'DATE-RANGE-PICKER.TAB-HINT' | translate }}</span>
+                  <span class="tab-suggestion-time">{{ suggestedEndTime }}</span>
+                </span>
+              }
             </span>
-          </ng-container>
-        </ng-container>
+          }
+        }
       </div>
 
-      <span class="arrow-separator" *ngIf="!isSingleDate"><i class="fas fa-arrow-right"></i></span>
+      @if (!isSingleDate) {
+        <span class="arrow-separator"><i class="fas fa-arrow-right"></i></span>
+      }
 
       <!-- End Date Segments -->
-      <div class="date-segments" (click)="$event.stopPropagation()" *ngIf="!isSingleDate">
-        <ng-container *ngIf="isFrench; else enEndFormat">
-          <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
-            maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
-            (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
-          <span class="separator">/</span>
-          <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
-            maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
-            (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
-          <span class="separator">/</span>
-          <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
-            maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
-            (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
-        </ng-container>
-        <ng-template #enEndFormat>
-          <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
-            maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
-            (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
-          <span class="separator">/</span>
-          <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
-            maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
-            (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
-          <span class="separator">/</span>
-          <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
-            maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
-            (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
-        </ng-template>
-      </div>
+      @if (!isSingleDate) {
+        <div class="date-segments" (click)="$event.stopPropagation()">
+          @if (isFrench) {
+            <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+              maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
+              (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
+            <span class="separator">/</span>
+            <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+              maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
+              (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
+            <span class="separator">/</span>
+            <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+              maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
+              (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
+          } @else {
+            <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+              maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
+              (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
+            <span class="separator">/</span>
+            <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+              maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
+              (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
+            <span class="separator">/</span>
+            <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+              maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
+              (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
+          }
+        </div>
+      }
     </div>
 
     <!-- Calendar Icon Button -->
@@ -114,64 +122,73 @@
     </button>
   </div>
 
-  <div class="calendar-popup" #calendarPopup *ngIf="isOpen" (click)="$event.stopPropagation()" [class.drop-up]="dropUp" [class.align-right]="alignRight">
-
-    <!-- Quick Selectors Header -->
-    <div class="calendar-quick-selectors">
-      <button type="button" class="quick-btn" (click)="setToday()">
-        <svg class="sparkle-icon purple" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
-        <span>{{ 'TODAY' | translate }}</span>
-      </button>
-      <button type="button" class="quick-btn" (click)="setThisWeek()" *ngIf="!isSingleDate">
-        <svg class="sparkle-icon yellow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
-        <span>{{ 'THIS_WEEK' | translate }}</span>
-      </button>
-      <button type="button" class="quick-btn" (click)="setThisMonth()" *ngIf="!isSingleDate">
-        <svg class="sparkle-icon blue" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
-        <span>{{ 'THIS_MONTH' | translate }}</span>
-      </button>
-    </div>
-
-    <div class="popup-content-layout">
-      <!-- Calendar Side -->
-      <div class="calendar-side">
-        <!-- Calendar Header -->
-        <div class="calendar-header">
-          <button type="button" class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>
-          <span class="current-month">{{ currentMonthName }}</span>
-          <button type="button" class="nav-btn" (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>
-        </div>
-
-        <!-- Calendar Body -->
-        <div class="calendar-body">
-          <div class="weekdays-row">
-            <span class="weekday" *ngFor="let d of weekDays">{{ d }}</span>
-          </div>
-          <div class="days-grid">
-            <ng-container *ngFor="let week of calendar">
-              <div class="day-cell" *ngFor="let day of week" [class.outside-month]="!day.isCurrentMonth"
-                [class.selected-start]="isStartDate(day.date)" [class.selected-end]="isEndDate(day.date)"
-                [class.in-range]="isInRange(day.date)" [class.today]="day.isToday"
-                [class.range-right]="isRangeRight(day.date)" [class.range-left]="isRangeLeft(day.date)"
-                [class.hover-end]="isHoverForwardEnd(day.date)" [class.hover-start]="isHoverBackwardStart(day.date)"
-                (click)="onDateClick(day)"
-                (mouseenter)="onDateHover(day)" (mouseleave)="onDateLeave()">
-                <div class="day-number">{{ day.day }}</div>
-              </div>
-            </ng-container>
-          </div>
-        </div>
+  @if (isOpen) {
+    <div class="calendar-popup" #calendarPopup (click)="$event.stopPropagation()" [class.drop-up]="dropUp" [class.align-right]="alignRight">
+      <!-- Quick Selectors Header -->
+      <div class="calendar-quick-selectors">
+        <button type="button" class="quick-btn" (click)="setToday()">
+          <svg class="sparkle-icon purple" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
+          <span>{{ 'TODAY' | translate }}</span>
+        </button>
+        @if (!isSingleDate) {
+          <button type="button" class="quick-btn" (click)="setThisWeek()">
+            <svg class="sparkle-icon yellow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
+            <span>{{ 'THIS_WEEK' | translate }}</span>
+          </button>
+        }
+        @if (!isSingleDate) {
+          <button type="button" class="quick-btn" (click)="setThisMonth()">
+            <svg class="sparkle-icon blue" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
+            <span>{{ 'THIS_MONTH' | translate }}</span>
+          </button>
+        }
       </div>
-
-      <!-- Time Picker Side -->
-      <ng-container *ngIf="isSingleDate && hasTime">
-        <div class="time-picker-divider"></div>
-        <div class="time-picker-side">
-          <app-time-picker *ngIf="mode === 'datetime'" [mode]="'single'" [time]="timeString" (timeChange)="onTimeChange($event)"></app-time-picker>
-          <app-time-picker *ngIf="mode === 'datetime-period'" [mode]="'period'" [startTime]="startTime" [endTime]="endTime" [defaultDuration]="defaultDuration" (periodChange)="onPeriodChange($event)"></app-time-picker>
+      <div class="popup-content-layout">
+        <!-- Calendar Side -->
+        <div class="calendar-side">
+          <!-- Calendar Header -->
+          <div class="calendar-header">
+            <button type="button" class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>
+            <span class="current-month">{{ currentMonthName }}</span>
+            <button type="button" class="nav-btn" (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <!-- Calendar Body -->
+          <div class="calendar-body">
+            <div class="weekdays-row">
+              @for (d of weekDays; track d) {
+                <span class="weekday">{{ d }}</span>
+              }
+            </div>
+            <div class="days-grid">
+              @for (week of calendar; track week) {
+                @for (day of week; track day) {
+                  <div class="day-cell" [class.outside-month]="!day.isCurrentMonth"
+                    [class.selected-start]="isStartDate(day.date)" [class.selected-end]="isEndDate(day.date)"
+                    [class.in-range]="isInRange(day.date)" [class.today]="day.isToday"
+                    [class.range-right]="isRangeRight(day.date)" [class.range-left]="isRangeLeft(day.date)"
+                    [class.hover-end]="isHoverForwardEnd(day.date)" [class.hover-start]="isHoverBackwardStart(day.date)"
+                    (click)="onDateClick(day)"
+                    (mouseenter)="onDateHover(day)" (mouseleave)="onDateLeave()">
+                    <div class="day-number">{{ day.day }}</div>
+                  </div>
+                }
+              }
+            </div>
+          </div>
         </div>
-      </ng-container>
+        <!-- Time Picker Side -->
+        @if (isSingleDate && hasTime) {
+          <div class="time-picker-divider"></div>
+          <div class="time-picker-side">
+            @if (mode === 'datetime') {
+              <app-time-picker [mode]="'single'" [time]="timeString" (timeChange)="onTimeChange($event)"></app-time-picker>
+            }
+            @if (mode === 'datetime-period') {
+              <app-time-picker [mode]="'period'" [startTime]="startTime" [endTime]="endTime" [defaultDuration]="defaultDuration" (periodChange)="onPeriodChange($event)"></app-time-picker>
+            }
+          </div>
+        }
+      </div>
     </div>
-
-  </div>
+  }
 </div>

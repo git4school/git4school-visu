@@ -1,254 +1,251 @@
 <!-- Minimized floating badge in bottom-right corner -->
-<div
-  *ngIf="isCollapsed"
-  class="dev-bar-minimized"
-  (click)="toggleCollapse()"
-  [appTooltip]="'Développer la barre développeur'"
-  placement="top"
->
-  <span class="badge-dev-tag">DEV</span>
-  <span class="fps-pill" [ngClass]="fps >= 55 ? 'fps-good' : (fps >= 30 ? 'fps-medium' : 'fps-bad')">
-    <span class="dot"></span>
-    {{ fps }} FPS
-  </span>
-  <i class="fas fa-chevron-up toggle-icon"></i>
-</div>
+@if (isCollapsed) {
+  <div
+    class="dev-bar-minimized"
+    (click)="toggleCollapse()"
+    [appTooltip]="'Développer la barre développeur'"
+    placement="top"
+    >
+    <span class="badge-dev-tag">DEV</span>
+    <span class="fps-pill" [ngClass]="fps >= 55 ? 'fps-good' : (fps >= 30 ? 'fps-medium' : 'fps-bad')">
+      <span class="dot"></span>
+      {{ fps }} FPS
+    </span>
+    <i class="fas fa-chevron-up toggle-icon"></i>
+  </div>
+}
 
 <!-- Full Dev Bar when expanded -->
-<div *ngIf="!isCollapsed" class="dev-bar-container">
-  <!-- Backdrop click catcher to close popovers -->
-  <div *ngIf="activePopover" class="popover-backdrop" (click)="closePopover()"></div>
-
-  <!-- Left: Performance & Context Metrics -->
-  <div class="dev-bar-section left-section">
-    <div class="dev-badge">DEV</div>
-
-    <!-- FPS -->
-    <div
-      class="metric-pill"
-      [ngClass]="fps >= 55 ? 'fps-good' : (fps >= 30 ? 'fps-medium' : 'fps-bad')"
-      [appTooltip]="'Images par seconde (FPS en temps réel)'"
-      placement="top"
-    >
-      <span class="metric-dot"></span>
-      <span class="metric-val">{{ fps }} FPS</span>
-    </div>
-
-    <!-- Memory -->
-    <div *ngIf="memoryMB !== null" class="metric-pill" [appTooltip]="'Mémoire JavaScript Heap utilisée'" placement="top">
-      <i class="fas fa-memory mr-1"></i>
-      <span>{{ memoryMB }} MB</span>
-    </div>
-
-    <!-- Viewport / Breakpoint -->
-    <div class="metric-pill" [appTooltip]="'Dimensions d\'écran et breakpoint responsive'" placement="top">
-      <i class="fas fa-desktop mr-1"></i>
-      <span>{{ viewportWidth }}px · {{ breakpoint }}</span>
-    </div>
-  </div>
-
-  <!-- Center: Action & Test Triggers -->
-  <div class="dev-bar-section center-section">
-    <!-- Toasts Menu -->
-    <div class="dev-btn-group position-relative">
-      <button
-        type="button"
-        class="dev-bar-btn"
-        [class.active]="activePopover === 'toasts'"
-        (click)="togglePopover('toasts')"
-        [appTooltip]="'Tester l\'affichage des notifications toasts'"
+@if (!isCollapsed) {
+  <div class="dev-bar-container">
+    <!-- Backdrop click catcher to close popovers -->
+    @if (activePopover) {
+      <div class="popover-backdrop" (click)="closePopover()"></div>
+    }
+    <!-- Left: Performance & Context Metrics -->
+    <div class="dev-bar-section left-section">
+      <div class="dev-badge">DEV</div>
+      <!-- FPS -->
+      <div
+        class="metric-pill"
+        [ngClass]="fps >= 55 ? 'fps-good' : (fps >= 30 ? 'fps-medium' : 'fps-bad')"
+        [appTooltip]="'Images par seconde (FPS en temps réel)'"
         placement="top"
-      >
-        <i class="fas fa-bell mr-1.5"></i>
-        <span>Toasts</span>
-        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
-      </button>
-
-      <!-- Toasts Popover -->
-      <div *ngIf="activePopover === 'toasts'" class="dev-popover">
-        <div class="popover-header">Notifications Toast</div>
-        <div class="popover-body">
-          <button type="button" class="btn-pop-action toast-success" (click)="triggerToast('success')">
-            <i class="fas fa-check-circle mr-1.5"></i> Succès
-          </button>
-          <button type="button" class="btn-pop-action toast-warning" (click)="triggerToast('warning')">
-            <i class="fas fa-exclamation-triangle mr-1.5"></i> Attention
-          </button>
-          <button type="button" class="btn-pop-action toast-error" (click)="triggerToast('error')">
-            <i class="fas fa-times-circle mr-1.5"></i> Erreur
-          </button>
-          <button type="button" class="btn-pop-action toast-copy" (click)="triggerToast('copy')">
-            <i class="fas fa-clipboard mr-1.5"></i> Copie
-          </button>
+        >
+        <span class="metric-dot"></span>
+        <span class="metric-val">{{ fps }} FPS</span>
+      </div>
+      <!-- Memory -->
+      @if (memoryMB !== null) {
+        <div class="metric-pill" [appTooltip]="'Mémoire JavaScript Heap utilisée'" placement="top">
+          <i class="fas fa-memory mr-1"></i>
+          <span>{{ memoryMB }} MB</span>
         </div>
+      }
+      <!-- Viewport / Breakpoint -->
+      <div class="metric-pill" [appTooltip]="'Dimensions d\'écran et breakpoint responsive'" placement="top">
+        <i class="fas fa-desktop mr-1"></i>
+        <span>{{ viewportWidth }}px · {{ breakpoint }}</span>
       </div>
     </div>
-
-    <!-- Simulated Clock Menu -->
-    <div class="dev-btn-group position-relative">
-      <button
-        type="button"
-        class="dev-bar-btn"
-        [class.active]="activePopover === 'clock'"
-        [class.clock-shifted]="clockService.isShifted"
-        (click)="togglePopover('clock')"
-        [appTooltip]="'DEV-BAR.CLOCK.TOOLTIP' | translate"
-        placement="top"
-      >
-        <i class="fas fa-clock mr-1.5"></i>
-        <span>{{ "DEV-BAR.CLOCK.LABEL" | translate }}</span>
-        <span class="clock-offset-badge" *ngIf="clockService.isShifted">{{ clockOffsetLabel }}</span>
-        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
-      </button>
-
-      <!-- Simulated Clock Popover -->
-      <div *ngIf="activePopover === 'clock'" class="dev-popover clock-popover">
-        <div class="popover-header">{{ "DEV-BAR.CLOCK.HEADER" | translate }}</div>
-        <div class="popover-body clock-body">
-          <div class="clock-readout">
-            <span class="clock-readout-label">{{ "DEV-BAR.CLOCK.SIMULATED" | translate }}</span>
-            <span class="clock-readout-value">{{ simulatedNowLabel }}</span>
+    <!-- Center: Action & Test Triggers -->
+    <div class="dev-bar-section center-section">
+      <!-- Toasts Menu -->
+      <div class="dev-btn-group position-relative">
+        <button
+          type="button"
+          class="dev-bar-btn"
+          [class.active]="activePopover === 'toasts'"
+          (click)="togglePopover('toasts')"
+          [appTooltip]="'Tester l\'affichage des notifications toasts'"
+          placement="top"
+          >
+          <i class="fas fa-bell mr-1.5"></i>
+          <span>Toasts</span>
+          <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+        </button>
+        <!-- Toasts Popover -->
+        @if (activePopover === 'toasts') {
+          <div class="dev-popover">
+            <div class="popover-header">Notifications Toast</div>
+            <div class="popover-body">
+              <button type="button" class="btn-pop-action toast-success" (click)="triggerToast('success')">
+                <i class="fas fa-check-circle mr-1.5"></i> Succès
+              </button>
+              <button type="button" class="btn-pop-action toast-warning" (click)="triggerToast('warning')">
+                <i class="fas fa-exclamation-triangle mr-1.5"></i> Attention
+              </button>
+              <button type="button" class="btn-pop-action toast-error" (click)="triggerToast('error')">
+                <i class="fas fa-times-circle mr-1.5"></i> Erreur
+              </button>
+              <button type="button" class="btn-pop-action toast-copy" (click)="triggerToast('copy')">
+                <i class="fas fa-clipboard mr-1.5"></i> Copie
+              </button>
+            </div>
           </div>
-
-          <app-date-range-picker
-            mode="datetime"
-            [date]="clockDate"
-            [singleLabel]="'DEV-BAR.CLOCK.FIELD-LABEL'"
-            (dateChange)="onClockDateChange($event)"
-          ></app-date-range-picker>
-
-          <div class="clock-shift-row">
-            <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(-DAY_MS)">-1 j</button>
-            <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(-HOUR_MS)">-1 h</button>
-            <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(HOUR_MS)">+1 h</button>
-            <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(DAY_MS)">+1 j</button>
+        }
+      </div>
+      <!-- Simulated Clock Menu -->
+      <div class="dev-btn-group position-relative">
+        <button
+          type="button"
+          class="dev-bar-btn"
+          [class.active]="activePopover === 'clock'"
+          [class.clock-shifted]="clockService.isShifted"
+          (click)="togglePopover('clock')"
+          [appTooltip]="'DEV-BAR.CLOCK.TOOLTIP' | translate"
+          placement="top"
+          >
+          <i class="fas fa-clock mr-1.5"></i>
+          <span>{{ "DEV-BAR.CLOCK.LABEL" | translate }}</span>
+          @if (clockService.isShifted) {
+            <span class="clock-offset-badge">{{ clockOffsetLabel }}</span>
+          }
+          <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+        </button>
+        <!-- Simulated Clock Popover -->
+        @if (activePopover === 'clock') {
+          <div class="dev-popover clock-popover">
+            <div class="popover-header">{{ "DEV-BAR.CLOCK.HEADER" | translate }}</div>
+            <div class="popover-body clock-body">
+              <div class="clock-readout">
+                <span class="clock-readout-label">{{ "DEV-BAR.CLOCK.SIMULATED" | translate }}</span>
+                <span class="clock-readout-value">{{ simulatedNowLabel }}</span>
+              </div>
+              <app-date-range-picker
+                mode="datetime"
+                [date]="clockDate"
+                [singleLabel]="'DEV-BAR.CLOCK.FIELD-LABEL'"
+                (dateChange)="onClockDateChange($event)"
+              ></app-date-range-picker>
+              <div class="clock-shift-row">
+                <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(-DAY_MS)">-1 j</button>
+                <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(-HOUR_MS)">-1 h</button>
+                <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(HOUR_MS)">+1 h</button>
+                <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(DAY_MS)">+1 j</button>
+              </div>
+              <button
+                type="button"
+                class="btn-pop-action clock-reset"
+                [disabled]="!clockService.isShifted"
+                (click)="resetClock()"
+                >
+                <i class="fas fa-undo-alt mr-1.5"></i> {{ "DEV-BAR.CLOCK.RESET" | translate }}
+              </button>
+              <p class="clock-hint">{{ "DEV-BAR.CLOCK.HINT" | translate }}</p>
+            </div>
           </div>
-
-          <button
-            type="button"
-            class="btn-pop-action clock-reset"
-            [disabled]="!clockService.isShifted"
-            (click)="resetClock()"
-          >
-            <i class="fas fa-undo-alt mr-1.5"></i> {{ "DEV-BAR.CLOCK.RESET" | translate }}
-          </button>
-
-          <p class="clock-hint">{{ "DEV-BAR.CLOCK.HINT" | translate }}</p>
-        </div>
+        }
       </div>
-    </div>
-
-    <!-- Add a session starting in 30 seconds -->
-    <button
-      type="button"
-      class="dev-bar-btn"
-      (click)="addTestSession()"
-      [appTooltip]="'DEV-BAR.SESSION.TOOLTIP' | translate"
-      placement="top"
-    >
-      <i class="fas fa-calendar-plus mr-1.5"></i>
-      <span>{{ "DEV-BAR.SESSION.LABEL" | translate }}</span>
-    </button>
-
-    <!-- Storage Reset -->
-    <button
-      type="button"
-      class="dev-bar-btn btn-danger-hover"
-      (click)="clearStorage()"
-      [appTooltip]="'Vider intégralement le LocalStorage'"
-      placement="top"
-    >
-      <i class="fas fa-trash-alt mr-1.5"></i>
-      <span>Vider Storage</span>
-    </button>
-  </div>
-
-  <!-- Right: Feature Flags & Controls -->
-  <div class="dev-bar-section right-section">
-    <!-- Mock Git accounts, grouped under one dropdown -->
-    <div class="dev-btn-group position-relative">
+      <!-- Add a session starting in 30 seconds -->
       <button
         type="button"
         class="dev-bar-btn"
-        [class.active]="activePopover === 'mocks'"
-        [class.mocks-enabled]="mockGitlabInstanceService.isMockActive || mockGithubInstanceService.isMockActive"
-        (click)="togglePopover('mocks')"
-        [appTooltip]="'DEV-BAR.MOCK.TOOLTIP' | translate"
+        (click)="addTestSession()"
+        [appTooltip]="'DEV-BAR.SESSION.TOOLTIP' | translate"
         placement="top"
-      >
-        <i class="fas fa-server mr-1.5"></i>
-        <span>{{ "DEV-BAR.MOCK.LABEL" | translate }}</span>
-        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+        >
+        <i class="fas fa-calendar-plus mr-1.5"></i>
+        <span>{{ "DEV-BAR.SESSION.LABEL" | translate }}</span>
       </button>
-
-      <div *ngIf="activePopover === 'mocks'" class="dev-popover dev-popover-right">
-        <div class="popover-header">{{ "DEV-BAR.MOCK.HEADER" | translate }}</div>
-        <div class="popover-body">
-          <button
-            type="button"
-            class="dev-flag-toggle"
-            [class.is-enabled]="mockGitlabInstanceService.isMockActive"
-            (click)="toggleMockGitlab()"
-          >
-            <i class="fab fa-gitlab mr-1.5"></i>
-            <span>{{ "DEV-BAR.MOCK.GITLAB" | translate }}</span>
-            <span class="flag-switch"></span>
-          </button>
-
-          <button
-            type="button"
-            class="dev-flag-toggle"
-            [class.is-enabled]="mockGithubInstanceService.isMockActive"
-            (click)="toggleMockGithub()"
-          >
-            <i class="fab fa-github mr-1.5"></i>
-            <span>{{ "DEV-BAR.MOCK.GITHUB" | translate }}</span>
-            <span class="flag-switch"></span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Demo Fixture Loader -->
-    <div class="dev-btn-group position-relative">
+      <!-- Storage Reset -->
       <button
         type="button"
-        class="dev-bar-btn"
-        [class.active]="activePopover === 'demo'"
-        (click)="togglePopover('demo')"
-        [appTooltip]="'DEV-BAR.FIXTURE.TOOLTIP' | translate"
+        class="dev-bar-btn btn-danger-hover"
+        (click)="clearStorage()"
+        [appTooltip]="'Vider intégralement le LocalStorage'"
         placement="top"
-      >
-        <i class="fas fa-flask mr-1.5"></i>
-        <span>{{ "DEV-BAR.FIXTURE.LABEL" | translate }}</span>
-        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+        >
+        <i class="fas fa-trash-alt mr-1.5"></i>
+        <span>Vider Storage</span>
       </button>
-
-      <div *ngIf="activePopover === 'demo'" class="dev-popover dev-popover-right">
-        <div class="popover-header">{{ "DEV-BAR.FIXTURE.HEADER" | translate }}</div>
-        <div class="popover-body">
-          <button type="button" class="btn-pop-action" (click)="loadDemo('github')">
-            <i class="fab fa-github mr-1.5"></i> {{ "DEV-BAR.FIXTURE.GITHUB" | translate }}
-          </button>
-          <button type="button" class="btn-pop-action" (click)="loadDemo('gitlab')">
-            <i class="fab fa-gitlab mr-1.5"></i> {{ "DEV-BAR.FIXTURE.GITLAB" | translate }}
-          </button>
-          <button type="button" class="btn-pop-action toast-warning" (click)="clearDemo()">
-            <i class="fas fa-times-circle mr-1.5"></i> {{ "DEV-BAR.FIXTURE.CLEAR" | translate }}
-          </button>
-        </div>
-      </div>
     </div>
-
-    <!-- Minimize Button -->
-    <button
-      type="button"
-      class="dev-bar-icon-btn ml-1"
-      (click)="toggleCollapse()"
-      [appTooltip]="'Réduire la barre de dev'"
-      placement="top"
-    >
-      <i class="fas fa-chevron-down"></i>
-    </button>
+    <!-- Right: Feature Flags & Controls -->
+    <div class="dev-bar-section right-section">
+      <!-- Mock Git accounts, grouped under one dropdown -->
+      <div class="dev-btn-group position-relative">
+        <button
+          type="button"
+          class="dev-bar-btn"
+          [class.active]="activePopover === 'mocks'"
+          [class.mocks-enabled]="mockGitlabInstanceService.isMockActive || mockGithubInstanceService.isMockActive"
+          (click)="togglePopover('mocks')"
+          [appTooltip]="'DEV-BAR.MOCK.TOOLTIP' | translate"
+          placement="top"
+          >
+          <i class="fas fa-server mr-1.5"></i>
+          <span>{{ "DEV-BAR.MOCK.LABEL" | translate }}</span>
+          <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+        </button>
+        @if (activePopover === 'mocks') {
+          <div class="dev-popover dev-popover-right">
+            <div class="popover-header">{{ "DEV-BAR.MOCK.HEADER" | translate }}</div>
+            <div class="popover-body">
+              <button
+                type="button"
+                class="dev-flag-toggle"
+                [class.is-enabled]="mockGitlabInstanceService.isMockActive"
+                (click)="toggleMockGitlab()"
+                >
+                <i class="fab fa-gitlab mr-1.5"></i>
+                <span>{{ "DEV-BAR.MOCK.GITLAB" | translate }}</span>
+                <span class="flag-switch"></span>
+              </button>
+              <button
+                type="button"
+                class="dev-flag-toggle"
+                [class.is-enabled]="mockGithubInstanceService.isMockActive"
+                (click)="toggleMockGithub()"
+                >
+                <i class="fab fa-github mr-1.5"></i>
+                <span>{{ "DEV-BAR.MOCK.GITHUB" | translate }}</span>
+                <span class="flag-switch"></span>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+      <!-- Demo Fixture Loader -->
+      <div class="dev-btn-group position-relative">
+        <button
+          type="button"
+          class="dev-bar-btn"
+          [class.active]="activePopover === 'demo'"
+          (click)="togglePopover('demo')"
+          [appTooltip]="'DEV-BAR.FIXTURE.TOOLTIP' | translate"
+          placement="top"
+          >
+          <i class="fas fa-flask mr-1.5"></i>
+          <span>{{ "DEV-BAR.FIXTURE.LABEL" | translate }}</span>
+          <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+        </button>
+        @if (activePopover === 'demo') {
+          <div class="dev-popover dev-popover-right">
+            <div class="popover-header">{{ "DEV-BAR.FIXTURE.HEADER" | translate }}</div>
+            <div class="popover-body">
+              <button type="button" class="btn-pop-action" (click)="loadDemo('github')">
+                <i class="fab fa-github mr-1.5"></i> {{ "DEV-BAR.FIXTURE.GITHUB" | translate }}
+              </button>
+              <button type="button" class="btn-pop-action" (click)="loadDemo('gitlab')">
+                <i class="fab fa-gitlab mr-1.5"></i> {{ "DEV-BAR.FIXTURE.GITLAB" | translate }}
+              </button>
+              <button type="button" class="btn-pop-action toast-warning" (click)="clearDemo()">
+                <i class="fas fa-times-circle mr-1.5"></i> {{ "DEV-BAR.FIXTURE.CLEAR" | translate }}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+      <!-- Minimize Button -->
+      <button
+        type="button"
+        class="dev-bar-icon-btn ml-1"
+        (click)="toggleCollapse()"
+        [appTooltip]="'Réduire la barre de dev'"
+        placement="top"
+        >
+        <i class="fas fa-chevron-down"></i>
+      </button>
+    </div>
   </div>
-</div>
+}

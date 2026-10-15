@@ -4,144 +4,163 @@
   <div class="folder-overlay" [class.show]="openAssignmentId !== null" aria-hidden="true"></div>
 
   <div class="folder-grid">
-    <div
-      class="folder-item"
-      *ngFor="let assignment of assignments; trackBy: trackByAssignmentId"
-      [id]="'assignment-folder-' + assignment.id"
-      [class.is-open]="isOpen(assignment)"
-      [class.is-selected]="isSelected(assignment.id)"
-      [class.is-archived]="isArchived(assignment)"
-      [class.is-disabled]="!isConnected(assignment)"
-      [ngClass]="'status-' + assignment.uiStatus"
-      [style]="getRestLayout(assignment)">
-
-      <div class="folder-stage" (click)="toggleOpen(assignment)">
-        <div class="folder-back" aria-hidden="true"></div>
-
-        <!-- Feuille 1 : métadonnées du devoir (le titre reste sur le rabat) -->
-        <div class="folder-page folder-page--meta" [attr.aria-hidden]="isOpen(assignment) ? null : 'true'">
-          <ng-container *ngTemplateOutlet="metaPage"></ng-container>
-        </div>
-
-        <!-- Feuille 2 : planning et avancement (uniquement si le devoir est daté) -->
-        <div class="folder-page folder-page--dates" *ngIf="assignment.startDate || assignment.endDate"
-          [attr.aria-hidden]="isOpen(assignment) ? null : 'true'">
-          <ng-container *ngTemplateOutlet="datesPage"></ng-container>
-        </div>
-
-        <!-- Rabat -->
-        <button type="button" class="folder-cover" [attr.aria-expanded]="isOpen(assignment)"
-          [appTooltip]="!isConnected(assignment) ? getDisconnectedTooltip(assignment) : null">
-          <!-- Transparence : copies floutées des feuilles (mêmes positions et mouvements
-               qu'elles), elles sortent donc du rabat en même temps que les vraies -->
-          <span class="cover-ghosts" aria-hidden="true">
-            <span class="folder-page folder-page--meta cover-ghost">
-              <ng-container *ngTemplateOutlet="metaPage"></ng-container>
-            </span>
-            <span class="folder-page folder-page--dates cover-ghost" *ngIf="assignment.startDate || assignment.endDate">
+    @for (assignment of assignments; track trackByAssignmentId($index, assignment)) {
+      <div
+        class="folder-item"
+        [id]="'assignment-folder-' + assignment.id"
+        [class.is-open]="isOpen(assignment)"
+        [class.is-selected]="isSelected(assignment.id)"
+        [class.is-archived]="isArchived(assignment)"
+        [class.is-disabled]="!isConnected(assignment)"
+        [ngClass]="'status-' + assignment.uiStatus"
+        [style]="getRestLayout(assignment)">
+        <div class="folder-stage" (click)="toggleOpen(assignment)">
+          <div class="folder-back" aria-hidden="true"></div>
+          <!-- Feuille 1 : métadonnées du devoir (le titre reste sur le rabat) -->
+          <div class="folder-page folder-page--meta" [attr.aria-hidden]="isOpen(assignment) ? null : 'true'">
+            <ng-container *ngTemplateOutlet="metaPage"></ng-container>
+          </div>
+          <!-- Feuille 2 : planning et avancement (uniquement si le devoir est daté) -->
+          @if (assignment.startDate || assignment.endDate) {
+            <div class="folder-page folder-page--dates"
+              [attr.aria-hidden]="isOpen(assignment) ? null : 'true'">
               <ng-container *ngTemplateOutlet="datesPage"></ng-container>
+            </div>
+          }
+          <!-- Rabat -->
+          <button type="button" class="folder-cover" [attr.aria-expanded]="isOpen(assignment)"
+            [appTooltip]="!isConnected(assignment) ? getDisconnectedTooltip(assignment) : null">
+            <!-- Transparence : copies floutées des feuilles (mêmes positions et mouvements
+            qu'elles), elles sortent donc du rabat en même temps que les vraies -->
+            <span class="cover-ghosts" aria-hidden="true">
+              <span class="folder-page folder-page--meta cover-ghost">
+                <ng-container *ngTemplateOutlet="metaPage"></ng-container>
+              </span>
+              @if (assignment.startDate || assignment.endDate) {
+                <span class="folder-page folder-page--dates cover-ghost">
+                  <ng-container *ngTemplateOutlet="datesPage"></ng-container>
+                </span>
+              }
             </span>
-          </span>
-          <span class="cover-stamp" aria-hidden="true">
-            <svg *ngIf="assignment.uiType === 'gitlab'" viewBox="0 0 512 512">
-              <path
-                d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z" />
-            </svg>
-            <svg *ngIf="assignment.uiType !== 'gitlab'" viewBox="0 0 496 512">
-              <path
-                d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
-            </svg>
-          </span>
-          <span class="cover-text">
-            <span class="cover-title" [appTooltip]="assignment.title" [onlyIfTruncated]="true">{{ assignment.title ||
+            <span class="cover-stamp" aria-hidden="true">
+              @if (assignment.uiType === 'gitlab') {
+                <svg viewBox="0 0 512 512">
+                  <path
+                    d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z" />
+                </svg>
+              }
+              @if (assignment.uiType !== 'gitlab') {
+                <svg viewBox="0 0 496 512">
+                  <path
+                    d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+                </svg>
+              }
+            </span>
+            <span class="cover-text">
+              <span class="cover-title" [appTooltip]="assignment.title" [onlyIfTruncated]="true">{{ assignment.title ||
               ('HOME.NEW-ASSIGNMENT' | translate) }}</span>
-            <span class="cover-subtitle">
-              <i class="far fa-clock" aria-hidden="true"></i> {{ assignment.lastModificationDate | date: 'short' }}
+              <span class="cover-subtitle">
+                <i class="far fa-clock" aria-hidden="true"></i> {{ assignment.lastModificationDate | date: 'short' }}
+              </span>
+              <!-- Devoir rangé : la ligne de statut cède la place à la date d'archivage. -->
+              @if (!isArchived(assignment)) {
+                <span class="cover-state">{{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase()
+                | translate }}</span>
+              }
+              @if (isArchived(assignment)) {
+                <span class="cover-state">{{
+                'HOME.ARCHIVED-ON' | translate:{date: formatDate(assignment.archivedAt, 'DD MMM YYYY')} }}</span>
+              }
             </span>
-            <!-- Devoir rangé : la ligne de statut cède la place à la date d'archivage. -->
-            <span class="cover-state" *ngIf="!isArchived(assignment)">{{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase()
-              | translate }}</span>
-            <span class="cover-state" *ngIf="isArchived(assignment)">{{
-              'HOME.ARCHIVED-ON' | translate:{date: formatDate(assignment.archivedAt, 'DD MMM YYYY')} }}</span>
+            <span class="cover-lines" aria-hidden="true"><i></i><i></i></span>
+          </button>
+          <!-- Case de sélection (au survol, ou persistante si sélectionné) -->
+          @if (assignment.id !== -1) {
+            <button type="button" class="folder-select" [class.is-checked]="isSelected(assignment.id)"
+              [attr.aria-pressed]="isSelected(assignment.id)" [attr.aria-label]="'HOME.SELECT-ASSIGNMENT' | translate"
+              [appTooltip]="'HOME.SELECT-ASSIGNMENT' | translate" (click)="onSelectionToggle(assignment.id, $event)">
+              @if (isSelected(assignment.id)) {
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="3.5 8.5 6.5 11.5 12.5 4.5"></polyline>
+                </svg>
+              }
+            </button>
+          }
+        </div>
+        <!-- Contenus de feuilles partagés : vraies feuilles A4 et copies floutées du rabat -->
+        <ng-template #metaPage>
+          <span class="page-fields">
+            <span class="page-field">
+              <span class="page-label">{{ 'METADATA.COURSE' | translate }}</span>
+              <span class="page-value">{{ assignment.course || '—' }}</span>
+            </span>
+            <span class="page-field">
+              <span class="page-label">{{ 'METADATA.PROGRAM' | translate }}</span>
+              <span class="page-value">{{ assignment.program || '—' }}</span>
+            </span>
+            <span class="page-field">
+              <span class="page-label">{{ 'METADATA.YEAR' | translate }}</span>
+              <span class="page-value">{{ assignment.year || '—' }}</span>
+            </span>
           </span>
-          <span class="cover-lines" aria-hidden="true"><i></i><i></i></span>
-        </button>
-
-        <!-- Case de sélection (au survol, ou persistante si sélectionné) -->
-        <button *ngIf="assignment.id !== -1" type="button" class="folder-select" [class.is-checked]="isSelected(assignment.id)"
-          [attr.aria-pressed]="isSelected(assignment.id)" [attr.aria-label]="'HOME.SELECT-ASSIGNMENT' | translate"
-          [appTooltip]="'HOME.SELECT-ASSIGNMENT' | translate" (click)="onSelectionToggle(assignment.id, $event)">
-          <svg *ngIf="isSelected(assignment.id)" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="3.5 8.5 6.5 11.5 12.5 4.5"></polyline>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Contenus de feuilles partagés : vraies feuilles A4 et copies floutées du rabat -->
-      <ng-template #metaPage>
-        <span class="page-fields">
-          <span class="page-field">
-            <span class="page-label">{{ 'METADATA.COURSE' | translate }}</span>
-            <span class="page-value">{{ assignment.course || '—' }}</span>
+        </ng-template>
+        <ng-template #datesPage>
+          <span class="page-fields">
+            @if (assignment.startDate) {
+              <span class="page-field">
+                <span class="page-label">{{ 'METADATA.START-DATE' | translate }}</span>
+                <span class="page-value">{{ formatDate(assignment.startDate, 'DD MMM YYYY · HH:mm') }}</span>
+              </span>
+            }
+            @if (assignment.endDate) {
+              <span class="page-field">
+                <span class="page-label">{{ 'METADATA.END-DATE' | translate }}</span>
+                <span class="page-value">{{ formatDate(assignment.endDate, 'DD MMM YYYY · HH:mm') }}</span>
+              </span>
+            }
+            @if (assignment.startDate && assignment.endDate) {
+              <span class="page-field">
+                <span class="page-label">{{ 'HOME.DURATION.TOTAL' | translate }}</span>
+                <span class="page-value">{{ getDuration(assignment.startDate, assignment.endDate) }}</span>
+              </span>
+            }
+            @if (assignment.endDate && getRemainingTime(assignment.endDate)) {
+              <span class="page-field">
+                <span class="page-label">{{ 'HOME.DURATION.REMAINING' | translate }}</span>
+                <span class="page-value">{{ getRemainingTime(assignment.endDate) }}</span>
+              </span>
+            }
           </span>
-          <span class="page-field">
-            <span class="page-label">{{ 'METADATA.PROGRAM' | translate }}</span>
-            <span class="page-value">{{ assignment.program || '—' }}</span>
-          </span>
-          <span class="page-field">
-            <span class="page-label">{{ 'METADATA.YEAR' | translate }}</span>
-            <span class="page-value">{{ assignment.year || '—' }}</span>
-          </span>
-        </span>
-      </ng-template>
-
-      <ng-template #datesPage>
-        <span class="page-fields">
-          <span class="page-field" *ngIf="assignment.startDate">
-            <span class="page-label">{{ 'METADATA.START-DATE' | translate }}</span>
-            <span class="page-value">{{ formatDate(assignment.startDate, 'DD MMM YYYY · HH:mm') }}</span>
-          </span>
-          <span class="page-field" *ngIf="assignment.endDate">
-            <span class="page-label">{{ 'METADATA.END-DATE' | translate }}</span>
-            <span class="page-value">{{ formatDate(assignment.endDate, 'DD MMM YYYY · HH:mm') }}</span>
-          </span>
-          <span class="page-field" *ngIf="assignment.startDate && assignment.endDate">
-            <span class="page-label">{{ 'HOME.DURATION.TOTAL' | translate }}</span>
-            <span class="page-value">{{ getDuration(assignment.startDate, assignment.endDate) }}</span>
-          </span>
-          <span class="page-field" *ngIf="assignment.endDate && getRemainingTime(assignment.endDate)">
-            <span class="page-label">{{ 'HOME.DURATION.REMAINING' | translate }}</span>
-            <span class="page-value">{{ getRemainingTime(assignment.endDate) }}</span>
-          </span>
-        </span>
-        <span class="page-progress" *ngIf="assignment.startDate && assignment.endDate">
-          <span class="progress-track">
-            <span class="progress-fill" [style.width.%]="assignment.uiProgress"
-              [style.background]="getProgressBarColor(assignment.uiProgress)"></span>
-          </span>
-        </span>
-      </ng-template>
-
-      <!-- Actions, sous les feuilles sorties et alignées sur le dossier -->
-      <div class="folder-actions" [class.show]="isOpen(assignment)">
-        <button type="button" class="folder-action folder-action--primary" [disabled]="!isConnected(assignment)"
-          [appTooltip]="getAssignmentTooltip(assignment) | translate" (click)="onLoad(assignment, $event)">
-          <i class="far fa-arrow-alt-circle-right" aria-hidden="true"></i>
-          <span>{{ 'HOME.LOAD-ASSIGNMENT' | translate }}</span>
-        </button>
-        <button type="button" class="folder-action" [disabled]="!isConnected(assignment)"
-          [appTooltip]="getAssignmentEditTooltip(assignment) | translate" (click)="onConfigure(assignment, $event)">
-          <i class="fas fa-cog" aria-hidden="true"></i>
-          <span>{{ 'HOME.CONFIGURE-ASSIGNMENT' | translate }}</span>
-        </button>
-        <app-liquid-action-menu [disabled]="!isConnected(assignment)" [triggerTooltip]="'HOME.OTHER-ACTIONS' | translate"
-          [deleteTooltip]="getAssignmentDeleteTooltip(assignment) | translate"
-          [duplicateTooltip]="'HOME.DUPLICATE-ASSIGNMENT' | translate" [archiveTooltip]="getArchiveToggleTooltip(assignment)"
-          [restoreMode]="isArchived(assignment)"
-          (delete)="onDelete(assignment)" (duplicate)="onDuplicate(assignment)"
+          @if (assignment.startDate && assignment.endDate) {
+            <span class="page-progress">
+              <span class="progress-track">
+                <span class="progress-fill" [style.width.%]="assignment.uiProgress"
+                [style.background]="getProgressBarColor(assignment.uiProgress)"></span>
+              </span>
+            </span>
+          }
+        </ng-template>
+        <!-- Actions, sous les feuilles sorties et alignées sur le dossier -->
+        <div class="folder-actions" [class.show]="isOpen(assignment)">
+          <button type="button" class="folder-action folder-action--primary" [disabled]="!isConnected(assignment)"
+            [appTooltip]="getAssignmentTooltip(assignment) | translate" (click)="onLoad(assignment, $event)">
+            <i class="far fa-arrow-alt-circle-right" aria-hidden="true"></i>
+            <span>{{ 'HOME.LOAD-ASSIGNMENT' | translate }}</span>
+          </button>
+          <button type="button" class="folder-action" [disabled]="!isConnected(assignment)"
+            [appTooltip]="getAssignmentEditTooltip(assignment) | translate" (click)="onConfigure(assignment, $event)">
+            <i class="fas fa-cog" aria-hidden="true"></i>
+            <span>{{ 'HOME.CONFIGURE-ASSIGNMENT' | translate }}</span>
+          </button>
+          <app-liquid-action-menu [disabled]="!isConnected(assignment)" [triggerTooltip]="'HOME.OTHER-ACTIONS' | translate"
+            [deleteTooltip]="getAssignmentDeleteTooltip(assignment) | translate"
+            [duplicateTooltip]="'HOME.DUPLICATE-ASSIGNMENT' | translate" [archiveTooltip]="getArchiveToggleTooltip(assignment)"
+            [restoreMode]="isArchived(assignment)"
+            (delete)="onDelete(assignment)" (duplicate)="onDuplicate(assignment)"
           (archive)="onArchive(assignment)"></app-liquid-action-menu>
+        </div>
       </div>
-    </div>
+    }
   </div>
 </div>

@@ -1,29 +1,30 @@
 <div class="page-container d-flex flex-column flex-grow-1" style="min-height: 100%;">
   <div class="content-wrap d-flex flex-column flex-grow-1 p-4">
     <!-- Login Prompt if unauthenticated -->
-    <div
-      *ngIf="(accountsService.accounts$ | async)?.length === 0"
-      class="login-prompt mb-4 p-4 rounded d-flex justify-content-between align-items-center"
-      style="background: var(--color-surface); border: 1px solid var(--color-border);"
-    >
-      <div class="mr-3">
-        <h5 class="mb-1 text-primary font-weight-bold">
-          <i class="fas fa-info-circle mr-2"></i>{{ 'HOME.CONNECT-PROMPT-TITLE' | translate }}
-        </h5>
-        <p class="mb-0" style="color: var(--color-text-secondary);">
-          {{ 'HOME.CONNECT-PROMPT-DESC' | translate }}
-        </p>
+    @if ((accountsService.accounts$ | async)?.length === 0) {
+      <div
+        class="login-prompt mb-4 p-4 rounded d-flex justify-content-between align-items-center"
+        style="background: var(--color-surface); border: 1px solid var(--color-border);"
+        >
+        <div class="mr-3">
+          <h5 class="mb-1 text-primary font-weight-bold">
+            <i class="fas fa-info-circle mr-2"></i>{{ 'HOME.CONNECT-PROMPT-TITLE' | translate }}
+          </h5>
+          <p class="mb-0" style="color: var(--color-text-secondary);">
+            {{ 'HOME.CONNECT-PROMPT-DESC' | translate }}
+          </p>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary d-flex align-items-center flex-shrink-0"
+          (click)="onAddAccount()"
+          style="border-radius: 20px; padding: 0.5rem 1.4rem; font-weight: 500; white-space: nowrap;"
+          >
+          <i class="fas fa-plus mr-2"></i>
+          <span>{{ 'ACCOUNTS.ADD_ACCOUNT' | translate }}</span>
+        </button>
       </div>
-      <button
-        type="button"
-        class="btn btn-primary d-flex align-items-center flex-shrink-0"
-        (click)="onAddAccount()"
-        style="border-radius: 20px; padding: 0.5rem 1.4rem; font-weight: 500; white-space: nowrap;"
-      >
-        <i class="fas fa-plus mr-2"></i>
-        <span>{{ 'ACCOUNTS.ADD_ACCOUNT' | translate }}</span>
-      </button>
-    </div>
+    }
 
     <!-- Assignment Chooser always visible -->
     <div class="flex-grow-1">

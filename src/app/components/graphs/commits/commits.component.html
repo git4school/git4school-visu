@@ -13,7 +13,7 @@
       (commitMessagesChange)="commitMessagesFilter = $event; loadGraphDataAndRefresh(false)"
       (filterGroupsChange)="filterGroups = $event; loadGraphDataAndRefresh(false)"
       [noQuestionMessage]="false"
-    >
+      >
     </questions-chooser>
   </div>
 
@@ -24,12 +24,12 @@
       <div class="btn-group" role="group">
         <!-- Séances -->
         <button type="button" class="btn btn-outline-ghost anim-scale-hover"
-                [class.active]="showSessions"
-                [class.show-hover]="markerHoverState['sessions'].isHovered && !markerHoverState['sessions'].wasClicked"
-                (click)="showSessions = !showSessions; saveMarkerPreferences(); onMarkerChange('sessions')"
-                (mouseenter)="onMarkerMouseEnter('sessions')"
-                (mouseleave)="onMarkerMouseLeave('sessions')"
-                [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.SESSIONS' | translate) }">
+          [class.active]="showSessions"
+          [class.show-hover]="markerHoverState['sessions'].isHovered && !markerHoverState['sessions'].wasClicked"
+          (click)="showSessions = !showSessions; saveMarkerPreferences(); onMarkerChange('sessions')"
+          (mouseenter)="onMarkerMouseEnter('sessions')"
+          (mouseleave)="onMarkerMouseLeave('sessions')"
+          [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.SESSIONS' | translate) }">
           <svg class="icon-calendar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect class="cal-body" x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line class="cal-pin" x1="16" y1="2" x2="16" y2="6"></line>
@@ -41,12 +41,12 @@
 
         <!-- Corrections -->
         <button type="button" class="btn btn-outline-ghost anim-scale-hover"
-                [class.active]="showCorrections"
-                [class.show-hover]="markerHoverState['corrections'].isHovered && !markerHoverState['corrections'].wasClicked"
-                (click)="showCorrections = !showCorrections; saveMarkerPreferences(); onMarkerChange('corrections')"
-                (mouseenter)="onMarkerMouseEnter('corrections')"
-                (mouseleave)="onMarkerMouseLeave('corrections')"
-                [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.CORRECTIONS' | translate) }">
+          [class.active]="showCorrections"
+          [class.show-hover]="markerHoverState['corrections'].isHovered && !markerHoverState['corrections'].wasClicked"
+          (click)="showCorrections = !showCorrections; saveMarkerPreferences(); onMarkerChange('corrections')"
+          (mouseenter)="onMarkerMouseEnter('corrections')"
+          (mouseleave)="onMarkerMouseLeave('corrections')"
+          [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.CORRECTIONS' | translate) }">
           <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle class="check-circle" cx="12" cy="12" r="10"></circle>
             <polyline class="check-tick" points="22 4 12 14.01 9 11.01"></polyline>
@@ -55,12 +55,12 @@
 
         <!-- Revues -->
         <button type="button" class="btn btn-outline-ghost anim-scale-hover"
-                [class.active]="showReviews"
-                [class.show-hover]="markerHoverState['reviews'].isHovered && !markerHoverState['reviews'].wasClicked"
-                (click)="showReviews = !showReviews; saveMarkerPreferences(); onMarkerChange('reviews')"
-                (mouseenter)="onMarkerMouseEnter('reviews')"
-                (mouseleave)="onMarkerMouseLeave('reviews')"
-                [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.REVIEWS' | translate) }">
+          [class.active]="showReviews"
+          [class.show-hover]="markerHoverState['reviews'].isHovered && !markerHoverState['reviews'].wasClicked"
+          (click)="showReviews = !showReviews; saveMarkerPreferences(); onMarkerChange('reviews')"
+          (mouseenter)="onMarkerMouseEnter('reviews')"
+          (mouseleave)="onMarkerMouseLeave('reviews')"
+          [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.REVIEWS' | translate) }">
           <svg class="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path class="eye-lid" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
             <circle class="eye-pupil" cx="12" cy="12" r="3"></circle>
@@ -69,12 +69,12 @@
 
         <!-- Autres -->
         <button type="button" class="btn btn-outline-ghost anim-scale-hover"
-                [class.active]="showOthers"
-                [class.show-hover]="markerHoverState['others'].isHovered && !markerHoverState['others'].wasClicked"
-                (click)="showOthers = !showOthers; saveMarkerPreferences(); onMarkerChange('others')"
-                (mouseenter)="onMarkerMouseEnter('others')"
-                (mouseleave)="onMarkerMouseLeave('others')"
-                [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.OTHERS' | translate) }">
+          [class.active]="showOthers"
+          [class.show-hover]="markerHoverState['others'].isHovered && !markerHoverState['others'].wasClicked"
+          (click)="showOthers = !showOthers; saveMarkerPreferences(); onMarkerChange('others')"
+          (mouseenter)="onMarkerMouseEnter('others')"
+          (mouseleave)="onMarkerMouseLeave('others')"
+          [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.OTHERS' | translate) }">
           <svg class="icon-dots" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle class="dot d1" cx="5" cy="12" r="2"></circle>
             <circle class="dot d2" cx="12" cy="12" r="2"></circle>
@@ -90,36 +90,36 @@
     <!-- Display Modes Group (sans séparateur avec les marqueurs) -->
     <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">
       <div class="btn-group" role="group">
-        <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
-                [class.active]="displayModes.opacity" 
-                [class.show-hover]="modeHoverState['opacity'].isHovered && !modeHoverState['opacity'].wasClicked"
-                (click)="toggleDisplayMode('opacity')"
-                (mouseenter)="onModeMouseEnter('opacity')"
-                (mouseleave)="onModeMouseLeave('opacity')"
-                [appTooltip]="{ text: ('DISPLAY-MODE.OPACITY' | translate) }">
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover"
+          [class.active]="displayModes.opacity"
+          [class.show-hover]="modeHoverState['opacity'].isHovered && !modeHoverState['opacity'].wasClicked"
+          (click)="toggleDisplayMode('opacity')"
+          (mouseenter)="onModeMouseEnter('opacity')"
+          (mouseleave)="onModeMouseLeave('opacity')"
+          [appTooltip]="{ text: ('DISPLAY-MODE.OPACITY' | translate) }">
           <svg class="icon-opacity" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect class="op-outer" fill="currentColor"></rect>
             <rect class="op-mid" fill="currentColor"></rect>
             <rect class="op-inner" fill="currentColor"></rect>
           </svg>
         </button>
-        <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
-                [class.active]="displayModes.height" 
-                [class.show-hover]="modeHoverState['height'].isHovered && !modeHoverState['height'].wasClicked"
-                (click)="toggleDisplayMode('height')"
-                (mouseenter)="onModeMouseEnter('height')"
-                (mouseleave)="onModeMouseLeave('height')"
-                [appTooltip]="{ text: ('DISPLAY-MODE.HEIGHT' | translate) }">
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover"
+          [class.active]="displayModes.height"
+          [class.show-hover]="modeHoverState['height'].isHovered && !modeHoverState['height'].wasClicked"
+          (click)="toggleDisplayMode('height')"
+          (mouseenter)="onModeMouseEnter('height')"
+          (mouseleave)="onModeMouseLeave('height')"
+          [appTooltip]="{ text: ('DISPLAY-MODE.HEIGHT' | translate) }">
           <svg class="icon-height" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect class="bar-1" x="3" y="10" width="4" height="4" fill="currentColor"></rect>
             <rect class="bar-2" x="10" y="7" width="4" height="10" fill="currentColor"></rect>
             <rect class="bar-3" x="17" y="4" width="4" height="16" fill="currentColor"></rect>
           </svg>
         </button>
-        <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
-                [class.active]="displayModes.text" 
-                (click)="toggleDisplayMode('text')"
-                [appTooltip]="{ text: ('DISPLAY-MODE.TEXT' | translate) }">
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover"
+          [class.active]="displayModes.text"
+          (click)="toggleDisplayMode('text')"
+          [appTooltip]="{ text: ('DISPLAY-MODE.TEXT' | translate) }">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="4 7 4 4 20 4 20 7"></polyline>
             <line x1="9" y1="20" x2="15" y2="20"></line>
@@ -143,16 +143,18 @@
             <line x1="13.5" y1="8.5" x2="8.5" y2="13.5"></line>
           </svg>
         </button>
-        <button class="btn-outline-ghost anim-scale-hover" *ngIf="isNowInAssignmentWindow()" (click)="focusNow()" [appTooltip]="{ text: ('OVERVIEW-GRAPH.NOW-TOOLTIP' | translate), shortcut: ['M'] }">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="8"></circle>
-            <circle cx="12" cy="12" r="3"></circle>
-            <line x1="12" y1="1.5" x2="12" y2="5"></line>
-            <line x1="12" y1="19" x2="12" y2="22.5"></line>
-            <line x1="1.5" y1="12" x2="5" y2="12"></line>
-            <line x1="19" y1="12" x2="22.5" y2="12"></line>
-          </svg>
-        </button>
+        @if (isNowInAssignmentWindow()) {
+          <button class="btn-outline-ghost anim-scale-hover" (click)="focusNow()" [appTooltip]="{ text: ('OVERVIEW-GRAPH.NOW-TOOLTIP' | translate), shortcut: ['M'] }">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8"></circle>
+              <circle cx="12" cy="12" r="3"></circle>
+              <line x1="12" y1="1.5" x2="12" y2="5"></line>
+              <line x1="12" y1="19" x2="12" y2="22.5"></line>
+              <line x1="1.5" y1="12" x2="5" y2="12"></line>
+              <line x1="19" y1="12" x2="22.5" y2="12"></line>
+            </svg>
+          </button>
+        }
       </div>
       <span style="position: absolute; top: 100%; margin-top: 4px; font-size: 0.65rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none; white-space: nowrap;">
         {{ "OVERVIEW-GRAPH.NAVIGATION.GROUP-TITLE" | translate }}
@@ -171,7 +173,7 @@
 </div>
 
 <div class="d-flex align-items-center mb-0" style="gap: 0.75rem; padding: 0 1.25rem; min-height: 24px;">
-  <ng-container *ngIf="filterGroups && filterGroups.length > 0">
+  @if (filterGroups && filterGroups.length > 0) {
     <div class="d-flex align-items-center" style="font-size: 0.8rem; color: #6b7280;">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -187,10 +189,10 @@
       </svg>
       {{ 'OVERVIEW-GRAPH.CLEAR-FILTERS' | translate }}
     </button>
-  </ng-container>
+  }
 </div>
 
-<ng-container *ngIf="!loading && dataService.repositories?.length === 0; else hasRepositories">
+@if (!loading && dataService.repositories?.length === 0) {
   <div class="empty-state-full d-flex flex-column align-items-center justify-content-center w-100" style="flex: 1; min-height: 400px; background: transparent; border-radius: 8px;">
     <div class="text-center p-5">
       <app-repo-icon mode="empty" class="mb-4 text-muted d-block mx-auto" style="font-size: 4em; opacity: 0.5;"></app-repo-icon>
@@ -198,125 +200,131 @@
       <p class="text-muted small mb-0">{{ 'OVERVIEW-GRAPH.NO-REPOSITORIES-DESC' | translate }}</p>
     </div>
   </div>
-</ng-container>
-
-<ng-template #hasRepositories>
-<div *ngIf="!loading && !processingData && filteredCommitsCount === 0" class="empty-state-full d-flex flex-column align-items-center justify-content-center w-100" style="flex: 1; min-height: 400px; background: transparent; border-radius: 8px;">
-  <div class="text-center p-5">
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4 text-muted" style="opacity: 0.5;">
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="8" y1="12" x2="16" y2="12"></line>
-    </svg>
-    <h5 class="text-muted font-weight-medium mb-1">{{ 'OVERVIEW-GRAPH.NO-COMMITS-TITLE' | translate }}</h5>
-    <p class="text-muted small mb-0">{{ 'OVERVIEW-GRAPH.NO-COMMITS-DESC' | translate }}</p>
-  </div>
-</div>
-
-<div id="chart" style="position: relative;" 
-     *ngIf="loading || processingData || filteredCommitsCount > 0"
-     [class.no-milestones]="loading || !hasTopStrip()">
-
-  <div class="chart-container-absolute" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
-  <div class="chart-container" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
-  <div class="chart-selection-container" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
-
-  <!-- SKELETON LOADER OVERLAY -->
-  <div *ngIf="loading" class="chart-skeleton-overlay d-flex" style="position: absolute; top: var(--top-inner, 28px); left: 0; right: 0; bottom: 0; width: 100%; z-index: 50; background: var(--color-surface); padding-bottom: var(--bottom-inner, 38px); pointer-events: none;">
-      <!-- Y-Axis (Repository names) -->
-      <div class="d-flex flex-column" style="width: 15%; min-width: 120px; max-width: 200px; padding-top: 20px;">
-          <div *ngFor="let w of [50, 80, 60, 40, 90, 70, 55, 85, 45, 75, 65, 35, 85, 50, 70, 40, 90, 60, 80, 55, 75, 45, 85, 50, 65]" class="d-flex align-items-center justify-content-end pr-3" style="height: 30px;">
-              <div class="skeleton-box" [style.width.%]="w" style="height: 12px; border-radius: 4px;"></div>
-          </div>
-      </div>
-      <!-- Graph Area with horizontal lines -->
-      <div class="flex-grow-1 d-flex flex-column position-relative" style="padding-top: 20px; border-left: 1px solid var(--color-border); overflow: hidden;">
-          <!-- Vertical grid lines -->
-          <div class="position-absolute h-100 d-flex justify-content-between w-100" style="top: 0; left: 0; padding: 0 5%;">
-              <div *ngFor="let i of [1,2,3,4,5,6]" style="width: 1px; height: 100%; background-color: var(--color-border); opacity: 0.3;"></div>
-          </div>
-          <!-- Horizontal tracks and fake commits -->
-          <div *ngFor="let offsets of [[20, 22, 23, 45], [60, 62], [15, 30, 80, 81, 82], [10, 12], [50, 75, 76, 77, 78], [5, 10, 15, 20], [40, 60, 61, 90], [25, 27, 28], [5, 85], [35, 36, 37, 55], [20], [40, 70, 72, 74], [], [15, 16, 17, 60], [30, 50, 80, 82, 84], [10, 90, 91], [45, 46, 48], [25, 75], [5, 40, 41, 42, 85], [], [35, 65, 66, 68], [15, 16], [55, 90, 92, 94], [20, 60, 61, 62], [10, 11, 40, 80, 81]]" class="d-flex align-items-center w-100" style="position: relative; height: 30px;">
-              <div class="skeleton-box" style="height: 1px; width: 100%; opacity: 0.2;"></div>
-              <!-- Random dots to simulate commits -->
-              <div *ngFor="let offset of offsets" class="skeleton-box" style="position: absolute; width: 10px; height: 10px; border-radius: 50%;" [style.left.%]="offset"></div>
-          </div>
-
-          <!-- X-Axis (Dates) -->
-          <div class="position-absolute w-100 d-flex justify-content-between" style="bottom: -15px; left: 0; padding: 0 5%;">
-              <div *ngFor="let i of [1,2,3,4,5,6]" class="skeleton-box" style="height: 10px; width: 50px; border-radius: 4px;"></div>
-          </div>
-      </div>
-  </div>
-  
-  <div *ngIf="themeService.showLegend" class="legend-floating-container">
-    <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" [autoClose]="'outside'" (mouseleave)="legendDropdown.close()">
-      <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>
-        <i class="fas fa-info" style="min-width: 14px;"></i>
-        <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>
-      </button>
-      <div ngbDropdownMenu aria-labelledby="legendDropup" class="modern-dropdown-menu p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">
-        <h6 class="dropdown-header px-0 mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('COMMIT') ? '0.4' : '1'" (click)="toggleCategory('COMMIT')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT" | translate }}</span>
-        </div>
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('COMMIT-GROUP') ? '0.4' : '1'" (click)="toggleCategory('COMMIT-GROUP')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><span class="fa-fw d-inline-block text-center"><span style="display: inline-block; width: 15px; height: 10px; border: 1.5px solid currentColor; vertical-align: middle; margin-top: -2px;"></span></span></div>
-          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT-GROUP" | translate }}</span>
-        </div>
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('CLOSING') ? '0.4' : '1'" (click)="toggleCategory('CLOSING')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-circle fa-fw"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.CLOSING" | translate }}</span>
-        </div>
-        
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.INTERMEDIATE') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.INTERMEDIATE')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-commit-intermediate)"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE" | translate }}</span>
-        </div>
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.BEFORE') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.BEFORE')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-success)"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BEFORE" | translate }}</span>
-        </div>
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.BETWEEN') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.BETWEEN')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-warning)"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BETWEEN" | translate }}</span>
-        </div>
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.AFTER') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.AFTER')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-danger)"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.AFTER" | translate }}</span>
-        </div>
-        
-        <div class="dropdown-divider my-2"></div>
-        
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showReviews ? '1' : '0.4'" (click)="toggleCategory('REVIEW')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-primary)"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "REVIEW" | translate }}</span>
-        </div>
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showCorrections ? '1' : '0.4'" (click)="toggleCategory('CORRECTION')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-danger)"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "CORRECTION" | translate }}</span>
-        </div>
-        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showOthers ? '1' : '0.4'" (click)="toggleCategory('OTHER')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-secondary)"></i></div>
-          <span style="color: var(--color-text-secondary)">{{ "OTHER" | translate }}</span>
-        </div>
-        
-        <div class="dropdown-divider my-2"></div>
-        
-        <div class="d-flex align-items-center" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showSessions ? '1' : '0.4'" (click)="toggleCategory('SESSION')">
-          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;">
-            <span class="fa-layers fa-fw">
-              <i class="fas fa-square" style="color: rgba(33, 150, 243, 0.15)"></i>
-              <i class="far fa-square" style="color: rgba(79, 195, 247, 1)"></i>
-            </span>
-          </div>
-          <span style="color: var(--color-text-secondary)">{{ "SESSION" | translate }}</span>
-        </div>
+} @else {
+  @if (!loading && !processingData && filteredCommitsCount === 0) {
+    <div class="empty-state-full d-flex flex-column align-items-center justify-content-center w-100" style="flex: 1; min-height: 400px; background: transparent; border-radius: 8px;">
+      <div class="text-center p-5">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4 text-muted" style="opacity: 0.5;">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="8" y1="12" x2="16" y2="12"></line>
+        </svg>
+        <h5 class="text-muted font-weight-medium mb-1">{{ 'OVERVIEW-GRAPH.NO-COMMITS-TITLE' | translate }}</h5>
+        <p class="text-muted small mb-0">{{ 'OVERVIEW-GRAPH.NO-COMMITS-DESC' | translate }}</p>
       </div>
     </div>
-  </div>
-</div>
-</ng-template>
+  }
+  @if (loading || processingData || filteredCommitsCount > 0) {
+    <div id="chart" style="position: relative;"
+      [class.no-milestones]="loading || !hasTopStrip()">
+      <div class="chart-container-absolute" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
+      <div class="chart-container" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
+      <div class="chart-selection-container" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
+      <!-- SKELETON LOADER OVERLAY -->
+      @if (loading) {
+        <div class="chart-skeleton-overlay d-flex" style="position: absolute; top: var(--top-inner, 28px); left: 0; right: 0; bottom: 0; width: 100%; z-index: 50; background: var(--color-surface); padding-bottom: var(--bottom-inner, 38px); pointer-events: none;">
+          <!-- Y-Axis (Repository names) -->
+          <div class="d-flex flex-column" style="width: 15%; min-width: 120px; max-width: 200px; padding-top: 20px;">
+            @for (w of [50, 80, 60, 40, 90, 70, 55, 85, 45, 75, 65, 35, 85, 50, 70, 40, 90, 60, 80, 55, 75, 45, 85, 50, 65]; track w) {
+              <div class="d-flex align-items-center justify-content-end pr-3" style="height: 30px;">
+                <div class="skeleton-box" [style.width.%]="w" style="height: 12px; border-radius: 4px;"></div>
+              </div>
+            }
+          </div>
+          <!-- Graph Area with horizontal lines -->
+          <div class="flex-grow-1 d-flex flex-column position-relative" style="padding-top: 20px; border-left: 1px solid var(--color-border); overflow: hidden;">
+            <!-- Vertical grid lines -->
+            <div class="position-absolute h-100 d-flex justify-content-between w-100" style="top: 0; left: 0; padding: 0 5%;">
+              @for (i of [1,2,3,4,5,6]; track i) {
+                <div style="width: 1px; height: 100%; background-color: var(--color-border); opacity: 0.3;"></div>
+              }
+            </div>
+            <!-- Horizontal tracks and fake commits -->
+            @for (offsets of [[20, 22, 23, 45], [60, 62], [15, 30, 80, 81, 82], [10, 12], [50, 75, 76, 77, 78], [5, 10, 15, 20], [40, 60, 61, 90], [25, 27, 28], [5, 85], [35, 36, 37, 55], [20], [40, 70, 72, 74], [], [15, 16, 17, 60], [30, 50, 80, 82, 84], [10, 90, 91], [45, 46, 48], [25, 75], [5, 40, 41, 42, 85], [], [35, 65, 66, 68], [15, 16], [55, 90, 92, 94], [20, 60, 61, 62], [10, 11, 40, 80, 81]]; track offsets) {
+              <div class="d-flex align-items-center w-100" style="position: relative; height: 30px;">
+                <div class="skeleton-box" style="height: 1px; width: 100%; opacity: 0.2;"></div>
+                <!-- Random dots to simulate commits -->
+                @for (offset of offsets; track offset) {
+                  <div class="skeleton-box" style="position: absolute; width: 10px; height: 10px; border-radius: 50%;" [style.left.%]="offset"></div>
+                }
+              </div>
+            }
+            <!-- X-Axis (Dates) -->
+            <div class="position-absolute w-100 d-flex justify-content-between" style="bottom: -15px; left: 0; padding: 0 5%;">
+              @for (i of [1,2,3,4,5,6]; track i) {
+                <div class="skeleton-box" style="height: 10px; width: 50px; border-radius: 4px;"></div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+      @if (themeService.showLegend) {
+        <div class="legend-floating-container">
+          <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" [autoClose]="'outside'" (mouseleave)="legendDropdown.close()">
+            <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>
+              <i class="fas fa-info" style="min-width: 14px;"></i>
+              <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="legendDropup" class="modern-dropdown-menu p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">
+              <h6 class="dropdown-header px-0 mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('COMMIT') ? '0.4' : '1'" (click)="toggleCategory('COMMIT')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT" | translate }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('COMMIT-GROUP') ? '0.4' : '1'" (click)="toggleCategory('COMMIT-GROUP')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><span class="fa-fw d-inline-block text-center"><span style="display: inline-block; width: 15px; height: 10px; border: 1.5px solid currentColor; vertical-align: middle; margin-top: -2px;"></span></span></div>
+                <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT-GROUP" | translate }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('CLOSING') ? '0.4' : '1'" (click)="toggleCategory('CLOSING')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-circle fa-fw"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.CLOSING" | translate }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.INTERMEDIATE') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.INTERMEDIATE')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-commit-intermediate)"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE" | translate }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.BEFORE') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.BEFORE')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-success)"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BEFORE" | translate }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.BETWEEN') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.BETWEEN')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-warning)"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BETWEEN" | translate }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.AFTER') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.AFTER')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-danger)"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.AFTER" | translate }}</span>
+              </div>
+              <div class="dropdown-divider my-2"></div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showReviews ? '1' : '0.4'" (click)="toggleCategory('REVIEW')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-primary)"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "REVIEW" | translate }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showCorrections ? '1' : '0.4'" (click)="toggleCategory('CORRECTION')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-danger)"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "CORRECTION" | translate }}</span>
+              </div>
+              <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showOthers ? '1' : '0.4'" (click)="toggleCategory('OTHER')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-secondary)"></i></div>
+                <span style="color: var(--color-text-secondary)">{{ "OTHER" | translate }}</span>
+              </div>
+              <div class="dropdown-divider my-2"></div>
+              <div class="d-flex align-items-center" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showSessions ? '1' : '0.4'" (click)="toggleCategory('SESSION')">
+                <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;">
+                  <span class="fa-layers fa-fw">
+                    <i class="fas fa-square" style="color: rgba(33, 150, 243, 0.15)"></i>
+                    <i class="far fa-square" style="color: rgba(79, 195, 247, 1)"></i>
+                  </span>
+                </div>
+                <span style="color: var(--color-text-secondary)">{{ "SESSION" | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+}
+
 <ng-template #d3TooltipTemplate>
   <ng-template #tpGroupPill let-tpGroup="tpGroup" let-pillClass="pillClass">
     <span
@@ -324,7 +332,7 @@
       [class.repository-tp-group-pill]="pillClass === 'repository-tp-group-pill'"
       [style.border]="pillClass === 'repository-tp-group-pill' ? '0' : null"
       style="display: inline-flex !important; align-items: center !important; justify-content: center; box-sizing: border-box; column-gap: 4px; height: 18px; padding: 1px 7px; line-height: 1 !important; vertical-align: middle; box-shadow: var(--shadow-md);"
-    >
+      >
       <svg
         style="display: block; width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;"
         viewBox="0 0 24 24"
@@ -333,7 +341,7 @@
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-      >
+        >
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
         <circle cx="9" cy="7" r="4"></circle>
         <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -343,145 +351,158 @@
     </span>
   </ng-template>
 
-  <div
-    *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null && hovered_repository == null"
-    id="commit_hover"
-  >
-    <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
-    <p>{{ hovered_commit.message }}</p>
-    <p>{{ getCommitAuthorDisplayName(hovered_commit) }}</p>
-    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
-      <div class="tooltip-helper-item d-flex align-items-center">
-        <span>{{ 'COMMIT-TOOLTIP.OPEN_COMMIT' | translate }}</span>
+  @if (hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null && hovered_repository == null) {
+    <div
+      id="commit_hover"
+      >
+      <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
+      <p>{{ hovered_commit.message }}</p>
+      <p>{{ getCommitAuthorDisplayName(hovered_commit) }}</p>
+      <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
+        <div class="tooltip-helper-item d-flex align-items-center">
+          <span>{{ 'COMMIT-TOOLTIP.OPEN_COMMIT' | translate }}</span>
+          <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
+        </div>
+        <div class="tooltip-helper-item d-flex align-items-center">
+          <span>{{ 'COMMIT-TOOLTIP.COPY_HASH' | translate }}</span>
+          <kbd class="shortcut-key" [class.shortcut-pressed-anim]="pressedShortcut === 'h'">H</kbd>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (hovered_repository != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null) {
+    <div
+      id="repository_hover"
+      >
+      <div class="repository-header">
+        <div class="repo-name">{{ hovered_repository.name }}</div>
+        @if (hovered_repository.tpGroup) {
+          <ng-container
+            [ngTemplateOutlet]="tpGroupPill"
+            [ngTemplateOutletContext]="{ tpGroup: hovered_repository.tpGroup, pillClass: 'repository-tp-group-pill' }"
+          ></ng-container>
+        }
+      </div>
+      @if (hovered_repository.url && !anonymizationService.isAnonymous) {
+        <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
+          <div class="tooltip-helper-item d-flex align-items-center">
+            <span>{{ 'OVERVIEW-GRAPH.OPEN-REPO' | translate }}</span>
+            <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (hovered_session != null && hovered_commit == null && hovered_group_commit == null && hovered_milestone == null && hovered_repository == null) {
+    <div
+      id="session_hover"
+      style="max-width: 280px; word-wrap: break-word;"
+      >
+      <div class="d-flex align-items-center justify-content-between mb-1" style="gap: 0.5rem;">
+        <span style="font-weight: 600; color: var(--color-primary); font-size: 0.9rem;">
+          {{ getSessionDisplayName(hovered_session) }}
+        </span>
+        @if (hovered_session.tpGroup) {
+          <ng-container
+            [ngTemplateOutlet]="tpGroupPill"
+            [ngTemplateOutletContext]="{ tpGroup: hovered_session.tpGroup }"
+          ></ng-container>
+        }
+      </div>
+      <div class="text-muted small mb-2" style="font-size: 0.78rem;">
+        <i class="far fa-clock mr-1"></i>
+        {{ formatSessionTime(hovered_session) }}
+      </div>
+      @if (hovered_session.notes) {
+        <div style="border-top: 1px solid var(--color-border); padding-top: 6px; margin-top: 4px;">
+          <div class="d-flex align-items-center mb-1" style="gap: 0.4rem; font-size: 0.75rem; color: var(--color-text-secondary); font-weight: 500;">
+            <i class="fas fa-comment-alt" style="font-size: 11px;"></i>
+            <span>{{ 'EDIT-SESSION.NOTES' | translate }}</span>
+          </div>
+          <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary); white-space: pre-wrap;">{{ hovered_session.notes }}</p>
+        </div>
+      }
+    </div>
+  }
+
+  @if (hovered_milestone != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null && hovered_repository == null) {
+    <div
+      id="milestone_hover"
+      style="max-width: 250px; word-wrap: break-word;"
+      >
+      <div
+        class="d-flex align-items-center mb-2"
+        style="gap: 0.5rem; font-weight: 500;"
+        [style.color]="getMilestoneColor(hovered_milestone?.type)"
+        >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <span>{{ 'MILESTONE-NOTES' | translate }}</span>
+      </div>
+      <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary); white-space: pre-wrap;">{{ hovered_milestone.notes }}</p>
+    </div>
+  }
+
+  @if (hovered_group_commit != null && hovered_commit == null && hovered_session == null && hovered_milestone == null && hovered_repository == null) {
+    <div
+      id="commit_group_hover"
+      >
+      @if (hovered_group_commit[hovered_group_commit.length - 1].isCloture) {
+        <div
+          >
+          <p>{{ hovered_group_commit[hovered_group_commit.length - 1].message }}</p>
+          <p>
+            {{ "COMMIT-TOOLTIP.START" | translate }} :
+            {{ commit_date_format(hovered_group_commit[0].commitDate) }}
+          </p>
+          <p>
+            {{ "COMMIT-TOOLTIP.END" | translate }} :
+            {{
+            commit_date_format(
+            hovered_group_commit[hovered_group_commit.length - 1].commitDate
+            )
+            }}
+          </p>
+          <p>
+            {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
+            {{ hovered_group_commit.length }}
+          </p>
+        </div>
+      }
+      @if (!hovered_group_commit[hovered_group_commit.length - 1].isCloture) {
+        <div
+          >
+          <p>
+            {{ "COMMIT-TOOLTIP.START" | translate }} :
+            {{ commit_date_format(hovered_group_commit[0].commitDate) }}
+          </p>
+          <p>
+            {{ "COMMIT-TOOLTIP.END" | translate }} :
+            {{
+            commit_date_format(
+            hovered_group_commit[hovered_group_commit.length - 1].commitDate
+            )
+            }}
+          </p>
+          <p>
+            {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
+            {{ hovered_group_commit.length }}
+          </p>
+        </div>
+      }
+      <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
+        <span>{{ 'COMMIT-TOOLTIP.ZOOM' | translate }}</span>
         <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
       </div>
-      <div class="tooltip-helper-item d-flex align-items-center">
-        <span>{{ 'COMMIT-TOOLTIP.COPY_HASH' | translate }}</span>
-        <kbd class="shortcut-key" [class.shortcut-pressed-anim]="pressedShortcut === 'h'">H</kbd>
-      </div>
     </div>
-  </div>
-
-  <div
-    *ngIf="hovered_repository != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null"
-    id="repository_hover"
-  >
-    <div class="repository-header">
-      <div class="repo-name">{{ hovered_repository.name }}</div>
-      <ng-container
-        *ngIf="hovered_repository.tpGroup"
-        [ngTemplateOutlet]="tpGroupPill"
-        [ngTemplateOutletContext]="{ tpGroup: hovered_repository.tpGroup, pillClass: 'repository-tp-group-pill' }"
-      ></ng-container>
-    </div>
-    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end" *ngIf="hovered_repository.url && !anonymizationService.isAnonymous">
-      <div class="tooltip-helper-item d-flex align-items-center">
-        <span>{{ 'OVERVIEW-GRAPH.OPEN-REPO' | translate }}</span>
-        <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
-      </div>
-    </div>
-  </div>
-  
-  <div
-    *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null && hovered_milestone == null && hovered_repository == null"
-    id="session_hover"
-    style="max-width: 280px; word-wrap: break-word;"
-  >
-    <div class="d-flex align-items-center justify-content-between mb-1" style="gap: 0.5rem;">
-      <span style="font-weight: 600; color: var(--color-primary); font-size: 0.9rem;">
-        {{ getSessionDisplayName(hovered_session) }}
-      </span>
-      <ng-container
-        *ngIf="hovered_session.tpGroup"
-        [ngTemplateOutlet]="tpGroupPill"
-        [ngTemplateOutletContext]="{ tpGroup: hovered_session.tpGroup }"
-      ></ng-container>
-    </div>
-    <div class="text-muted small mb-2" style="font-size: 0.78rem;">
-      <i class="far fa-clock mr-1"></i>
-      {{ formatSessionTime(hovered_session) }}
-    </div>
-    <div *ngIf="hovered_session.notes" style="border-top: 1px solid var(--color-border); padding-top: 6px; margin-top: 4px;">
-      <div class="d-flex align-items-center mb-1" style="gap: 0.4rem; font-size: 0.75rem; color: var(--color-text-secondary); font-weight: 500;">
-        <i class="fas fa-comment-alt" style="font-size: 11px;"></i>
-        <span>{{ 'EDIT-SESSION.NOTES' | translate }}</span>
-      </div>
-      <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary); white-space: pre-wrap;">{{ hovered_session.notes }}</p>
-    </div>
-  </div>
-
-  <div
-    *ngIf="hovered_milestone != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null && hovered_repository == null"
-    id="milestone_hover"
-    style="max-width: 250px; word-wrap: break-word;"
-  >
-    <div
-      class="d-flex align-items-center mb-2"
-      style="gap: 0.5rem; font-weight: 500;"
-      [style.color]="getMilestoneColor(hovered_milestone?.type)"
-    >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-        <polyline points="14 2 14 8 20 8"></polyline>
-        <line x1="16" y1="13" x2="8" y2="13"></line>
-        <line x1="16" y1="17" x2="8" y2="17"></line>
-        <polyline points="10 9 9 9 8 9"></polyline>
-      </svg>
-      <span>{{ 'MILESTONE-NOTES' | translate }}</span>
-    </div>
-    <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary); white-space: pre-wrap;">{{ hovered_milestone.notes }}</p>
-  </div>
-
-  <div
-    *ngIf="hovered_group_commit != null && hovered_commit == null && hovered_session == null && hovered_milestone == null && hovered_repository == null"
-    id="commit_group_hover"
-  >
-    <div
-      *ngIf="hovered_group_commit[hovered_group_commit.length - 1].isCloture"
-    >
-      <p>{{ hovered_group_commit[hovered_group_commit.length - 1].message }}</p>
-      <p>
-        {{ "COMMIT-TOOLTIP.START" | translate }} :
-        {{ commit_date_format(hovered_group_commit[0].commitDate) }}
-      </p>
-      <p>
-        {{ "COMMIT-TOOLTIP.END" | translate }} :
-        {{
-          commit_date_format(
-            hovered_group_commit[hovered_group_commit.length - 1].commitDate
-          )
-        }}
-      </p>
-      <p>
-        {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
-        {{ hovered_group_commit.length }}
-      </p>
-    </div>
-    <div
-      *ngIf="!hovered_group_commit[hovered_group_commit.length - 1].isCloture"
-    >
-      <p>
-        {{ "COMMIT-TOOLTIP.START" | translate }} :
-        {{ commit_date_format(hovered_group_commit[0].commitDate) }}
-      </p>
-      <p>
-        {{ "COMMIT-TOOLTIP.END" | translate }} :
-        {{
-          commit_date_format(
-            hovered_group_commit[hovered_group_commit.length - 1].commitDate
-          )
-        }}
-      </p>
-      <p>
-        {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
-        {{ hovered_group_commit.length }}
-      </p>
-    </div>
-    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
-      <span>{{ 'COMMIT-TOOLTIP.ZOOM' | translate }}</span>
-      <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
-    </div>
-  </div>
+  }
 </ng-template>
 
 <ng-template #mouseLeftClickIcon>
@@ -506,5 +527,5 @@
   (deleteSession)="onDeleteSession($event)"
   (saveMilestone)="onSaveMilestone($event)"
   (saveSession)="onSaveSession($event)"
->
+  >
 </overview-graph-contextual-menu>

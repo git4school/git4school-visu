@@ -7,7 +7,7 @@
     ngbDropdownToggle
     [appTooltip]="{ text: ('TP-GROUP-SELECT.TOOLTIP' | translate), shortcut: ['G'] }"
     [attr.aria-label]="'TP-GROUP-SELECT.TOOLTIP' | translate"
-  >
+    >
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
       <circle cx="9" cy="7" r="4"></circle>
@@ -25,30 +25,33 @@
       {{ "TP-GROUP-SELECT.ALL" | translate }}
     </button>
     <div class="dropdown-divider"></div>
-    <button
-      type="button"
-      class="dropdown-item tp-group-item"
-      ngbDropdownItem
-      *ngFor="let group of groups"
-      [class.active]="selected === group"
-      (click)="select(group)"
-    >
-      <span class="tp-group-main">
-        <span
-          class="tp-group-dot"
-          *ngIf="hasActiveSession(group)"
-          [appTooltip]="'TP-GROUP-SELECT.SESSION-ACTIVE' | translate"
-          aria-hidden="true"
-        ></span>
-        <span class="tp-group-name">{{ group }}</span>
-      </span>
-      <span
-        class="tp-group-count"
-        *ngIf="countFor(group) > 0"
-        [attr.title]="'TP-GROUP-SELECT.STUDENT-COUNT' | translate: { count: countFor(group) }"
-      >
-        <i class="fas fa-user"></i>{{ countFor(group) }}
-      </span>
-    </button>
+    @for (group of groups; track group) {
+      <button
+        type="button"
+        class="dropdown-item tp-group-item"
+        ngbDropdownItem
+        [class.active]="selected === group"
+        (click)="select(group)"
+        >
+        <span class="tp-group-main">
+          @if (hasActiveSession(group)) {
+            <span
+              class="tp-group-dot"
+              [appTooltip]="'TP-GROUP-SELECT.SESSION-ACTIVE' | translate"
+              aria-hidden="true"
+            ></span>
+          }
+          <span class="tp-group-name">{{ group }}</span>
+        </span>
+        @if (countFor(group) > 0) {
+          <span
+            class="tp-group-count"
+            [attr.title]="'TP-GROUP-SELECT.STUDENT-COUNT' | translate: { count: countFor(group) }"
+            >
+            <i class="fas fa-user"></i>{{ countFor(group) }}
+          </span>
+        }
+      </button>
+    }
   </div>
 </div>

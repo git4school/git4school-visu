@@ -1,24 +1,26 @@
 <div class="type-picker">
-  <div class="type-group" 
-       [class.wrap-content]="wrapContent"
-       [class.disabled]="isDisabled"
-       [class.is-invalid]="isInvalid"
-       (mouseenter)="onGroupMouseEnter()"
-       (mouseleave)="onGroupMouseLeave()">
-    
+  <div class="type-group"
+    [class.wrap-content]="wrapContent"
+    [class.disabled]="isDisabled"
+    [class.is-invalid]="isInvalid"
+    (mouseenter)="onGroupMouseEnter()"
+    (mouseleave)="onGroupMouseLeave()">
+
     <div class="buttons-row">
       <div class="type-indicator" [ngStyle]="indicatorStyle"></div>
-      
-      <button *ngFor="let option of options; let i = index"
-              #btn
-              type="button"
-              class="type-btn"
-              [class.active]="value === option.value"
-              [ngStyle]="getButtonStyle(option)"
-              (click)="selectType(option.value)"
-              (mouseenter)="onButtonMouseEnter(option, i)">
-        {{ option.label | translate }}
-      </button>
+
+      @for (option of options; track option; let i = $index) {
+        <button
+          #btn
+          type="button"
+          class="type-btn"
+          [class.active]="value === option.value"
+          [ngStyle]="getButtonStyle(option)"
+          (click)="selectType(option.value)"
+          (mouseenter)="onButtonMouseEnter(option, i)">
+          {{ option.label | translate }}
+        </button>
+      }
     </div>
   </div>
 </div>

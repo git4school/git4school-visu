@@ -1,264 +1,276 @@
 <!-- Session folder tab: one single surface, the strip is its left edge.
-     Rendered only when a session is eligible — without this guard every binding below
-     dereferences a null view and the template throws on each change-detection pass. -->
-<div
-  class="peek"
-  *ngIf="view"
-  [class.is-open]="view.open"
-  [class.is-hovered]="hovered"
-  [class.is-upcoming]="view.state === 'upcoming'"
->
-  <div class="peek-surface">
-    <!-- The strip IS the visible sliver of the panel -->
-    <button
-      type="button"
-      class="peek-strip"
-      (click)="togglePanel()"
-      (mouseenter)="hovered = true"
-      (mouseleave)="hovered = false"
-      [attr.aria-expanded]="view.open"
-      [attr.aria-label]="view.label"
+Rendered only when a session is eligible — without this guard every binding below
+dereferences a null view and the template throws on each change-detection pass. -->
+@if (view) {
+  <div
+    class="peek"
+    [class.is-open]="view.open"
+    [class.is-hovered]="hovered"
+    [class.is-upcoming]="view.state === 'upcoming'"
     >
-      <!-- Swap rail: the in-progress label, the counter and the upcoming label all travel
-           down by one slot. The texts are static per element, so the swap reads correctly
-           in both directions (shifting the dev-bar clock backwards plays it in reverse). -->
-      <span class="peek-rail" #rail aria-hidden="true">
-        <span class="peek-line peek-line--label peek-line--in">{{ "SESSION-TAB.TAB.IN-PROGRESS-SHORT" | translate }}</span>
-        <!-- The counter is a full-height carriage whose text is pinned to its bottom -->
-        <span class="peek-counter">
-          <span class="peek-counter__carriage"><span class="peek-counter__text">{{ view.countdown }}</span></span>
+    <div class="peek-surface">
+      <!-- The strip IS the visible sliver of the panel -->
+      <button
+        type="button"
+        class="peek-strip"
+        (click)="togglePanel()"
+        (mouseenter)="hovered = true"
+        (mouseleave)="hovered = false"
+        [attr.aria-expanded]="view.open"
+        [attr.aria-label]="view.label"
+        >
+        <!-- Swap rail: the in-progress label, the counter and the upcoming label all travel
+        down by one slot. The texts are static per element, so the swap reads correctly
+        in both directions (shifting the dev-bar clock backwards plays it in reverse). -->
+        <span class="peek-rail" #rail aria-hidden="true">
+          <span class="peek-line peek-line--label peek-line--in">{{ "SESSION-TAB.TAB.IN-PROGRESS-SHORT" | translate }}</span>
+          <!-- The counter is a full-height carriage whose text is pinned to its bottom -->
+          <span class="peek-counter">
+            <span class="peek-counter__carriage"><span class="peek-counter__text">{{ view.countdown }}</span></span>
+          </span>
+          <span class="peek-line peek-line--label peek-line--out">{{ "SESSION-TAB.TAB.UPCOMING-TAB" | translate }}</span>
         </span>
-        <span class="peek-line peek-line--label peek-line--out">{{ "SESSION-TAB.TAB.UPCOMING-TAB" | translate }}</span>
-      </span>
-      <!-- One fixed icon, rotated when open, like the app's dropdown carets -->
-      <i class="fas fa-chevron-left peek-strip-chevron" aria-hidden="true"></i>
-    </button>
-
-    <!-- Panel body: off-screen while closed, revealed by the surface transform -->
-    <div class="peek-body" (mouseenter)="hovered = true" (mouseleave)="hovered = false">
-      <header class="peek-head">
-        <span class="peek-state-pill">
-          <span class="peek-state-dot"></span>
-          {{ (view.state === "in-progress" ? "SESSION-TAB.TAB.IN-PROGRESS" : "SESSION-TAB.TAB.UPCOMING-SHORT") | translate }}
-        </span>
-        <span class="peek-head-time">{{ view.countdown }}</span>
-        <button
-          type="button"
-          class="peek-refresh"
-          [class.is-refreshing]="refreshing"
-          (click)="refresh()"
-          [appTooltip]="(view.autoRefresh ? 'SESSION-TAB.PANEL.REFRESH-AUTO-TOOLTIP' : 'SESSION-TAB.PANEL.REFRESH-TOOLTIP') | translate"
-          [attr.aria-label]="'SESSION-TAB.PANEL.REFRESH' | translate"
-        >
-          <i class="fas fa-sync-alt" [class.fa-spin]="refreshing"></i>
-          <span class="peek-refresh-badge" *ngIf="view.autoRefresh" aria-hidden="true"></span>
-        </button>
-      </header>
-
-      <div class="peek-session">
-        <button
-          type="button"
-          class="peek-nav"
-          *ngIf="view.nav"
-          [disabled]="!view.nav.canPrev"
-          (click)="selectPrev()"
-          [attr.aria-label]="'SESSION-TAB.PANEL.PREV' | translate"
-        >
-          <i class="fas fa-chevron-left"></i>
-        </button>
-
-        <div class="peek-session-info">
-          <h3 class="peek-title">{{ view.label }}</h3>
-
-          <p class="peek-when">
-            <i class="far fa-calendar mr-2"></i>{{ view.dateLabel }}
-            <span class="peek-sep">·</span>
-            {{ view.timeRange }}
-            <span class="peek-sep">·</span>
-            {{ view.durationLabel }}
-          </p>
-
-          <p class="peek-tp" *ngIf="view.tpGroup">
-            <i class="fas fa-users mr-2"></i>{{ "SESSION-TAB.PANEL.TP-GROUP" | translate }} {{ view.tpGroup }}
-          </p>
-        </div>
-
-        <button
-          type="button"
-          class="peek-nav"
-          *ngIf="view.nav"
-          [disabled]="!view.nav.canNext"
-          (click)="selectNext()"
-          [attr.aria-label]="'SESSION-TAB.PANEL.NEXT' | translate"
-        >
-          <i class="fas fa-chevron-right"></i>
-        </button>
-      </div>
-
-      <!-- Live cockpit: rendered once the stats are computed (i.e. while the panel is open) -->
-      <ng-container *ngIf="view.live">
-        <!-- Engagement split + question progress -->
-        <section class="peek-health">
-          <div class="peek-health-bar" aria-hidden="true">
-            <span class="peek-health-seg peek-health-seg--active" [style.flex-grow]="view.live.activeCount"></span>
-            <span class="peek-health-seg peek-health-seg--watch" [style.flex-grow]="view.live.watchCount"></span>
-            <span class="peek-health-seg peek-health-seg--inactive" [style.flex-grow]="view.live.inactiveCount"></span>
-          </div>
-          <div class="peek-health-legend">
-            <span class="peek-health-item peek-health-item--active">
-              <b class="peek-metric-tooltip" [appTooltip]="view.tooltips?.active" [maxWidth]="320">{{ view.live.activeCount }}</b>
-              {{ "SESSION-TAB.PANEL.HEALTH.ACTIVE" | translate }}
-            </span>
-            <span class="peek-health-item peek-health-item--watch">
-              <b class="peek-metric-tooltip" [appTooltip]="view.tooltips?.watch" [maxWidth]="320">{{ view.live.watchCount }}</b>
-              {{ "SESSION-TAB.PANEL.HEALTH.WATCH" | translate }}
-            </span>
-            <span class="peek-health-item peek-health-item--inactive">
-              <b class="peek-metric-tooltip" [appTooltip]="view.tooltips?.inactive" [maxWidth]="320">{{ view.live.inactiveCount }}</b>
-              {{ "SESSION-TAB.PANEL.HEALTH.INACTIVE" | translate }}
-            </span>
-          </div>
-          <div class="peek-questions">
-            <span class="peek-questions-lbl">{{ "SESSION-TAB.PANEL.HEALTH.QUESTIONS" | translate }}</span>
-            <span class="peek-questions-val peek-metric-tooltip" [appTooltip]="view.tooltips?.questions" [maxWidth]="320">
-              {{ view.live.resolvedQuestions }}/{{ view.live.totalQuestions }}
-            </span>
-            <span class="peek-questions-track" aria-hidden="true">
-              <span class="peek-questions-fill" [style.width.%]="view.live.questionsPct"></span>
-            </span>
-          </div>
-        </section>
-
-        <!-- Who needs help right now -->
-        <section class="peek-section peek-watch">
-          <div class="peek-section-head">
-            <span class="peek-section-title">{{ "SESSION-TAB.PANEL.WATCH.TITLE" | translate }}</span>
-            <button type="button" class="peek-section-link" *ngIf="view.live.watchlist.length" (click)="onOpenMatrix()">
-              {{ "SESSION-TAB.PANEL.WATCH.SEE-ALL" | translate }}
+        <!-- One fixed icon, rotated when open, like the app's dropdown carets -->
+        <i class="fas fa-chevron-left peek-strip-chevron" aria-hidden="true"></i>
+      </button>
+      <!-- Panel body: off-screen while closed, revealed by the surface transform -->
+      <div class="peek-body" (mouseenter)="hovered = true" (mouseleave)="hovered = false">
+        <header class="peek-head">
+          <span class="peek-state-pill">
+            <span class="peek-state-dot"></span>
+            {{ (view.state === "in-progress" ? "SESSION-TAB.TAB.IN-PROGRESS" : "SESSION-TAB.TAB.UPCOMING-SHORT") | translate }}
+          </span>
+          <span class="peek-head-time">{{ view.countdown }}</span>
+          <button
+            type="button"
+            class="peek-refresh"
+            [class.is-refreshing]="refreshing"
+            (click)="refresh()"
+            [appTooltip]="(view.autoRefresh ? 'SESSION-TAB.PANEL.REFRESH-AUTO-TOOLTIP' : 'SESSION-TAB.PANEL.REFRESH-TOOLTIP') | translate"
+            [attr.aria-label]="'SESSION-TAB.PANEL.REFRESH' | translate"
+            >
+            <i class="fas fa-sync-alt" [class.fa-spin]="refreshing"></i>
+            @if (view.autoRefresh) {
+              <span class="peek-refresh-badge" aria-hidden="true"></span>
+            }
+          </button>
+        </header>
+        <div class="peek-session">
+          @if (view.nav) {
+            <button
+              type="button"
+              class="peek-nav"
+              [disabled]="!view.nav.canPrev"
+              (click)="selectPrev()"
+              [attr.aria-label]="'SESSION-TAB.PANEL.PREV' | translate"
+              >
+              <i class="fas fa-chevron-left"></i>
             </button>
+          }
+          <div class="peek-session-info">
+            <h3 class="peek-title">{{ view.label }}</h3>
+            <p class="peek-when">
+              <i class="far fa-calendar mr-2"></i>{{ view.dateLabel }}
+              <span class="peek-sep">·</span>
+              {{ view.timeRange }}
+              <span class="peek-sep">·</span>
+              {{ view.durationLabel }}
+            </p>
+            @if (view.tpGroup) {
+              <p class="peek-tp">
+                <i class="fas fa-users mr-2"></i>{{ "SESSION-TAB.PANEL.TP-GROUP" | translate }} {{ view.tpGroup }}
+              </p>
+            }
           </div>
-          <ul class="peek-watch-list" *ngIf="view.live.watchlist.length; else allGood">
-            <li *ngFor="let w of view.live.watchlist">
-              <button type="button" class="peek-watch-item" (click)="openRepository(w.repository)">
-                <span class="peek-watch-name">{{ w.studentName }}</span>
-                <span class="peek-watch-reason">{{ w.reasonKey | translate: { minutes: w.reasonMinutes } }}</span>
-                <i class="fas fa-external-link-alt peek-watch-open" aria-hidden="true"></i>
-              </button>
-            </li>
-          </ul>
-          <ng-template #allGood>
-            <p class="peek-allgood"><i class="fas fa-check-circle"></i>{{ "SESSION-TAB.PANEL.WATCH.ALL-GOOD" | translate }}</p>
-          </ng-template>
-        </section>
-
-        <!-- Class pace -->
-        <section class="peek-section peek-pace">
-          <div class="peek-section-head">
-            <span class="peek-section-title">{{ "SESSION-TAB.PANEL.PACE.TITLE" | translate }}</span>
-            <span class="peek-pace-meta">
-              <span class="peek-pace-rate">{{ view.live.pace.commitsLast15 }} {{ "SESSION-TAB.PANEL.PACE.PER-15" | translate }}</span>
-              <span class="peek-pace-stall" *ngIf="view.live.pace.stalled">
-                <i class="fas fa-exclamation-triangle"></i>{{ "SESSION-TAB.PANEL.PACE.STALLED" | translate }}
+          @if (view.nav) {
+            <button
+              type="button"
+              class="peek-nav"
+              [disabled]="!view.nav.canNext"
+              (click)="selectNext()"
+              [attr.aria-label]="'SESSION-TAB.PANEL.NEXT' | translate"
+              >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          }
+        </div>
+        <!-- Live cockpit: rendered once the stats are computed (i.e. while the panel is open) -->
+        @if (view.live) {
+          <!-- Engagement split + question progress -->
+          <section class="peek-health">
+            <div class="peek-health-bar" aria-hidden="true">
+              <span class="peek-health-seg peek-health-seg--active" [style.flex-grow]="view.live.activeCount"></span>
+              <span class="peek-health-seg peek-health-seg--watch" [style.flex-grow]="view.live.watchCount"></span>
+              <span class="peek-health-seg peek-health-seg--inactive" [style.flex-grow]="view.live.inactiveCount"></span>
+            </div>
+            <div class="peek-health-legend">
+              <span class="peek-health-item peek-health-item--active">
+                <b class="peek-metric-tooltip" [appTooltip]="view.tooltips?.active" [maxWidth]="320">{{ view.live.activeCount }}</b>
+                {{ "SESSION-TAB.PANEL.HEALTH.ACTIVE" | translate }}
               </span>
-            </span>
-          </div>
-          <div class="peek-spark">
-            <span
-              *ngFor="let b of view.live.pace.buckets"
-              class="peek-spark-bar"
-              [class.is-current]="b.isCurrent"
-              [style.height.%]="b.height"
-              [appTooltip]="'SESSION-TAB.PANEL.PACE.BUCKET' | translate: { time: b.label, count: b.total }"
-              [instant]="true"
-            ></span>
-          </div>
-        </section>
-
-        <!-- Resolved-questions scatter + group average progress -->
-        <section class="peek-section peek-timeline-section">
-          <div class="peek-section-head">
-            <span class="peek-section-title">
-              {{ "SESSION-TAB.PANEL.TIMELINE.TITLE" | translate }}
-              <span class="peek-info-badge" [appTooltip]="'SESSION-TAB.PANEL.TIMELINE.TOOLTIP' | translate">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="16" x2="12" y2="12"></line>
-                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
+              <span class="peek-health-item peek-health-item--watch">
+                <b class="peek-metric-tooltip" [appTooltip]="view.tooltips?.watch" [maxWidth]="320">{{ view.live.watchCount }}</b>
+                {{ "SESSION-TAB.PANEL.HEALTH.WATCH" | translate }}
               </span>
-            </span>
-          </div>
-          <div class="peek-timeline">
-            <svg class="peek-timeline-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <polygon class="peek-timeline-avg-area" [attr.points]="view.resolvedAverageArea"></polygon>
-              <polyline
-                class="peek-timeline-avg-line"
-                [attr.points]="view.resolvedAveragePoints"
-                vector-effect="non-scaling-stroke"
-              ></polyline>
-              <polyline
-                *ngIf="hoveredTrajectory"
-                class="peek-timeline-trajectory"
-                [attr.points]="hoveredTrajectory"
-                vector-effect="non-scaling-stroke"
-              ></polyline>
-            </svg>
-            <span
-              *ngFor="let d of view.resolvedDots"
-              class="peek-timeline-dot"
-              [class.is-dimmed]="hoveredStudent && hoveredStudent !== d.student"
-              [style.left.%]="d.x"
-              [style.top.%]="d.y"
-              (mouseenter)="onDotEnter(d.student)"
-              (mouseleave)="onDotLeave()"
-              [appTooltip]="dotTooltip(d)"
-              [instant]="true"
-            ></span>
-          </div>
-          <div class="peek-timeline-axis">
-            <span>{{ view.timelineStart }}</span>
-            <span>{{ view.timelineNow }}</span>
-          </div>
-        </section>
-
-        <!-- Latest activity -->
-        <section class="peek-section peek-feed" *ngIf="view.live.feed.length">
-          <div class="peek-section-head">
-            <span class="peek-section-title">{{ "SESSION-TAB.PANEL.FEED.TITLE" | translate }}</span>
-          </div>
-          <ul class="peek-feed-list">
-            <li *ngFor="let f of view.live.feed">
-              <button type="button" class="peek-feed-item" (click)="openCommit(f.commitUrl)">
-                <i
-                  class="fas peek-feed-icon"
-                  [class.fa-check-circle]="f.isCloture"
-                  [class.fa-code-branch]="!f.isCloture"
-                  aria-hidden="true"
-                ></i>
-                <span class="peek-feed-name">{{ f.studentName }}</span>
-                <span class="peek-feed-what" *ngIf="f.questionName">{{ f.questionName }}</span>
-                <span class="peek-feed-ago">
-                  {{
-                    (f.justNow ? "SESSION-TAB.PANEL.FEED.JUST-NOW" : "SESSION-TAB.PANEL.FEED.MIN-AGO")
-                      | translate: { minutes: f.minutesAgo }
-                  }}
+              <span class="peek-health-item peek-health-item--inactive">
+                <b class="peek-metric-tooltip" [appTooltip]="view.tooltips?.inactive" [maxWidth]="320">{{ view.live.inactiveCount }}</b>
+                {{ "SESSION-TAB.PANEL.HEALTH.INACTIVE" | translate }}
+              </span>
+            </div>
+            <div class="peek-questions">
+              <span class="peek-questions-lbl">{{ "SESSION-TAB.PANEL.HEALTH.QUESTIONS" | translate }}</span>
+              <span class="peek-questions-val peek-metric-tooltip" [appTooltip]="view.tooltips?.questions" [maxWidth]="320">
+                {{ view.live.resolvedQuestions }}/{{ view.live.totalQuestions }}
+              </span>
+              <span class="peek-questions-track" aria-hidden="true">
+                <span class="peek-questions-fill" [style.width.%]="view.live.questionsPct"></span>
+              </span>
+            </div>
+          </section>
+          <!-- Who needs help right now -->
+          <section class="peek-section peek-watch">
+            <div class="peek-section-head">
+              <span class="peek-section-title">{{ "SESSION-TAB.PANEL.WATCH.TITLE" | translate }}</span>
+              @if (view.live.watchlist.length) {
+                <button type="button" class="peek-section-link" (click)="onOpenMatrix()">
+                  {{ "SESSION-TAB.PANEL.WATCH.SEE-ALL" | translate }}
+                </button>
+              }
+            </div>
+            @if (view.live.watchlist.length) {
+              <ul class="peek-watch-list">
+                @for (w of view.live.watchlist; track w) {
+                  <li>
+                    <button type="button" class="peek-watch-item" (click)="openRepository(w.repository)">
+                      <span class="peek-watch-name">{{ w.studentName }}</span>
+                      <span class="peek-watch-reason">{{ w.reasonKey | translate: { minutes: w.reasonMinutes } }}</span>
+                      <i class="fas fa-external-link-alt peek-watch-open" aria-hidden="true"></i>
+                    </button>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="peek-allgood"><i class="fas fa-check-circle"></i>{{ "SESSION-TAB.PANEL.WATCH.ALL-GOOD" | translate }}</p>
+            }
+          </section>
+          <!-- Class pace -->
+          <section class="peek-section peek-pace">
+            <div class="peek-section-head">
+              <span class="peek-section-title">{{ "SESSION-TAB.PANEL.PACE.TITLE" | translate }}</span>
+              <span class="peek-pace-meta">
+                <span class="peek-pace-rate">{{ view.live.pace.commitsLast15 }} {{ "SESSION-TAB.PANEL.PACE.PER-15" | translate }}</span>
+                @if (view.live.pace.stalled) {
+                  <span class="peek-pace-stall">
+                    <i class="fas fa-exclamation-triangle"></i>{{ "SESSION-TAB.PANEL.PACE.STALLED" | translate }}
+                  </span>
+                }
+              </span>
+            </div>
+            <div class="peek-spark">
+              @for (b of view.live.pace.buckets; track b) {
+                <span
+                  class="peek-spark-bar"
+                  [class.is-current]="b.isCurrent"
+                  [style.height.%]="b.height"
+                  [appTooltip]="'SESSION-TAB.PANEL.PACE.BUCKET' | translate: { time: b.label, count: b.total }"
+                  [instant]="true"
+                ></span>
+              }
+            </div>
+          </section>
+          <!-- Resolved-questions scatter + group average progress -->
+          <section class="peek-section peek-timeline-section">
+            <div class="peek-section-head">
+              <span class="peek-section-title">
+                {{ "SESSION-TAB.PANEL.TIMELINE.TITLE" | translate }}
+                <span class="peek-info-badge" [appTooltip]="'SESSION-TAB.PANEL.TIMELINE.TOOLTIP' | translate">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
                 </span>
-              </button>
-            </li>
-          </ul>
-        </section>
-      </ng-container>
-
-      <p class="peek-notes" *ngIf="view.notes">{{ view.notes }}</p>
-
-      <footer class="peek-actions">
-        <button type="button" class="peek-btn peek-btn-primary" (click)="onViewInGraph()">
-          <i class="fas fa-map-marker-alt"></i>{{ "SESSION-TAB.PANEL.VIEW-IN-GRAPH" | translate }}
-        </button>
-        <button type="button" class="peek-btn" (click)="onEditSession()">
-          <i class="fas fa-pen"></i>{{ "SESSION-TAB.PANEL.EDIT" | translate }}
-        </button>
-      </footer>
+              </span>
+            </div>
+            <div class="peek-timeline">
+              <svg class="peek-timeline-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <polygon class="peek-timeline-avg-area" [attr.points]="view.resolvedAverageArea"></polygon>
+                <polyline
+                  class="peek-timeline-avg-line"
+                  [attr.points]="view.resolvedAveragePoints"
+                  vector-effect="non-scaling-stroke"
+                ></polyline>
+                @if (hoveredTrajectory) {
+                  <polyline
+                    class="peek-timeline-trajectory"
+                    [attr.points]="hoveredTrajectory"
+                    vector-effect="non-scaling-stroke"
+                  ></polyline>
+                }
+              </svg>
+              @for (d of view.resolvedDots; track d) {
+                <span
+                  class="peek-timeline-dot"
+                  [class.is-dimmed]="hoveredStudent && hoveredStudent !== d.student"
+                  [style.left.%]="d.x"
+                  [style.top.%]="d.y"
+                  (mouseenter)="onDotEnter(d.student)"
+                  (mouseleave)="onDotLeave()"
+                  [appTooltip]="dotTooltip(d)"
+                  [instant]="true"
+                ></span>
+              }
+            </div>
+            <div class="peek-timeline-axis">
+              <span>{{ view.timelineStart }}</span>
+              <span>{{ view.timelineNow }}</span>
+            </div>
+          </section>
+          <!-- Latest activity -->
+          @if (view.live.feed.length) {
+            <section class="peek-section peek-feed">
+              <div class="peek-section-head">
+                <span class="peek-section-title">{{ "SESSION-TAB.PANEL.FEED.TITLE" | translate }}</span>
+              </div>
+              <ul class="peek-feed-list">
+                @for (f of view.live.feed; track f) {
+                  <li>
+                    <button type="button" class="peek-feed-item" (click)="openCommit(f.commitUrl)">
+                      <i
+                        class="fas peek-feed-icon"
+                        [class.fa-check-circle]="f.isCloture"
+                        [class.fa-code-branch]="!f.isCloture"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="peek-feed-name">{{ f.studentName }}</span>
+                      @if (f.questionName) {
+                        <span class="peek-feed-what">{{ f.questionName }}</span>
+                      }
+                      <span class="peek-feed-ago">
+                        {{
+                        (f.justNow ? "SESSION-TAB.PANEL.FEED.JUST-NOW" : "SESSION-TAB.PANEL.FEED.MIN-AGO")
+                        | translate: { minutes: f.minutesAgo }
+                        }}
+                      </span>
+                    </button>
+                  </li>
+                }
+              </ul>
+            </section>
+          }
+        }
+        @if (view.notes) {
+          <p class="peek-notes">{{ view.notes }}</p>
+        }
+        <footer class="peek-actions">
+          <button type="button" class="peek-btn peek-btn-primary" (click)="onViewInGraph()">
+            <i class="fas fa-map-marker-alt"></i>{{ "SESSION-TAB.PANEL.VIEW-IN-GRAPH" | translate }}
+          </button>
+          <button type="button" class="peek-btn" (click)="onEditSession()">
+            <i class="fas fa-pen"></i>{{ "SESSION-TAB.PANEL.EDIT" | translate }}
+          </button>
+        </footer>
+      </div>
     </div>
   </div>
-</div>
+}

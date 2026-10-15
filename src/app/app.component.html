@@ -10,4 +10,6 @@
 </svg>
 <router-outlet></router-outlet>
 <app-toasts></app-toasts>
-<app-dev-bar *ngIf="!isProduction"></app-dev-bar>
+@if (!isProduction) {
+  <app-dev-bar></app-dev-bar>
+}

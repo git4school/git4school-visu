@@ -12,25 +12,27 @@
 
     <div class="d-flex align-items-center flex-wrap" style="gap: 10px;">
       <!-- Scope Mode (Session vs All) if session is provided -->
-      <div *ngIf="session" class="btn-group btn-group-sm segmented-control" role="group">
-        <button
-          type="button"
-          class="btn"
-          [class.active]="scopeMode === 'all'"
-          (click)="setScopeMode('all')"
-        >
-          {{ 'SESSIONS-GRAPH.MATRIX.SCOPE_ALL' | translate }}
-        </button>
-        <button
-          type="button"
-          class="btn"
-          [class.active]="scopeMode === 'session'"
-          (click)="setScopeMode('session')"
-        >
-          <i class="fas fa-bolt mr-1 text-warning"></i>
-          {{ 'SESSIONS-GRAPH.MATRIX.SCOPE_SESSION' | translate }}
-        </button>
-      </div>
+      @if (session) {
+        <div class="btn-group btn-group-sm segmented-control" role="group">
+          <button
+            type="button"
+            class="btn"
+            [class.active]="scopeMode === 'all'"
+            (click)="setScopeMode('all')"
+            >
+            {{ 'SESSIONS-GRAPH.MATRIX.SCOPE_ALL' | translate }}
+          </button>
+          <button
+            type="button"
+            class="btn"
+            [class.active]="scopeMode === 'session'"
+            (click)="setScopeMode('session')"
+            >
+            <i class="fas fa-bolt mr-1 text-warning"></i>
+            {{ 'SESSIONS-GRAPH.MATRIX.SCOPE_SESSION' | translate }}
+          </button>
+        </div>
+      }
 
       <!-- Search Input -->
       <div class="matrix-search position-relative">
@@ -41,7 +43,7 @@
           [placeholder]="'SESSIONS-GRAPH.MATRIX.SEARCH_PLACEHOLDER' | translate"
           [ngModel]="searchTerm"
           (ngModelChange)="onSearchChange($event)"
-        />
+          />
       </div>
 
       <!-- Sort Toggle -->
@@ -52,7 +54,7 @@
           [class.active]="sortBy === 'progress'"
           (click)="setSortBy('progress')"
           [title]="'SESSIONS-GRAPH.MATRIX.SORT_PROGRESS' | translate"
-        >
+          >
           <i class="fas fa-sort-amount-down mr-1"></i>
           {{ 'SESSIONS-GRAPH.MATRIX.SORT_PROGRESS' | translate }}
         </button>
@@ -62,7 +64,7 @@
           [class.active]="sortBy === 'name'"
           (click)="setSortBy('name')"
           [title]="'SESSIONS-GRAPH.MATRIX.SORT_NAME' | translate"
-        >
+          >
           <i class="fas fa-sort-alpha-down mr-1"></i>
           {{ 'SESSIONS-GRAPH.MATRIX.SORT_NAME' | translate }}
         </button>
@@ -92,173 +94,193 @@
       <span class="legend-swatch swatch-not-started mr-2"></span>
       <span class="small font-weight-medium text-secondary">{{ 'SESSIONS-GRAPH.MATRIX.LEGEND_NOT_STARTED' | translate }}</span>
     </div>
-    <div *ngIf="session" class="legend-item d-flex align-items-center ml-auto">
-      <span class="legend-session-badge mr-2">
-        <i class="fas fa-bolt text-warning" style="font-size: 0.65rem;"></i>
-      </span>
-      <span class="small font-weight-medium text-secondary">{{ 'SESSIONS-GRAPH.MATRIX.LEGEND_IN_SESSION' | translate }}</span>
-    </div>
+    @if (session) {
+      <div class="legend-item d-flex align-items-center ml-auto">
+        <span class="legend-session-badge mr-2">
+          <i class="fas fa-bolt text-warning" style="font-size: 0.65rem;"></i>
+        </span>
+        <span class="small font-weight-medium text-secondary">{{ 'SESSIONS-GRAPH.MATRIX.LEGEND_IN_SESSION' | translate }}</span>
+      </div>
+    }
   </div>
 
   <!-- Empty state if no questions -->
-  <div *ngIf="questions.length === 0" class="text-center py-5 text-muted">
-    <p class="mb-0">{{ 'SESSIONS-GRAPH.MATRIX.NO_QUESTIONS' | translate }}</p>
-  </div>
+  @if (questions.length === 0) {
+    <div class="text-center py-5 text-muted">
+      <p class="mb-0">{{ 'SESSIONS-GRAPH.MATRIX.NO_QUESTIONS' | translate }}</p>
+    </div>
+  }
 
   <!-- Matrix Scroll Container -->
-  <div *ngIf="questions.length > 0" class="matrix-table-wrapper flex-grow-1 overflow-auto rounded-lg border">
-    <table class="table matrix-table mb-0">
-      <thead>
-        <tr>
-          <!-- Sticky Student Column Header -->
-          <th class="sticky-student-col th-student">
-            <span class="header-label">{{ 'SESSIONS-GRAPH.MATRIX.STUDENT_COL' | translate }}</span>
-            <span class="student-count badge badge-pill badge-secondary ml-2">{{ filteredRows.length }}</span>
-          </th>
-
-          <!-- Question Headers -->
-          <th *ngFor="let q of questions; let qIdx = index" class="th-question text-center" [title]="q">
-            <div class="question-header-pill">
-              {{ q }}
-            </div>
-          </th>
-
-          <!-- Progress Column Header -->
-          <th class="th-progress text-right pr-3">
-            <span class="header-label">{{ 'SESSIONS-GRAPH.MATRIX.PROGRESS_COL' | translate }}</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of filteredRows">
-          <!-- Sticky Student Cell -->
-          <td class="sticky-student-col td-student">
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="student-name font-weight-medium text-truncate" [title]="row.studentName">
-                {{ row.studentName }}
-              </span>
-              <span *ngIf="row.tpGroup" class="badge-group ml-2">
-                {{ row.tpGroup }}
-              </span>
-            </div>
-          </td>
-
-          <!-- Question Status Cells -->
-          <td *ngFor="let cell of row.cells" class="td-cell text-center p-1">
-            <div
-              class="matrix-cell"
-              [class.state-before]="cell.state === 'validated_before_review'"
-              [class.state-between]="cell.state === 'validated_after_correction'"
-              [class.state-after]="cell.state === 'validated_late'"
-              [class.state-in-progress]="cell.state === 'in_progress'"
-              [class.state-not-started]="cell.state === 'not_started'"
-              [class.is-session-closed]="cell.isClosedInSession"
-              [class.dimmed]="scopeMode === 'session' && !cell.isClosedInSession && cell.inSessionCommitsCount === 0"
-              (mouseenter)="onCellMouseEnter($event, row, cell)"
-              (mouseleave)="onCellMouseLeave()"
-              (click)="onCellClick(cell)"
-            >
-              <!-- In-session badge dot -->
-              <span *ngIf="cell.isClosedInSession" class="cell-session-dot"></span>
-
-              <!-- Commit count if multiple or in progress -->
-              <span *ngIf="cell.state === 'in_progress' || (cell.commitsCount > 1 && cell.state !== 'not_started')" class="cell-commit-count">
-                {{ cell.commitsCount }}
-              </span>
-
-              <!-- Check icon if validated -->
-              <i *ngIf="cell.state === 'validated_before_review' || cell.state === 'validated_after_correction' || cell.state === 'validated_late'" class="fas fa-check cell-check-icon"></i>
-            </div>
-          </td>
-
-          <!-- Student Progress Summary Cell -->
-          <td class="td-progress text-right pr-3">
-            <div class="d-flex align-items-center justify-content-end" style="gap: 8px;">
-              <span class="progress-fraction font-weight-bold" style="font-size: 0.8rem; color: var(--color-text-primary);">
-                {{ row.completedQuestionsCount }}/{{ questions.length }}
-              </span>
-              <div class="progress-mini-bar">
-                <div
-                  class="progress-mini-fill"
-                  [style.width.%]="row.completionRate"
-                  [class.bg-success]="row.completionRate >= 75"
-                  [class.bg-primary]="row.completionRate >= 35 && row.completionRate < 75"
-                  [class.bg-warning]="row.completionRate < 35 && row.completionRate > 0"
-                ></div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-
-      <!-- Column Summary Footer -->
-      <tfoot>
-        <tr class="tfoot-row">
-          <th class="sticky-student-col td-student font-weight-bold">
-            <span class="small text-muted">{{ 'TOTAL' | translate }}</span>
-          </th>
-          <th *ngFor="let summary of columnSummaries" class="text-center p-1">
-            <div class="col-summary-chip" [title]="summary.completedCount + ' / ' + rows.length + ' (' + (summary.completionRate | number:'1.0-0') + '%)'">
-              <span class="summary-count font-weight-bold">{{ summary.completedCount }}</span>
-              <span class="summary-pct small text-muted">{{ summary.completionRate | number:'1.0-0' }}%</span>
-            </div>
-          </th>
-          <th class="text-right pr-3"></th>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
+  @if (questions.length > 0) {
+    <div class="matrix-table-wrapper flex-grow-1 overflow-auto rounded-lg border">
+      <table class="table matrix-table mb-0">
+        <thead>
+          <tr>
+            <!-- Sticky Student Column Header -->
+            <th class="sticky-student-col th-student">
+              <span class="header-label">{{ 'SESSIONS-GRAPH.MATRIX.STUDENT_COL' | translate }}</span>
+              <span class="student-count badge badge-pill badge-secondary ml-2">{{ filteredRows.length }}</span>
+            </th>
+            <!-- Question Headers -->
+            @for (q of questions; track q; let qIdx = $index) {
+              <th class="th-question text-center" [title]="q">
+                <div class="question-header-pill">
+                  {{ q }}
+                </div>
+              </th>
+            }
+            <!-- Progress Column Header -->
+            <th class="th-progress text-right pr-3">
+              <span class="header-label">{{ 'SESSIONS-GRAPH.MATRIX.PROGRESS_COL' | translate }}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of filteredRows; track row) {
+            <tr>
+              <!-- Sticky Student Cell -->
+              <td class="sticky-student-col td-student">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="student-name font-weight-medium text-truncate" [title]="row.studentName">
+                    {{ row.studentName }}
+                  </span>
+                  @if (row.tpGroup) {
+                    <span class="badge-group ml-2">
+                      {{ row.tpGroup }}
+                    </span>
+                  }
+                </div>
+              </td>
+              <!-- Question Status Cells -->
+              @for (cell of row.cells; track cell) {
+                <td class="td-cell text-center p-1">
+                  <div
+                    class="matrix-cell"
+                    [class.state-before]="cell.state === 'validated_before_review'"
+                    [class.state-between]="cell.state === 'validated_after_correction'"
+                    [class.state-after]="cell.state === 'validated_late'"
+                    [class.state-in-progress]="cell.state === 'in_progress'"
+                    [class.state-not-started]="cell.state === 'not_started'"
+                    [class.is-session-closed]="cell.isClosedInSession"
+                    [class.dimmed]="scopeMode === 'session' && !cell.isClosedInSession && cell.inSessionCommitsCount === 0"
+                    (mouseenter)="onCellMouseEnter($event, row, cell)"
+                    (mouseleave)="onCellMouseLeave()"
+                    (click)="onCellClick(cell)"
+                    >
+                    <!-- In-session badge dot -->
+                    @if (cell.isClosedInSession) {
+                      <span class="cell-session-dot"></span>
+                    }
+                    <!-- Commit count if multiple or in progress -->
+                    @if (cell.state === 'in_progress' || (cell.commitsCount > 1 && cell.state !== 'not_started')) {
+                      <span class="cell-commit-count">
+                        {{ cell.commitsCount }}
+                      </span>
+                    }
+                    <!-- Check icon if validated -->
+                    @if (cell.state === 'validated_before_review' || cell.state === 'validated_after_correction' || cell.state === 'validated_late') {
+                      <i class="fas fa-check cell-check-icon"></i>
+                    }
+                  </div>
+                </td>
+              }
+              <!-- Student Progress Summary Cell -->
+              <td class="td-progress text-right pr-3">
+                <div class="d-flex align-items-center justify-content-end" style="gap: 8px;">
+                  <span class="progress-fraction font-weight-bold" style="font-size: 0.8rem; color: var(--color-text-primary);">
+                    {{ row.completedQuestionsCount }}/{{ questions.length }}
+                  </span>
+                  <div class="progress-mini-bar">
+                    <div
+                      class="progress-mini-fill"
+                      [style.width.%]="row.completionRate"
+                      [class.bg-success]="row.completionRate >= 75"
+                      [class.bg-primary]="row.completionRate >= 35 && row.completionRate < 75"
+                      [class.bg-warning]="row.completionRate < 35 && row.completionRate > 0"
+                    ></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+        <!-- Column Summary Footer -->
+        <tfoot>
+          <tr class="tfoot-row">
+            <th class="sticky-student-col td-student font-weight-bold">
+              <span class="small text-muted">{{ 'TOTAL' | translate }}</span>
+            </th>
+            @for (summary of columnSummaries; track summary) {
+              <th class="text-center p-1">
+                <div class="col-summary-chip" [title]="summary.completedCount + ' / ' + rows.length + ' (' + (summary.completionRate | number:'1.0-0') + '%)'">
+                  <span class="summary-count font-weight-bold">{{ summary.completedCount }}</span>
+                  <span class="summary-pct small text-muted">{{ summary.completionRate | number:'1.0-0' }}%</span>
+                </div>
+              </th>
+            }
+            <th class="text-right pr-3"></th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  }
 </div>
 
 <!-- RICH CELL TOOLTIP TEMPLATE -->
 <ng-template #cellTooltipTemplate let-tooltipData="tooltipData">
-  <div *ngIf="tooltipData" class="matrix-tooltip-content" style="min-width: 200px; padding: 4px;">
-    <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
-      <div class="font-weight-bold" style="color: var(--color-text-primary); font-size: 0.95rem;">
-        {{ tooltipData.studentName }}
+  @if (tooltipData) {
+    <div class="matrix-tooltip-content" style="min-width: 200px; padding: 4px;">
+      <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+        <div class="font-weight-bold" style="color: var(--color-text-primary); font-size: 0.95rem;">
+          {{ tooltipData.studentName }}
+        </div>
+        @if (tooltipData.tpGroup) {
+          <span class="badge-group ml-2">
+            {{ tooltipData.tpGroup }}
+          </span>
+        }
       </div>
-      <span *ngIf="tooltipData.tpGroup" class="badge-group ml-2">
-        {{ tooltipData.tpGroup }}
-      </span>
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="badge badge-secondary px-2 py-1 font-weight-medium">
+          {{ tooltipData.question }}
+        </span>
+        <span
+          class="badge font-weight-bold px-2 py-1"
+          [style.background-color]="tooltipData.colorVar"
+          style="color: #ffffff;"
+          >
+          {{ tooltipData.stateLabelKey | translate }}
+        </span>
+      </div>
+      <div class="small text-muted mb-1 d-flex justify-content-between">
+        <span>{{ 'COMMITS-COUNT' | translate }} :</span>
+        <span class="font-weight-bold" style="color: var(--color-text-primary);">
+          {{ tooltipData.commitsCount }}
+        </span>
+      </div>
+      @if (tooltipData.inSessionCommitsCount > 0) {
+        <div class="small text-muted mb-1 d-flex justify-content-between">
+          <span>{{ 'SESSIONS-GRAPH.KPIS.IN_SESSION_COMMITS' | translate }} :</span>
+          <span class="font-weight-bold text-success">
+            {{ tooltipData.inSessionCommitsCount }}
+          </span>
+        </div>
+      }
+      @if (tooltipData.isClosedInSession) {
+        <div class="session-closing-notice small font-weight-medium text-warning mt-1">
+          <i class="fas fa-bolt mr-1"></i>
+          {{ 'SESSIONS-GRAPH.MATRIX.IN_SESSION_BADGE' | translate }}
+        </div>
+      }
+      @if (tooltipData.closingCommit?.commitDate) {
+        <div class="small text-muted mt-2 pt-1 border-top">
+          <span>{{ 'SESSIONS-GRAPH.MATRIX.VALIDATED_AT' | translate }} :</span>
+          <span class="font-weight-medium ml-1" style="color: var(--color-text-primary);">
+            {{ tooltipData.closingCommit.commitDate | date:'d MMM yyyy, HH:mm' }}
+          </span>
+        </div>
+      }
     </div>
-
-    <div class="d-flex align-items-center justify-content-between mb-2">
-      <span class="badge badge-secondary px-2 py-1 font-weight-medium">
-        {{ tooltipData.question }}
-      </span>
-      <span
-        class="badge font-weight-bold px-2 py-1"
-        [style.background-color]="tooltipData.colorVar"
-        style="color: #ffffff;"
-      >
-        {{ tooltipData.stateLabelKey | translate }}
-      </span>
-    </div>
-
-    <div class="small text-muted mb-1 d-flex justify-content-between">
-      <span>{{ 'COMMITS-COUNT' | translate }} :</span>
-      <span class="font-weight-bold" style="color: var(--color-text-primary);">
-        {{ tooltipData.commitsCount }}
-      </span>
-    </div>
-
-    <div *ngIf="tooltipData.inSessionCommitsCount > 0" class="small text-muted mb-1 d-flex justify-content-between">
-      <span>{{ 'SESSIONS-GRAPH.KPIS.IN_SESSION_COMMITS' | translate }} :</span>
-      <span class="font-weight-bold text-success">
-        {{ tooltipData.inSessionCommitsCount }}
-      </span>
-    </div>
-
-    <div *ngIf="tooltipData.isClosedInSession" class="session-closing-notice small font-weight-medium text-warning mt-1">
-      <i class="fas fa-bolt mr-1"></i>
-      {{ 'SESSIONS-GRAPH.MATRIX.IN_SESSION_BADGE' | translate }}
-    </div>
-
-    <div *ngIf="tooltipData.closingCommit?.commitDate" class="small text-muted mt-2 pt-1 border-top">
-      <span>{{ 'SESSIONS-GRAPH.MATRIX.VALIDATED_AT' | translate }} :</span>
-      <span class="font-weight-medium ml-1" style="color: var(--color-text-primary);">
-        {{ tooltipData.closingCommit.commitDate | date:'d MMM yyyy, HH:mm' }}
-      </span>
-    </div>
-  </div>
+  }
 </ng-template>

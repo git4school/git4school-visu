@@ -23,7 +23,7 @@
     class="btn btn-close-modal"
     (click)="close()"
     [attr.aria-label]="'ACCOUNTS.MODAL_CLOSE' | translate"
-  >
+    >
     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="18" y1="6" x2="6" y2="18"></line>
       <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -48,9 +48,9 @@
           titleKey: 'ACCOUNTS.PLATFORM_GITHUB_TITLE'
         }
       "
-    ></ng-container>
+  ></ng-container>
 
-    <ng-container
+  <ng-container
       *ngTemplateOutlet="
         cloudPlatformCard;
         context: {
@@ -63,50 +63,53 @@
           titleKey: 'ACCOUNTS.PLATFORM_GITLAB_TITLE'
         }
       "
-    ></ng-container>
+></ng-container>
 
-    <!-- Card 3: GitLab auto-hébergé (Multi-instances) -->
-    <div
-      class="platform-card platform-card-custom"
-      [class.selected]="selectedPlatform === 'gitlab-custom'"
-      [class.has-instances]="hasConnectedCustomInstances"
-      [class.is-dropdown-open]="isCustomDropdownOpen && hasConnectedCustomInstances"
-      (click)="onCustomCardClick($event)"
-      role="button"
-      tabindex="0"
-    >
-      <div class="card-top-row mb-1">
-        <div class="platform-icon-squircle gitlab-custom">
-          <svg viewBox="0 0 512 512" class="brand-svg" fill="currentColor">
-            <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
-          </svg>
-          <span class="sub-icon">
-            <svg viewBox="0 0 512 512" class="server-svg" fill="currentColor">
-              <path d="M480 160H32c-17.673 0-32-14.327-32-32V64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24z"/>
-            </svg>
-          </span>
-        </div>
-        <div *ngIf="hasConnectedCustomInstances" class="d-flex align-items-center" style="gap: 0.35rem;">
-          <span class="status-pill" [ngClass]="hasInvalidCustomInstance ? 'invalid' : 'connected'" [appTooltip]="hasInvalidCustomInstance ? ('TOKEN_HEALTH.INVALID_TOOLTIP' | translate) : null">
-            <span class="dot"></span>
-            {{ customInstancesCountText }}
-          </span>
-          <i class="fas fa-chevron-down card-chevron" [class.is-open]="isCustomDropdownOpen"></i>
-        </div>
+<!-- Card 3: GitLab auto-hébergé (Multi-instances) -->
+<div
+  class="platform-card platform-card-custom"
+  [class.selected]="selectedPlatform === 'gitlab-custom'"
+  [class.has-instances]="hasConnectedCustomInstances"
+  [class.is-dropdown-open]="isCustomDropdownOpen && hasConnectedCustomInstances"
+  (click)="onCustomCardClick($event)"
+  role="button"
+  tabindex="0"
+  >
+  <div class="card-top-row mb-1">
+    <div class="platform-icon-squircle gitlab-custom">
+      <svg viewBox="0 0 512 512" class="brand-svg" fill="currentColor">
+        <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
+      </svg>
+      <span class="sub-icon">
+        <svg viewBox="0 0 512 512" class="server-svg" fill="currentColor">
+          <path d="M480 160H32c-17.673 0-32-14.327-32-32V64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24z"/>
+        </svg>
+      </span>
+    </div>
+    @if (hasConnectedCustomInstances) {
+      <div class="d-flex align-items-center" style="gap: 0.35rem;">
+        <span class="status-pill" [ngClass]="hasInvalidCustomInstance ? 'invalid' : 'connected'" [appTooltip]="hasInvalidCustomInstance ? ('TOKEN_HEALTH.INVALID_TOOLTIP' | translate) : null">
+          <span class="dot"></span>
+          {{ customInstancesCountText }}
+        </span>
+        <i class="fas fa-chevron-down card-chevron" [class.is-open]="isCustomDropdownOpen"></i>
       </div>
-      <div class="platform-info">
-        <span class="platform-name">{{ 'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE' | translate }}</span>
-      </div>
+    }
+  </div>
+  <div class="platform-info">
+    <span class="platform-name">{{ 'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE' | translate }}</span>
+  </div>
 
-      <!-- Dropdown of connected instances -->
-      <div *ngIf="isCustomDropdownOpen && hasConnectedCustomInstances" class="custom-instances-dropdown" (click)="$event.stopPropagation()">
+  <!-- Dropdown of connected instances -->
+  @if (isCustomDropdownOpen && hasConnectedCustomInstances) {
+    <div class="custom-instances-dropdown" (click)="$event.stopPropagation()">
+      @for (acc of customGitlabAccounts; track acc) {
         <button
-          *ngFor="let acc of customGitlabAccounts"
           type="button"
           class="dropdown-instance-item"
           [class.active]="!showAddCustomInstanceForm && selectedCustomInstanceHost === acc.instanceHost"
           (click)="selectCustomInstance(acc.instanceHost)"
-        >
+          >
           <div class="d-flex align-items-center">
             <span class="instance-dot" [class.is-invalid]="acc.tokenStatus === 'invalid'"></span>
             <div class="instance-text">
@@ -114,32 +117,41 @@
               <span class="instance-meta text-muted">&#64;{{ acc.username }}</span>
             </div>
           </div>
-          <i *ngIf="!showAddCustomInstanceForm && selectedCustomInstanceHost === acc.instanceHost" class="fas fa-check check-mark"></i>
+          @if (!showAddCustomInstanceForm && selectedCustomInstanceHost === acc.instanceHost) {
+            <i class="fas fa-check check-mark"></i>
+          }
         </button>
-        <div class="dropdown-divider my-1"></div>
-        <button type="button" class="dropdown-instance-item add-new" (click)="openAddCustomInstanceForm()">
-          <div class="d-flex align-items-center">
-            <i class="fas fa-plus-circle mr-2"></i>
-            <span>{{ 'ACCOUNTS.ADD_ANOTHER_INSTANCE' | translate }}</span>
-          </div>
-        </button>
-      </div>
+      }
+      <div class="dropdown-divider my-1"></div>
+      <button type="button" class="dropdown-instance-item add-new" (click)="openAddCustomInstanceForm()">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-plus-circle mr-2"></i>
+          <span>{{ 'ACCOUNTS.ADD_ANOTHER_INSTANCE' | translate }}</span>
+        </div>
+      </button>
     </div>
-  </div>
+  }
+</div>
+</div>
 
-  <!-- Bottom: Refined Configuration Block for Selected Platform -->
-  <div class="config-card">
-    <!-- Config Card Header -->
-    <div class="config-card-header">
-      <div class="d-flex align-items-center">
-        <div class="config-brand-icon mr-2" [ngClass]="selectedPlatform">
-          <svg *ngIf="selectedPlatform === 'github'" viewBox="0 0 496 512" class="brand-svg" fill="currentColor">
+<!-- Bottom: Refined Configuration Block for Selected Platform -->
+<div class="config-card">
+  <!-- Config Card Header -->
+  <div class="config-card-header">
+    <div class="d-flex align-items-center">
+      <div class="config-brand-icon mr-2" [ngClass]="selectedPlatform">
+        @if (selectedPlatform === 'github') {
+          <svg viewBox="0 0 496 512" class="brand-svg" fill="currentColor">
             <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
           </svg>
-          <svg *ngIf="selectedPlatform === 'gitlab-cloud'" viewBox="0 0 512 512" class="brand-svg" fill="currentColor">
+        }
+        @if (selectedPlatform === 'gitlab-cloud') {
+          <svg viewBox="0 0 512 512" class="brand-svg" fill="currentColor">
             <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
           </svg>
-          <span *ngIf="selectedPlatform === 'gitlab-custom'" class="gitlab-custom-icon-wrap">
+        }
+        @if (selectedPlatform === 'gitlab-custom') {
+          <span class="gitlab-custom-icon-wrap">
             <svg viewBox="0 0 512 512" class="brand-svg" fill="currentColor">
               <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
             </svg>
@@ -147,48 +159,57 @@
               <path d="M480 160H32c-17.673 0-32-14.327-32-32V64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24z"/>
             </svg>
           </span>
-        </div>
-        <div>
-          <span class="config-brand-name">
-            <ng-container *ngIf="selectedPlatform === 'github'">{{ 'ACCOUNTS.PLATFORM_GITHUB_TITLE' | translate }}</ng-container>
-            <ng-container *ngIf="selectedPlatform === 'gitlab-cloud'">{{ 'ACCOUNTS.PLATFORM_GITLAB_TITLE' | translate }}</ng-container>
-            <ng-container *ngIf="selectedPlatform === 'gitlab-custom'">
-              <span *ngIf="!showAddCustomInstanceForm && selectedCustomAccount as acc">GitLab ({{ acc.instanceName || acc.instanceHost }})</span>
-              <span *ngIf="showAddCustomInstanceForm || !selectedCustomAccount">{{ 'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE' | translate }}</span>
-            </ng-container>
-          </span>
-          <span class="config-brand-type ml-2">
-            {{ platformAuthTypeKey | translate }}
-          </span>
-        </div>
+        }
       </div>
-      <span class="scope-pill">
-        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-        </svg>
-        {{ 'ACCOUNTS.SCOPE_LABEL' | translate }} : <strong>{{ selectedPlatform === 'github' ? 'repo' : 'read_api, read_user' }}</strong>
-      </span>
+      <div>
+        <span class="config-brand-name">
+          @if (selectedPlatform === 'github') {
+            {{ 'ACCOUNTS.PLATFORM_GITHUB_TITLE' | translate }}
+          }
+          @if (selectedPlatform === 'gitlab-cloud') {
+            {{ 'ACCOUNTS.PLATFORM_GITLAB_TITLE' | translate }}
+          }
+          @if (selectedPlatform === 'gitlab-custom') {
+            @if (!showAddCustomInstanceForm && selectedCustomAccount; as acc) {
+              <span>GitLab ({{ acc.instanceName || acc.instanceHost }})</span>
+            }
+            @if (showAddCustomInstanceForm || !selectedCustomAccount) {
+              <span>{{ 'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE' | translate }}</span>
+            }
+          }
+        </span>
+        <span class="config-brand-type ml-2">
+          {{ platformAuthTypeKey | translate }}
+        </span>
+      </div>
     </div>
+    <span class="scope-pill">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
+      {{ 'ACCOUNTS.SCOPE_LABEL' | translate }} : <strong>{{ selectedPlatform === 'github' ? 'repo' : 'read_api, read_user' }}</strong>
+    </span>
+  </div>
 
-    <!-- Config Card Content -->
-    <div class="config-card-body">
-      <!-- 1 & 2. GITHUB OR GITLAB CLOUD (Unified via templates) -->
-      <ng-container *ngIf="selectedPlatform !== 'gitlab-custom' && currentProvider as provider">
-        <ng-container *ngIf="isConnected && connectedAccount as account">
-          <ng-container
-            *ngTemplateOutlet="connectedPanel; context: { provider: provider, account: account, profileUrl: profileUrl, isCustom: false }"
-          ></ng-container>
-        </ng-container>
-        <ng-container *ngIf="!isConnected">
-          <ng-container *ngTemplateOutlet="disconnectedPanel; context: { provider: provider }"></ng-container>
-        </ng-container>
-      </ng-container>
+  <!-- Config Card Content -->
+  <div class="config-card-body">
+    <!-- 1 & 2. GITHUB OR GITLAB CLOUD (Unified via templates) -->
+    @if (selectedPlatform !== 'gitlab-custom' && currentProvider; as provider) {
+      @if (isConnected && connectedAccount; as account) {
+        <ng-container
+          *ngTemplateOutlet="connectedPanel; context: { provider: provider, account: account, profileUrl: profileUrl, isCustom: false }"
+        ></ng-container>
+      }
+      @if (!isConnected) {
+        <ng-container *ngTemplateOutlet="disconnectedPanel; context: { provider: provider }"></ng-container>
+      }
+    }
 
-      <!-- 3. GITLAB CUSTOM SELECTED -->
-      <ng-container *ngIf="selectedPlatform === 'gitlab-custom'">
-        <!-- 3A. An instance is selected and active (view mode) -->
-        <ng-container *ngIf="!showAddCustomInstanceForm && selectedCustomAccount as account">
-          <ng-container
+    <!-- 3. GITLAB CUSTOM SELECTED -->
+    @if (selectedPlatform === 'gitlab-custom') {
+      <!-- 3A. An instance is selected and active (view mode) -->
+      @if (!showAddCustomInstanceForm && selectedCustomAccount; as account) {
+        <ng-container
             *ngTemplateOutlet="
               connectedPanel;
               context: {
@@ -199,117 +220,117 @@
                 isCustom: true
               }
             "
-          ></ng-container>
-        </ng-container>
-
-        <!-- 3B. Add / Connect instance form -->
-        <ng-container *ngIf="showAddCustomInstanceForm || customGitlabAccounts.length === 0">
-          <div class="custom-instance-form">
-            <p class="auth-description mb-3 text-center">
-              {{ 'ACCOUNTS.CUSTOM_GITLAB_INFO' | translate }}
-            </p>
-
-            <div class="form-group mb-2 text-left">
-              <label class="form-label-custom">{{ 'ACCOUNTS.INSTANCE_URL_LABEL' | translate }} *</label>
-              <input
-                type="text"
-                class="form-control form-control-sm modern-input"
-                [(ngModel)]="gitlabInstanceUrl"
-                [placeholder]="'ACCOUNTS.INSTANCE_URL_PLACEHOLDER' | translate"
+      ></ng-container>
+    }
+    <!-- 3B. Add / Connect instance form -->
+    @if (showAddCustomInstanceForm || customGitlabAccounts.length === 0) {
+      <div class="custom-instance-form">
+        <p class="auth-description mb-3 text-center">
+          {{ 'ACCOUNTS.CUSTOM_GITLAB_INFO' | translate }}
+        </p>
+        <div class="form-group mb-2 text-left">
+          <label class="form-label-custom">{{ 'ACCOUNTS.INSTANCE_URL_LABEL' | translate }} *</label>
+          <input
+            type="text"
+            class="form-control form-control-sm modern-input"
+            [(ngModel)]="gitlabInstanceUrl"
+            [placeholder]="'ACCOUNTS.INSTANCE_URL_PLACEHOLDER' | translate"
+            />
+        </div>
+        <div class="form-group mb-2 text-left">
+          <label class="form-label-custom">{{ 'ACCOUNTS.INSTANCE_ALIAS_LABEL' | translate }}</label>
+          <input
+            type="text"
+            class="form-control form-control-sm modern-input"
+            [(ngModel)]="gitlabInstanceAlias"
+            [placeholder]="'ACCOUNTS.INSTANCE_ALIAS_PLACEHOLDER' | translate"
+            />
+        </div>
+        <div class="form-group mb-3 text-left">
+          <label class="form-label-custom">{{ 'ACCOUNTS.PAT_LABEL' | translate }} *</label>
+          <input
+            type="password"
+            class="form-control form-control-sm modern-input"
+            [(ngModel)]="gitlabToken"
+            [placeholder]="'ACCOUNTS.PAT_PLACEHOLDER' | translate"
+            />
+          <small class="form-text-muted mt-1 d-block">{{ 'ACCOUNTS.PAT_HELP' | translate }}</small>
+        </div>
+        <!-- Remember Me Option with Risk Info Tooltip (Custom PAT) -->
+        <div class="remember-me-row mb-3 d-flex align-items-center justify-content-center">
+          <label class="remember-me-label d-inline-flex align-items-center mb-0" for="rememberMeCustomCheckbox">
+            <input
+              type="checkbox"
+              id="rememberMeCustomCheckbox"
+              class="remember-me-checkbox-input sr-only"
+              [(ngModel)]="rememberMe"
               />
-            </div>
-
-            <div class="form-group mb-2 text-left">
-              <label class="form-label-custom">{{ 'ACCOUNTS.INSTANCE_ALIAS_LABEL' | translate }}</label>
-              <input
-                type="text"
-                class="form-control form-control-sm modern-input"
-                [(ngModel)]="gitlabInstanceAlias"
-                [placeholder]="'ACCOUNTS.INSTANCE_ALIAS_PLACEHOLDER' | translate"
-              />
-            </div>
-
-            <div class="form-group mb-3 text-left">
-              <label class="form-label-custom">{{ 'ACCOUNTS.PAT_LABEL' | translate }} *</label>
-              <input
-                type="password"
-                class="form-control form-control-sm modern-input"
-                [(ngModel)]="gitlabToken"
-                [placeholder]="'ACCOUNTS.PAT_PLACEHOLDER' | translate"
-              />
-              <small class="form-text-muted mt-1 d-block">{{ 'ACCOUNTS.PAT_HELP' | translate }}</small>
-            </div>
-
-            <!-- Remember Me Option with Risk Info Tooltip (Custom PAT) -->
-            <div class="remember-me-row mb-3 d-flex align-items-center justify-content-center">
-              <label class="remember-me-label d-inline-flex align-items-center mb-0" for="rememberMeCustomCheckbox">
-                <input
-                  type="checkbox"
-                  id="rememberMeCustomCheckbox"
-                  class="remember-me-checkbox-input sr-only"
-                  [(ngModel)]="rememberMe"
-                />
-                <span class="remember-me-checkbox-custom mr-2" [class.checked]="rememberMe">
-                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </span>
-                <span class="remember-me-text">{{ 'ACCOUNTS.REMEMBER_ME' | translate }}</span>
-              </label>
-
-              <span
-                class="remember-me-info-trigger ml-2"
-                [appTooltip]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
-                placement="top"
-                tabindex="0"
-                role="button"
-                [attr.aria-label]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+            <span class="remember-me-checkbox-custom mr-2" [class.checked]="rememberMe">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+            <span class="remember-me-text">{{ 'ACCOUNTS.REMEMBER_ME' | translate }}</span>
+          </label>
+          <span
+            class="remember-me-info-trigger ml-2"
+            [appTooltip]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+            placement="top"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+            >
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </span>
+        </div>
+        <div class="d-flex align-items-center justify-content-center" style="gap: 0.75rem;">
+          @if (customGitlabAccounts.length > 0) {
+            <button
+              type="button"
+              class="btn-pill-secondary"
+              (click)="cancelAddCustomInstanceForm()"
               >
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="16" x2="12" y2="12"></line>
-                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-              </span>
-            </div>
-
-            <div class="d-flex align-items-center justify-content-center" style="gap: 0.75rem;">
-              <button
-                *ngIf="customGitlabAccounts.length > 0"
-                type="button"
-                class="btn-pill-secondary"
-                (click)="cancelAddCustomInstanceForm()"
-              >
-                {{ 'CANCEL' | translate }}
-              </button>
-              <button
-                type="button"
-                class="btn-connect-cta"
-                (click)="submitGitlabCustom()"
-                [disabled]="isConnecting || !gitlabInstanceUrl || !gitlabToken"
-              >
-                <span *ngIf="isConnecting" class="spinner-border spinner-border-sm mr-2" role="status"></span>
-                <svg *ngIf="!isConnecting" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">
-                  <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
-                </svg>
-                <span>{{ 'ACCOUNTS.CONNECT_BTN' | translate }}</span>
-              </button>
-            </div>
-          </div>
-        </ng-container>
-      </ng-container>
-
-      <!-- Error banner inside card if any -->
-      <div *ngIf="errorMessage" class="error-banner mt-3">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-danger">
-          <circle cx="12" cy="10" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="12"></line>
-          <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-        <span>{{ errorMessage }}</span>
+              {{ 'CANCEL' | translate }}
+            </button>
+          }
+          <button
+            type="button"
+            class="btn-connect-cta"
+            (click)="submitGitlabCustom()"
+            [disabled]="isConnecting || !gitlabInstanceUrl || !gitlabToken"
+            >
+            @if (isConnecting) {
+              <span class="spinner-border spinner-border-sm mr-2" role="status"></span>
+            }
+            @if (!isConnecting) {
+              <svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">
+                <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
+              </svg>
+            }
+            <span>{{ 'ACCOUNTS.CONNECT_BTN' | translate }}</span>
+          </button>
+        </div>
       </div>
+    }
+  }
+
+  <!-- Error banner inside card if any -->
+  @if (errorMessage) {
+    <div class="error-banner mt-3">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-danger">
+        <circle cx="12" cy="10" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <span>{{ errorMessage }}</span>
     </div>
-  </div>
+  }
+</div>
+</div>
 </div>
 
 <!-- Reusable Template: Connected State -->
@@ -320,26 +341,31 @@
   let-profileUrl="profileUrl"
   let-instanceLabel="instanceLabel"
   let-isCustom="isCustom"
->
+  >
   <div class="connected-user-panel" [class.is-invalid-token]="isCurrentTokenInvalid">
     <div class="user-profile-row">
       <div class="avatar-container mr-3">
-        <img
-          *ngIf="account.avatarUrl"
-          [src]="account.avatarUrl"
-          [alt]="account.username"
-          class="user-avatar-img"
-          (error)="account.avatarUrl = null"
-        />
-        <div *ngIf="!account.avatarUrl" class="user-avatar-fallback">
-          {{ (account.username || 'U').charAt(0).toUpperCase() }}
-        </div>
-        <div *ngIf="isCurrentTokenInvalid" class="account-avatar-invalid-overlay" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" class="invalid-mark-svg">
-            <line x1="12" y1="5" x2="12" y2="13"></line>
-            <line x1="12" y1="18" x2="12.01" y2="18"></line>
-          </svg>
-        </div>
+        @if (account.avatarUrl) {
+          <img
+            [src]="account.avatarUrl"
+            [alt]="account.username"
+            class="user-avatar-img"
+            (error)="account.avatarUrl = null"
+            />
+        }
+        @if (!account.avatarUrl) {
+          <div class="user-avatar-fallback">
+            {{ (account.username || 'U').charAt(0).toUpperCase() }}
+          </div>
+        }
+        @if (isCurrentTokenInvalid) {
+          <div class="account-avatar-invalid-overlay" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" class="invalid-mark-svg">
+              <line x1="12" y1="5" x2="12" y2="13"></line>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+          </div>
+        }
       </div>
       <div class="user-meta-group">
         <div class="username-link-row">
@@ -350,7 +376,7 @@
             class="username-link"
             [appTooltip]="account.username || provider?.name"
             [onlyIfTruncated]="true"
-          >
+            >
             <span>{{ account.username || provider?.name }}</span>
             <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon ml-1">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -358,11 +384,15 @@
               <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
           </a>
-          <span *ngIf="instanceLabel" class="instance-badge-chip ml-2">{{ instanceLabel }}</span>
-          <span *ngIf="isCurrentTokenInvalid" class="status-pill invalid ml-2" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-            <span class="dot"></span>
-            {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
-          </span>
+          @if (instanceLabel) {
+            <span class="instance-badge-chip ml-2">{{ instanceLabel }}</span>
+          }
+          @if (isCurrentTokenInvalid) {
+            <span class="status-pill invalid ml-2" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
+              <span class="dot"></span>
+              {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
+            </span>
+          }
         </div>
       </div>
     </div>
@@ -375,7 +405,7 @@
         (click)="isCustom ? onDisconnectCustomClick($event) : onDisconnectClick($event)"
         [disabled]="isConnecting"
         [attr.aria-label]="(isConfirmingDisconnect ? 'CONFIRM' : 'ACCOUNTS.DISCONNECT') | translate"
-      >
+        >
         <span class="btn-morph-content">
           <span class="morph-state normal-state">
             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -402,7 +432,7 @@
         [attr.aria-label]="'CANCEL' | translate"
         [attr.tabindex]="isConfirmingDisconnect ? 0 : -1"
         [attr.aria-hidden]="!isConfirmingDisconnect"
-      >
+        >
         <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -417,12 +447,12 @@
 <ng-template #disconnectedPanel let-provider="provider">
   <div class="disconnected-panel text-center">
     <p class="auth-description mb-3">
-      <ng-container *ngIf="provider.provider === 'github'">
+      @if (provider.provider === 'github') {
         {{ 'ACCOUNTS.OAUTH_FIREBASE_DESC' | translate:{ provider: 'GitHub' } }}
-      </ng-container>
-      <ng-container *ngIf="provider.provider === 'gitlab'">
+      }
+      @if (provider.provider === 'gitlab') {
         {{ 'ACCOUNTS.OAUTH_GITLAB_DESC' | translate }}
-      </ng-container>
+      }
     </p>
 
     <!-- Remember Me Option with Risk Info Tooltip -->
@@ -433,7 +463,7 @@
           id="rememberMeCheckbox"
           class="remember-me-checkbox-input sr-only"
           [(ngModel)]="rememberMe"
-        />
+          />
         <span class="remember-me-checkbox-custom mr-2" [class.checked]="rememberMe">
           <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
             <polyline points="20 6 9 17 4 12"></polyline>
@@ -449,7 +479,7 @@
         tabindex="0"
         role="button"
         [attr.aria-label]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
-      >
+        >
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"></circle>
           <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -463,16 +493,22 @@
       class="btn-connect-cta"
       (click)="submitConnect()"
       [disabled]="isConnecting"
-    >
-      <span *ngIf="isConnecting" class="spinner-border spinner-border-sm mr-2" role="status"></span>
-      <ng-container *ngIf="!isConnecting">
-        <svg *ngIf="provider.provider === 'github'" viewBox="0 0 496 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">
-          <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
-        </svg>
-        <svg *ngIf="provider.provider === 'gitlab'" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">
-          <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
-        </svg>
-      </ng-container>
+      >
+      @if (isConnecting) {
+        <span class="spinner-border spinner-border-sm mr-2" role="status"></span>
+      }
+      @if (!isConnecting) {
+        @if (provider.provider === 'github') {
+          <svg viewBox="0 0 496 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">
+            <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
+          </svg>
+        }
+        @if (provider.provider === 'gitlab') {
+          <svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">
+            <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
+          </svg>
+        }
+      }
       <span>{{ (isConnecting ? 'ACCOUNTS.CONNECTING' : 'ACCOUNTS.OAUTH_CONNECT_BTN') | translate:{ provider: provider.name } }}</span>
     </button>
   </div>
@@ -488,7 +524,7 @@
   let-connected="connected"
   let-invalid="invalid"
   let-titleKey="titleKey"
->
+  >
   <div class="platform-card" [class.selected]="selectedPlatform === key" (click)="selectPlatform(key)" role="button" tabindex="0">
     <div class="card-top-row mb-1">
       <div class="platform-icon-squircle" [ngClass]="iconClass">
@@ -496,14 +532,18 @@
           <path [attr.d]="iconPath" />
         </svg>
       </div>
-      <span *ngIf="connected && !invalid" class="status-pill connected">
-        <span class="dot"></span>
-        {{ 'ACCOUNTS.ACTIVE' | translate }}
-      </span>
-      <span *ngIf="connected && invalid" class="status-pill invalid" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-        <span class="dot"></span>
-        {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
-      </span>
+      @if (connected && !invalid) {
+        <span class="status-pill connected">
+          <span class="dot"></span>
+          {{ 'ACCOUNTS.ACTIVE' | translate }}
+        </span>
+      }
+      @if (connected && invalid) {
+        <span class="status-pill invalid" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
+          <span class="dot"></span>
+          {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
+        </span>
+      }
     </div>
     <div class="platform-info">
       <span class="platform-name">{{ titleKey | translate }}</span>
