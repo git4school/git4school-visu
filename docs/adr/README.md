@@ -22,6 +22,7 @@ Ce répertoire contient l'historique formalisé de toutes les décisions d'archi
 | [0010](./0010-sauvegarde-automatique-de-la-configuration-du-devoir.md) | Sauvegarde automatique de la configuration d'un devoir (debounce & flush) | Persistance / UX | `Accepté` |
 | [0011](./0011-placement-du-filtre-de-groupe-de-tp.md) | Placement du filtre de groupe de TP | Ergonomie UI / Navigation | `Accepté` |
 | [0012](./0012-duplication-et-archivage-des-devoirs.md) | Duplication et archivage des devoirs depuis la liste d'accueil | Modèle Métier / UX | `Accepté` |
+| [0013](./0013-migration-vers-angular-21-et-vite.md) | Migration vers Angular 21 LTS et l'outillage de build Vite/esbuild | Build / Outillage | `Accepté` |
 
 ---
 

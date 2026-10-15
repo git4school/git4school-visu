@@ -18,6 +18,9 @@
     "serve-user-docs": "cd user-docs && bundle exec jekyll serve --watch"
   },
   "private": true,
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+  },
   "resolutions": {
     "caniuse-lite": "^1.0.30001816"
   },
@@ -57,7 +60,7 @@
     "@compodoc/compodoc": "^1.1.11",
     "@types/d3": "^7.4.3",
     "@types/jasmine": "~3.6.0",
-    "@types/node": "^12.11.1",
+    "@types/node": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^8.57.1",

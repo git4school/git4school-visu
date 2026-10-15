@@ -1,7 +1,6 @@
 # Plan de migration — Angular 21 LTS & outillage Vite
 
-> Statut : **Proposition** (à valider). Aucune décision n'est encore enregistrée.
-> Une fois validé, ce plan doit donner lieu à un ADR (`docs/adr/0013-*.md`, statut `Proposé` → `Accepté`).
+> Statut : **Réalisé**. Décision enregistrée dans l'ADR [`0013`](../adr/0013-migration-vers-angular-21-et-vite.md).
 
 ---
 
