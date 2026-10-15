@@ -1,3 +1,4 @@
+@use "sass:map";
 @import 'variables';
 
 @mixin glassmorphism($bg: $glass-bg, $border: $glass-border) {
@@ -16,11 +17,11 @@ $breakpoints: (
 );
 
 @mixin media-up($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (min-width: map-get($breakpoints, $breakpoint)) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
       @content;
     }
   } @else {
-    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. Available breakpoints are: #{map-keys($breakpoints)}.";
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. Available breakpoints are: #{map.keys($breakpoints)}.";
   }
 }

@@ -397,7 +397,7 @@ flowchart TB
   4. **Adaptations d'interop esbuild** : `moment` et `firebase` en **import par défaut** (fin des `import * as`), remplacement du `require("../../package.json")` par un import JSON, suppression de l'import Node `assert`, points d'entrée `zone.js` modernisés.
   5. **Outillage lint remis à niveau** (ESLint 8, `typescript-eslint` 8, `@angular-eslint` 21) pour supporter TypeScript 5.9.
 - **Bénéfice majeur** : Builds esbuild nettement plus rapides (~12 s), HMR Vite en développement, plus aucune dépendance webpack sur le chemin build/serve.
-- **Dette restante assumée** : `firebase` 7 non modulaire (CommonJS), `rxjs` 6 → 7, runner de tests encore Karma (migration Vitest suivie à part).
+- **Dette restante assumée** : `firebase` 7 non modulaire (CommonJS), `rxjs` 6 → 7, runner de tests encore Karma (migration Vitest suivie à part). Les dépréciations Dart Sass `@import` sont silencées dans la configuration (global built-ins et division `/` corrigés ; migration vers `@use` à planifier).
 - 📄 Consulter l'ADR complet : [`docs/adr/0013-migration-vers-angular-21-et-vite.md`](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0013-migration-vers-angular-21-et-vite.md)
 
 ---

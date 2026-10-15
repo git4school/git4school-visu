@@ -61,7 +61,12 @@
               "includePaths": [
                 "src",
                 "src/styles"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -88,8 +93,13 @@
                   "maximumWarning": "6kb"
                 }
               ]
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular/build:dev-server",
@@ -99,8 +109,12 @@
           "configurations": {
             "production": {
               "buildTarget": "git4school:build:production"
+            },
+            "development": {
+              "buildTarget": "git4school:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n",

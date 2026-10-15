@@ -15,7 +15,7 @@ Le projet tournait sur **Angular 11.0.6** (décembre 2020) avec le build **webpa
 - `ng build` (esbuild, ~12 s) et `ng serve` (**Vite**) ; plus aucune dépendance **webpack** sur le chemin build/serve.
 - **Node 24 LTS** requis ; le drapeau `NODE_OPTIONS=--openssl-legacy-provider` (ancien webpack 4) devient inutile.
 - **Tests : 330/330** sur Karma.
-- Dette restante assumée : `firebase` 7 (CommonJS non modulaire), `rxjs` 6 → 7, migration des tests vers Vitest, stylelint préexistant non vert, `allowedCommonJsDependencies` à renseigner pour silencer les avertissements esbuild (`moment`, `firebase`).
+- Dette restante assumée : `firebase` 7 (CommonJS non modulaire), `rxjs` 6 → 7, migration des tests vers Vitest, stylelint préexistant non vert. Les avertissements esbuild CommonJS sont silencés via `allowedCommonJsDependencies` ; les dépréciations Dart Sass `@import` sont silencées via `stylePreprocessorOptions.sass.silenceDeprecations` (les global built-ins et la division `/` ont, eux, été corrigés ; une migration vers `@use` reste à planifier).
 - Sortie de build conservée à `dist/git4school` (via `outputPath: { base, browser: "" }`) pour ne pas casser l'hébergement Firebase.
 
 ## Alternatives écartées
