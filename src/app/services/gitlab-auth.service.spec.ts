@@ -12,9 +12,9 @@ describe("GitlabAuthService", () => {
     localStorage.clear();
 
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [GitlabAuthService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
+      imports: [],
+      providers: [GitlabAuthService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
+    });
 
     service = TestBed.inject(GitlabAuthService);
     httpMock = TestBed.inject(HttpTestingController);

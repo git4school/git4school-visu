@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
 @Component({
-    selector: "help-nav-item",
-    templateUrl: "./help-nav-item.component.html",
-    styleUrls: ["./help-nav-item.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: "help-nav-item",
+  templateUrl: "./help-nav-item.component.html",
+  styleUrls: ["./help-nav-item.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class HelpNavItemComponent implements OnInit {
   constructor() {}

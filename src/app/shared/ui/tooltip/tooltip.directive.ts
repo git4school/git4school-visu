@@ -2,8 +2,8 @@ import { Directive, ElementRef, HostListener, Input, OnDestroy, TemplateRef } fr
 import { TooltipService } from "../../../services/tooltip.service";
 
 @Directive({
-    selector: "[appTooltip]",
-    standalone: false
+  selector: "[appTooltip]",
+  standalone: false,
 })
 export class TooltipDirective implements OnDestroy {
   @Input("appTooltip") content: string | TemplateRef<any> | { text: string | TemplateRef<any>; shortcut?: string[] } = "";

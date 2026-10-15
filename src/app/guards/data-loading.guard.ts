@@ -10,7 +10,7 @@ import { CommitsComponent } from "@components/graphs/commits/commits.component";
 @Injectable({
   providedIn: "root",
 })
-export class DataLoadingGuard  {
+export class DataLoadingGuard {
   /**
    * Allows to leave the component if the loading is completed
    * @param component The component currently calling this method

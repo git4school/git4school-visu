@@ -18,11 +18,11 @@ import { OsUtils } from "@utils/os.utils";
 import * as d3 from "d3";
 
 @Component({
-    selector: "students",
-    templateUrl: "./students.component.html",
-    styleUrls: ["./students.component.scss"],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: "students",
+  templateUrl: "./students.component.html",
+  styleUrls: ["./students.component.scss"],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class StudentsComponent extends BaseGraphComponent implements OnInit, OnDestroy {
   @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;

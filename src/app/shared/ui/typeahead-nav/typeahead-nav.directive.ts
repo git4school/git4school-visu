@@ -7,8 +7,8 @@ import { Directive, ElementRef, HostListener, NgZone, OnDestroy, Renderer2 } fro
  * so synthetic mouseenter events from stationary cursors cannot steal or flicker the selection.
  */
 @Directive({
-    selector: "input[ngbTypeahead]",
-    standalone: false
+  selector: "input[ngbTypeahead]",
+  standalone: false,
 })
 export class TypeaheadKeyboardNavDirective implements OnDestroy {
   private isKeyboardNav = false;

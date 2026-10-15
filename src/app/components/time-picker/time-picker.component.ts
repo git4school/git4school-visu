@@ -15,11 +15,11 @@ import {
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-    selector: "app-time-picker",
-    templateUrl: "./time-picker.component.html",
-    styleUrls: ["./time-picker.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: "app-time-picker",
+  templateUrl: "./time-picker.component.html",
+  styleUrls: ["./time-picker.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TimePickerComponent implements OnInit, OnChanges {
   @Input() mode: "single" | "period" = "single";

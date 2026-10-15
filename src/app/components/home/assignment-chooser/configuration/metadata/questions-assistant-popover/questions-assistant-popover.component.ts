@@ -5,10 +5,10 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-    selector: "app-questions-assistant-popover",
-    templateUrl: "./questions-assistant-popover.component.html",
-    styleUrls: ["./questions-assistant-popover.component.scss"],
-    standalone: false
+  selector: "app-questions-assistant-popover",
+  templateUrl: "./questions-assistant-popover.component.html",
+  styleUrls: ["./questions-assistant-popover.component.scss"],
+  standalone: false,
 })
 export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
   @Input() public closingMode: QuestionClosingMode = "standard";

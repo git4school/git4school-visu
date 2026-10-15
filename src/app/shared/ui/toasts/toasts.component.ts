@@ -3,19 +3,19 @@ import { Toast, ToastService } from "@services/toast.service";
 import { trigger, transition, style, animate } from "@angular/animations";
 
 @Component({
-    selector: "app-toasts",
-    templateUrl: "./toasts.component.html",
-    styleUrls: ["./toasts.component.scss"],
-    animations: [
-        trigger("toastEntry", [
-            transition(":enter", [
-                style({ transform: "translateY(100%)", opacity: 0 }),
-                animate("0.4s cubic-bezier(0.2, 1, 0.2, 1)", style({ transform: "translateY(0)", opacity: 1 })),
-            ]),
-            transition(":leave", [animate("0.3s ease-in", style({ transform: "scale(0.9)", opacity: 0 }))]),
-        ]),
-    ],
-    standalone: false
+  selector: "app-toasts",
+  templateUrl: "./toasts.component.html",
+  styleUrls: ["./toasts.component.scss"],
+  animations: [
+    trigger("toastEntry", [
+      transition(":enter", [
+        style({ transform: "translateY(100%)", opacity: 0 }),
+        animate("0.4s cubic-bezier(0.2, 1, 0.2, 1)", style({ transform: "translateY(0)", opacity: 1 })),
+      ]),
+      transition(":leave", [animate("0.3s ease-in", style({ transform: "scale(0.9)", opacity: 0 }))]),
+    ]),
+  ],
+  standalone: false,
 })
 export class ToastsComponent implements OnInit, AfterViewChecked {
   toasts: Toast[] = [];

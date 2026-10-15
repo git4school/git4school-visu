@@ -23,15 +23,15 @@ describe("GitlabDataService", () => {
     } as any;
 
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         GitlabDataService,
         { provide: GitlabAuthService, useValue: gitlabAuthServiceSpy },
         { provide: TranslateService, useValue: translateServiceSpy },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ]
-});
+      ],
+    });
 
     service = TestBed.inject(GitlabDataService);
     httpMock = TestBed.inject(HttpTestingController);

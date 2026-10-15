@@ -6,10 +6,10 @@ import { OverlayManagerService, OverlayType } from "@services/overlay-manager.se
 import { AddAccountModalComponent } from "./add-account-modal/add-account-modal.component";
 
 @Component({
-    selector: "app-accounts",
-    templateUrl: "./accounts.component.html",
-    styleUrls: ["./accounts.component.scss"],
-    standalone: false
+  selector: "app-accounts",
+  templateUrl: "./accounts.component.html",
+  styleUrls: ["./accounts.component.scss"],
+  standalone: false,
 })
 export class AccountsComponent implements OnInit {
   confirmDisconnectId: string | null = null;

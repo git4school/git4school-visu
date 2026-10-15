@@ -32,7 +32,6 @@ module.exports = {
     rules: {
         "@angular-eslint/component-class-suffix": "error",
         "@angular-eslint/directive-class-suffix": "error",
-        "@angular-eslint/no-host-metadata-property": "error",
         "@angular-eslint/no-input-rename": "error",
         "@angular-eslint/no-inputs-metadata-property": "error",
         "@angular-eslint/no-output-on-prefix": "error",
@@ -79,15 +78,12 @@ module.exports = {
                 args: "after-used",
                 argsIgnorePattern: "^_",
                 varsIgnorePattern: "^_",
-                ignoreRestSiblings: true
+                ignoreRestSiblings: true,
+                caughtErrors: "none"
             }
         ],
         "@typescript-eslint/no-non-null-assertion": "error",
         "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/quotes": [
-            "error",
-            "double"
-        ],
         "@typescript-eslint/semi": [
             "off",
             null

@@ -34,9 +34,15 @@ describe("GithubAuthService", () => {
     spyOn(firebase, "auth").and.returnValue(mockFirebaseAuth);
 
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [GithubAuthService, { provide: Router, useValue: routerSpy }, { provide: ToastService, useValue: toastSpy }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
+      imports: [],
+      providers: [
+        GithubAuthService,
+        { provide: Router, useValue: routerSpy },
+        { provide: ToastService, useValue: toastSpy },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
 
     service = TestBed.inject(GithubAuthService);
     httpMock = TestBed.inject(HttpTestingController);

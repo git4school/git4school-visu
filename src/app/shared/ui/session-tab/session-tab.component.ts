@@ -72,10 +72,10 @@ const AUTO_REFRESH_MS = 3 * MINUTE_MS;
  * Mounted inside the assignment layout, so it never shows on the assignment list.
  */
 @Component({
-    selector: "app-session-tab",
-    templateUrl: "./session-tab.component.html",
-    styleUrls: ["./session-tab.component.scss"],
-    standalone: false
+  selector: "app-session-tab",
+  templateUrl: "./session-tab.component.html",
+  styleUrls: ["./session-tab.component.scss"],
+  standalone: false,
 })
 export class SessionTabComponent implements OnInit, OnDestroy {
   readonly upcomingWindowMs = 5 * MINUTE_MS;

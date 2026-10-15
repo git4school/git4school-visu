@@ -17,18 +17,18 @@ describe("GitlabAuthInterceptor", () => {
     );
 
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         { provide: GitlabAuthService, useValue: gitlabAuthServiceSpy },
         {
-            provide: HTTP_INTERCEPTORS,
-            useClass: GitlabAuthInterceptor,
-            multi: true,
+          provide: HTTP_INTERCEPTORS,
+          useClass: GitlabAuthInterceptor,
+          multi: true,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ]
-});
+      ],
+    });
 
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);

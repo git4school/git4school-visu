@@ -14,10 +14,10 @@ import { OverlayManagerService, OverlayType } from "@services/overlay-manager.se
  * `DataService.groupFilter$`. Le raccourci `G` (géré par la navbar) appelle `toggle()`.
  */
 @Component({
-    selector: "app-tp-group-selector",
-    templateUrl: "./tp-group-selector.component.html",
-    styleUrls: ["./tp-group-selector.component.scss"],
-    standalone: false
+  selector: "app-tp-group-selector",
+  templateUrl: "./tp-group-selector.component.html",
+  styleUrls: ["./tp-group-selector.component.scss"],
+  standalone: false,
 })
 export class TpGroupSelectorComponent implements OnDestroy {
   @Input() groups: string[] = [];

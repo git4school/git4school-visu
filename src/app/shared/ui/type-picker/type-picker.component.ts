@@ -18,17 +18,17 @@ export interface TypePickerOption {
 }
 
 @Component({
-    selector: "app-type-picker",
-    templateUrl: "./type-picker.component.html",
-    styleUrls: ["./type-picker.component.scss"],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => TypePickerComponent),
-            multi: true,
-        },
-    ],
-    standalone: false
+  selector: "app-type-picker",
+  templateUrl: "./type-picker.component.html",
+  styleUrls: ["./type-picker.component.scss"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TypePickerComponent),
+      multi: true,
+    },
+  ],
+  standalone: false,
 })
 export class TypePickerComponent implements ControlValueAccessor, AfterViewInit {
   @Input() options: TypePickerOption[] = [];

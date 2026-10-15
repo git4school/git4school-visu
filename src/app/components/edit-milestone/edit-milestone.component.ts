@@ -9,11 +9,11 @@ import { TypePickerOption } from "@shared/ui/type-picker/type-picker.component";
 import { DataService } from "@services/data.service";
 
 @Component({
-    selector: "edit-milestone",
-    templateUrl: "./edit-milestone.component.html",
-    styleUrls: ["./edit-milestone.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: "edit-milestone",
+  templateUrl: "./edit-milestone.component.html",
+  styleUrls: ["./edit-milestone.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EditMilestoneComponent implements OnInit {
   @Input() milestone: Milestone;

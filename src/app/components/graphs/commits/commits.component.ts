@@ -62,11 +62,11 @@ import { ViewportRenderer } from "./viewport.renderer";
 import { GraphPointsRenderer } from "./graph-points.renderer";
 
 @Component({
-    selector: "commits",
-    templateUrl: "./commits.component.html",
-    styleUrls: ["./commits.component.scss", "./chart.scss"],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: "commits",
+  templateUrl: "./commits.component.html",
+  styleUrls: ["./commits.component.scss", "./chart.scss"],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class CommitsComponent extends BaseGraphComponent implements OnInit, AfterViewInit, OnDestroy {
   static CIRCLE_RADIUS = 12;
@@ -1374,15 +1374,15 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const groupName = session.tpGroup || "";
 
     /* prettier-ignore */
-    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    // eslint-disable-next-line prettier/prettier, max-len
     const usersSvg = '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
 
     /* prettier-ignore */
-    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    // eslint-disable-next-line prettier/prettier, max-len
     const calendarSvg = '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
 
     /* prettier-ignore */
-    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    // eslint-disable-next-line prettier/prettier, max-len
     const noteSvg = '<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
 
     // 1. Continuous header background filling top strip behind pills

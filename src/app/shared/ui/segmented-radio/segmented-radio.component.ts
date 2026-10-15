@@ -21,17 +21,17 @@ export interface SegmentedRadioOption {
 }
 
 @Component({
-    selector: "app-segmented-radio",
-    templateUrl: "./segmented-radio.component.html",
-    styleUrls: ["./segmented-radio.component.scss"],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => SegmentedRadioComponent),
-            multi: true,
-        },
-    ],
-    standalone: false
+  selector: "app-segmented-radio",
+  templateUrl: "./segmented-radio.component.html",
+  styleUrls: ["./segmented-radio.component.scss"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SegmentedRadioComponent),
+      multi: true,
+    },
+  ],
+  standalone: false,
 })
 export class SegmentedRadioComponent implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy {
   @Input() public options: SegmentedRadioOption[] = [];

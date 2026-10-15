@@ -58,10 +58,10 @@ export class SessionHeaderRenderer {
 
     /* SVG chevrons — stroke cohérent avec les icônes de l'app */
     /* prettier-ignore */
-    // eslint-disable-next-line @typescript-eslint/quotes
+    // eslint-disable-next-line prettier/prettier
     const chevronLeft = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>';
     /* prettier-ignore */
-    // eslint-disable-next-line @typescript-eslint/quotes
+    // eslint-disable-next-line prettier/prettier
     const chevronRight = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>';
 
     fo.html(`
@@ -248,7 +248,7 @@ export class SessionHeaderRenderer {
   }
 
   private static renderUsersSvg(): string {
-    // eslint-disable-next-line @typescript-eslint/quotes
+    // eslint-disable-next-line prettier/prettier
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
   }
 

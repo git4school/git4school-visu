@@ -8,7 +8,7 @@ import { AccountsService } from "@services/accounts.service";
 @Injectable({
   providedIn: "root",
 })
-export class AuthGuard  {
+export class AuthGuard {
   /**
    * AuthGuard constructor
    * @param accountsService

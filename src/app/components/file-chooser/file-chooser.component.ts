@@ -5,10 +5,10 @@ import { AssignmentsService } from "@services/assignments.service";
 import { ToastService } from "@services/toast.service";
 
 @Component({
-    selector: "file-chooser",
-    templateUrl: "./file-chooser.component.html",
-    styleUrls: ["./file-chooser.component.scss"],
-    standalone: false
+  selector: "file-chooser",
+  templateUrl: "./file-chooser.component.html",
+  styleUrls: ["./file-chooser.component.scss"],
+  standalone: false,
 })
 export class FileChooserComponent implements OnInit {
   constructor(

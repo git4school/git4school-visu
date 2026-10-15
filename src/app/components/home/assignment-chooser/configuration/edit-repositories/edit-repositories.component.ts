@@ -1,5 +1,13 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
-import { AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { Assignment } from "@models/Assignment.model";
 import { GitProviderType } from "@models/Account.model";
@@ -27,10 +35,10 @@ export type SortDirection = "asc" | "desc" | "";
  * or by selecting it in the list of repositories retrieved from Github or GitLab
  */
 @Component({
-    selector: "edit-repositories",
-    templateUrl: "./edit-repositories.component.html",
-    styleUrls: ["../configuration.component.scss", "./edit-repositories.component.scss"],
-    standalone: false
+  selector: "edit-repositories",
+  templateUrl: "./edit-repositories.component.html",
+  styleUrls: ["../configuration.component.scss", "./edit-repositories.component.scss"],
+  standalone: false,
 })
 export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent<Repository> implements OnInit {
   @Input() assignment?: Assignment;

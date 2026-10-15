@@ -14,9 +14,9 @@ describe("GitlabCustomAuthService", () => {
     localStorage.clear();
 
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [GitlabCustomAuthService, TokenStorageService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
+      imports: [],
+      providers: [GitlabCustomAuthService, TokenStorageService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
+    });
 
     service = TestBed.inject(GitlabCustomAuthService);
     httpMock = TestBed.inject(HttpTestingController);

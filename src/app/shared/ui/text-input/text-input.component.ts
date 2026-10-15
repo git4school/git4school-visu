@@ -6,17 +6,17 @@ import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-boot
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 
 @Component({
-    selector: "app-text-input",
-    templateUrl: "./text-input.component.html",
-    styleUrls: ["./text-input.component.scss"],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => TextInputComponent),
-            multi: true,
-        },
-    ],
-    standalone: false
+  selector: "app-text-input",
+  templateUrl: "./text-input.component.html",
+  styleUrls: ["./text-input.component.scss"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TextInputComponent),
+      multi: true,
+    },
+  ],
+  standalone: false,
 })
 export class TextInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() label = "";
@@ -145,7 +145,7 @@ export class TextInputComponent implements ControlValueAccessor, OnInit, OnDestr
     // Find all focusable inputs and textareas in the DOM
     const focusableElements = Array.from(
       document.querySelectorAll(
-        // eslint-disable-next-line @typescript-eslint/quotes
+        // eslint-disable-next-line prettier/prettier
         'input:not([disabled]):not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), textarea:not([disabled])',
       ),
     ) as HTMLElement[];

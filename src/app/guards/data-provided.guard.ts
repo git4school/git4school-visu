@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class DataProvidedGuard  {
+export class DataProvidedGuard {
   /**
    * DataProvidedGuard constructor
    * @param dataService

@@ -9,10 +9,10 @@ import { Account, TokenStatus } from "@models/Account.model";
 import { Subscription } from "rxjs";
 
 @Component({
-    selector: "app-add-account-modal",
-    templateUrl: "./add-account-modal.component.html",
-    styleUrls: ["./add-account-modal.component.scss"],
-    standalone: false
+  selector: "app-add-account-modal",
+  templateUrl: "./add-account-modal.component.html",
+  styleUrls: ["./add-account-modal.component.scss"],
+  standalone: false,
 })
 export class AddAccountModalComponent implements OnInit, OnDestroy {
   selectedPlatform: "github" | "gitlab-cloud" | "gitlab-custom" = "github";

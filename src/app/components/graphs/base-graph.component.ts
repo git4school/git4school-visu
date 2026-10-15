@@ -31,8 +31,8 @@ export interface GraphViewBootstrap {
  * jamais désabonnés. Ils le sont maintenant, en un seul endroit.
  */
 @Component({
-    template: "",
-    standalone: false
+  template: "",
+  standalone: false,
 })
 export abstract class BaseGraphComponent implements OnInit, OnDestroy {
   public loading = false;

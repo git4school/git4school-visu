@@ -19,10 +19,10 @@ const TEXT_DEBOUNCE_MS = 600;
 const SAVED_INDICATOR_MS = 1500;
 
 @Component({
-    selector: "app-configuration",
-    templateUrl: "./configuration.component.html",
-    styleUrls: ["./configuration.component.scss"],
-    standalone: false
+  selector: "app-configuration",
+  templateUrl: "./configuration.component.html",
+  styleUrls: ["./configuration.component.scss"],
+  standalone: false,
 })
 export class ConfigurationComponent implements OnInit, OnDestroy {
   @Input() assignment: Assignment;

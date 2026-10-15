@@ -12,10 +12,10 @@ import {
 } from "@angular/core";
 
 @Component({
-    selector: "app-custom-modal-container",
-    templateUrl: "./custom-modal-container.component.html",
-    styleUrls: ["./custom-modal-container.component.scss"],
-    standalone: false
+  selector: "app-custom-modal-container",
+  templateUrl: "./custom-modal-container.component.html",
+  styleUrls: ["./custom-modal-container.component.scss"],
+  standalone: false,
 })
 export class CustomModalContainerComponent implements OnInit {
   @ViewChild("modalContent", { read: ViewContainerRef, static: true })

@@ -12,10 +12,10 @@ export interface SelectableSuggestedSession {
 }
 
 @Component({
-    selector: "app-suggest-sessions-modal",
-    templateUrl: "./suggest-sessions-modal.component.html",
-    styleUrls: ["./suggest-sessions-modal.component.scss"],
-    standalone: false
+  selector: "app-suggest-sessions-modal",
+  templateUrl: "./suggest-sessions-modal.component.html",
+  styleUrls: ["./suggest-sessions-modal.component.scss"],
+  standalone: false,
 })
 export class SuggestSessionsModalComponent implements OnInit {
   @Input() suggestions: SuggestedSessionResult[] = [];
