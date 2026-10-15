@@ -1,4 +1,4 @@
-import * as moment from "moment";
+import moment from "moment";
 
 /**
  * Pure decisions of the date picker: the focus order of the typed fields, what a click on a day

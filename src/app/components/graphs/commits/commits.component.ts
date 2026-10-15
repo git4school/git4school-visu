@@ -48,7 +48,7 @@ import { BaseGraphComponent } from "../base-graph.component";
 import { OsUtils } from "@utils/os.utils";
 
 import * as d3 from "d3";
-import * as moment from "moment";
+import moment from "moment";
 import { Repository } from "../../../models/Repository.model";
 import { Utils } from "@services/utils";
 import { FilterGroup } from "@components/questions-chooser/questions-chooser.component";

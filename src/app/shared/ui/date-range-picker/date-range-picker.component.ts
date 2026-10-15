@@ -13,7 +13,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import * as moment from "moment";
+import moment from "moment";
 import { Subscription } from "rxjs";
 import { ClockService } from "@services/clock.service";
 import { computePopupPlacement } from "./popup-placement.util";

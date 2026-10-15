@@ -6,7 +6,7 @@ import { SessionDetailedStats } from "@services/session-analytics.service";
 import { Utils } from "@services/utils";
 import { smartTooltipPlacement } from "./sessions-analytics.util";
 import * as d3 from "d3";
-import * as moment from "moment";
+import moment from "moment";
 
 /**
  * Ribbon chart of a session: dispersion band (Q1-Q3), average trend line, one scatter point per

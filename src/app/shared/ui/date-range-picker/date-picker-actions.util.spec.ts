@@ -1,4 +1,4 @@
-import * as moment from "moment";
+import moment from "moment";
 import { decideDateSelection, resolveQuickRange } from "./date-picker-actions.util";
 
 describe("date-picker-actions.util", () => {

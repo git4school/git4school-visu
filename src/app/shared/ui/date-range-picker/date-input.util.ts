@@ -1,4 +1,4 @@
-import * as moment from "moment";
+import moment from "moment";
 
 /**
  * Pure helpers behind the typed date/time fields of the date picker (`day` / `month` / `year` /

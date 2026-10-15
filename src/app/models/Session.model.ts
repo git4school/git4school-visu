@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import * as moment from "moment";
+import moment from "moment";
 
 /**
  * This class modelizes a practical session

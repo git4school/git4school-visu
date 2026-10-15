@@ -287,7 +287,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/build@21.2.27":
+"@angular/build@21", "@angular/build@21.2.27":
   version "21.2.27"
   resolved "https://registry.yarnpkg.com/@angular/build/-/build-21.2.27.tgz#c65af5acc7a31c21d6476029b78a623424771b47"
   integrity sha512-CqsGWRitHaSyVJU4+4CaGImgPmyqnjV168TJOWNXjgenm5FyMbfDi2SQ+Mq11P1ul+P7gBM6cQh0C0bs7Vw1Hw==

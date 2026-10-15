@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms
 import { Metadata } from "@models/Metadata.model";
 import { NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
 import { NgbDateNativeUTCFranceAdapter } from "@services/ngb-date-native-utcfrance-adapter.service";
-import * as moment from "moment";
+import moment from "moment";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { BaseEditConfigurationComponent } from "../base-edit-configuration.component";

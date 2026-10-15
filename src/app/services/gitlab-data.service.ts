@@ -5,7 +5,7 @@ import { Commit } from "@models/Commit.model";
 import { GitDataSearchResult, GitDataService, RepositoryMetadata } from "@models/GitDataService.model";
 import { Error, ErrorType, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
-import * as moment from "moment";
+import moment from "moment";
 import { forkJoin, Observable, of } from "rxjs";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { GitlabAuthService } from "./gitlab-auth.service";

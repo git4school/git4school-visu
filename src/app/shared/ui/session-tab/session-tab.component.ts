@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
-import * as moment from "moment";
+import moment from "moment";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 

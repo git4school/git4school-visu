@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
-import * as moment from "moment";
+import moment from "moment";
 
 const eventSchema = {
   type: "array",

@@ -3,7 +3,7 @@ import { TooltipService } from "@services/tooltip.service";
 import { SessionDetailedStats } from "@services/session-analytics.service";
 
 import * as d3 from "d3";
-import * as moment from "moment";
+import moment from "moment";
 
 /**
  * Two "macro" charts of the sessions view: the 15-minute pace histogram of one session and the

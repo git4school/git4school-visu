@@ -5,7 +5,7 @@ import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { DataService } from "@services/data.service";
 import { Utils } from "@services/utils";
 import { TranslateService } from "@ngx-translate/core";
-import * as moment from "moment";
+import moment from "moment";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 

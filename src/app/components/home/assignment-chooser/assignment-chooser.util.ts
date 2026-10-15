@@ -5,7 +5,7 @@
  * The component keeps the state and the DOM; everything decided here is a pure function of it.
  */
 
-import * as moment from "moment";
+import moment from "moment";
 
 /** Key of the toolbar preferences (sort field/direction, filters, view mode). */
 export const CHOOSER_PREFS_KEY = "assignment-chooser-prefs";

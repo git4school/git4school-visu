@@ -41,7 +41,7 @@ import { ToastService } from "@services/toast.service";
 import { ClockService } from "@services/clock.service";
 import { Utils } from "@services/utils";
 import { Subscription } from "rxjs";
-import * as moment from "moment";
+import moment from "moment";
 
 @Component({
     selector: "assignment-chooser",

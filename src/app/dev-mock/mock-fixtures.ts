@@ -3,7 +3,7 @@ import { GitProviderType } from "@models/Account.model";
 import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
-import * as moment from "moment";
+import moment from "moment";
 
 /**
  * DEV-ONLY fixture dataset shared by the mocked Git providers (GitHub & GitLab).

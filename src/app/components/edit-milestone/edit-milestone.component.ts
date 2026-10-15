@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms
 import { Milestone } from "@models/Milestone.model";
 
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
-import * as moment from "moment";
+import moment from "moment";
 import { TypePickerOption } from "@shared/ui/type-picker/type-picker.component";
 
 import { DataService } from "@services/data.service";

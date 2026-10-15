@@ -1,4 +1,4 @@
-import * as moment from "moment";
+import moment from "moment";
 import { MINUTE_MS } from "@services/clock.service";
 import { Utils } from "@services/utils";
 

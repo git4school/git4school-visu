@@ -8,7 +8,7 @@ import type {
   StudentSessionActivity,
   StudentWatchItem,
 } from "./session-analytics.service";
-import * as moment from "moment";
+import moment from "moment";
 
 /**
  * Pure computations behind the session analytics: student health, commit histogram, cohort progress
