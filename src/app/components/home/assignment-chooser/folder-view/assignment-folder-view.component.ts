@@ -34,9 +34,10 @@ const LED_IDLE_FLICKER_DELAY_MS = 10000;
  * `AssignmentChooserComponent`.
  */
 @Component({
-  selector: "assignment-folder-view",
-  templateUrl: "./assignment-folder-view.component.html",
-  styleUrls: ["./assignment-folder-view.component.scss"],
+    selector: "assignment-folder-view",
+    templateUrl: "./assignment-folder-view.component.html",
+    styleUrls: ["./assignment-folder-view.component.scss"],
+    standalone: false
 })
 export class AssignmentFolderViewComponent implements DoCheck, OnChanges, OnDestroy {
   @Input() assignments: Assignment[] = [];

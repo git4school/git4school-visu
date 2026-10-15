@@ -27,9 +27,10 @@ export type SortDirection = "asc" | "desc" | "";
  * or by selecting it in the list of repositories retrieved from Github or GitLab
  */
 @Component({
-  selector: "edit-repositories",
-  templateUrl: "./edit-repositories.component.html",
-  styleUrls: ["../configuration.component.scss", "./edit-repositories.component.scss"],
+    selector: "edit-repositories",
+    templateUrl: "./edit-repositories.component.html",
+    styleUrls: ["../configuration.component.scss", "./edit-repositories.component.scss"],
+    standalone: false
 })
 export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent<Repository> implements OnInit {
   @Input() assignment?: Assignment;

@@ -40,16 +40,17 @@ export interface TypeaheadFilterItem {
 declare var ResizeObserver: any;
 
 @Component({
-  selector: "questions-chooser",
-  templateUrl: "./questions-chooser.component.html",
-  styleUrls: ["./questions-chooser.component.scss"],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: QuestionsChooserComponent,
-      multi: true,
-    },
-  ],
+    selector: "questions-chooser",
+    templateUrl: "./questions-chooser.component.html",
+    styleUrls: ["./questions-chooser.component.scss"],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: QuestionsChooserComponent,
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, OnDestroy {
   @ViewChild("instance", { static: true }) instance: NgbTypeahead;

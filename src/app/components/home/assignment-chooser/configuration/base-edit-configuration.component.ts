@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 
 @Component({
-  template: "",
+    template: "",
+    standalone: false
 })
 export abstract class BaseEditConfigurationComponent {
   /**

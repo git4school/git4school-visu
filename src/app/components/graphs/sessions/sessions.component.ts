@@ -52,9 +52,10 @@ export interface MacroSessionOverview {
 }
 
 @Component({
-  selector: "app-sessions",
-  templateUrl: "./sessions.component.html",
-  styleUrls: ["./sessions.component.scss"],
+    selector: "app-sessions",
+    templateUrl: "./sessions.component.html",
+    styleUrls: ["./sessions.component.scss"],
+    standalone: false
 })
 export class SessionsComponent extends BaseGraphComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("ribbonChartContainer") ribbonChartContainer?: ElementRef;

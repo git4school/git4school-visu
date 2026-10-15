@@ -6,16 +6,17 @@ import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-boot
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 
 @Component({
-  selector: "app-text-input",
-  templateUrl: "./text-input.component.html",
-  styleUrls: ["./text-input.component.scss"],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TextInputComponent),
-      multi: true,
-    },
-  ],
+    selector: "app-text-input",
+    templateUrl: "./text-input.component.html",
+    styleUrls: ["./text-input.component.scss"],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => TextInputComponent),
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class TextInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() label = "";

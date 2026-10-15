@@ -62,10 +62,11 @@ import { ViewportRenderer } from "./viewport.renderer";
 import { GraphPointsRenderer } from "./graph-points.renderer";
 
 @Component({
-  selector: "commits",
-  templateUrl: "./commits.component.html",
-  styleUrls: ["./commits.component.scss", "./chart.scss"],
-  encapsulation: ViewEncapsulation.None,
+    selector: "commits",
+    templateUrl: "./commits.component.html",
+    styleUrls: ["./commits.component.scss", "./chart.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CommitsComponent extends BaseGraphComponent implements OnInit, AfterViewInit, OnDestroy {
   static CIRCLE_RADIUS = 12;

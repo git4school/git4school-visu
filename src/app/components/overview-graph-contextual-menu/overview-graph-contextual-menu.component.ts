@@ -11,9 +11,10 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: "overview-graph-contextual-menu",
-  templateUrl: "./overview-graph-contextual-menu.component.html",
-  styleUrls: ["./overview-graph-contextual-menu.component.scss"],
+    selector: "overview-graph-contextual-menu",
+    templateUrl: "./overview-graph-contextual-menu.component.html",
+    styleUrls: ["./overview-graph-contextual-menu.component.scss"],
+    standalone: false
 })
 export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
   @ViewChild(NgbDropdown) dropdown;

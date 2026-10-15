@@ -17,9 +17,10 @@ import { ToastService } from "@services/toast.service";
 import { GithubAuthService } from "@services/github-auth.service";
 
 @Component({
-  selector: "app-dev-bar",
-  templateUrl: "./dev-bar.component.html",
-  styleUrls: ["./dev-bar.component.scss"],
+    selector: "app-dev-bar",
+    templateUrl: "./dev-bar.component.html",
+    styleUrls: ["./dev-bar.component.scss"],
+    standalone: false
 })
 export class DevBarComponent implements OnInit, OnDestroy {
   readonly isProduction = environment.production;

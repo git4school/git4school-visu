@@ -44,9 +44,10 @@ import { Subscription } from "rxjs";
 import * as moment from "moment";
 
 @Component({
-  selector: "assignment-chooser",
-  templateUrl: "./assignment-chooser.component.html",
-  styleUrls: ["./assignment-chooser.component.scss"],
+    selector: "assignment-chooser",
+    templateUrl: "./assignment-chooser.component.html",
+    styleUrls: ["./assignment-chooser.component.scss"],
+    standalone: false
 })
 export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("searchInput") searchInputRef?: ElementRef<HTMLInputElement>;

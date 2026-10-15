@@ -17,10 +17,11 @@ import { OsUtils } from "@utils/os.utils";
 import * as d3 from "d3";
 
 @Component({
-  selector: "questions-completion",
-  templateUrl: "./questions-completion.component.html",
-  styleUrls: ["./questions-completion.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+    selector: "questions-completion",
+    templateUrl: "./questions-completion.component.html",
+    styleUrls: ["./questions-completion.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class QuestionsCompletionComponent extends BaseGraphComponent implements OnInit, OnDestroy {
   @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;

@@ -10,10 +10,11 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: "app-edit-session",
-  templateUrl: "./edit-session.component.html",
-  styleUrls: ["./edit-session.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "app-edit-session",
+    templateUrl: "./edit-session.component.html",
+    styleUrls: ["./edit-session.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class EditSessionComponent implements OnInit, OnDestroy {
   @Input() session: Session;

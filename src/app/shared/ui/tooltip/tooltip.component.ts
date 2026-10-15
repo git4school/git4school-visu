@@ -4,9 +4,10 @@ import { Subscription } from "rxjs";
 import { OsUtils } from "@utils/os.utils";
 
 @Component({
-  selector: "app-tooltip",
-  templateUrl: "./tooltip.component.html",
-  styleUrls: ["./tooltip.component.scss"],
+    selector: "app-tooltip",
+    templateUrl: "./tooltip.component.html",
+    styleUrls: ["./tooltip.component.scss"],
+    standalone: false
 })
 export class TooltipComponent implements OnInit, OnDestroy {
   @Input() content: string | TemplateRef<any> = "";

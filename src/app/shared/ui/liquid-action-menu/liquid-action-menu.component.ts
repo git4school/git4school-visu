@@ -11,9 +11,10 @@ import { OverlayManagerService, OverlayType } from "@services/overlay-manager.se
  * Les libellés des actions sont fournis par le parent (composant présentationnel).
  */
 @Component({
-  selector: "app-liquid-action-menu",
-  templateUrl: "./liquid-action-menu.component.html",
-  styleUrls: ["./liquid-action-menu.component.scss"],
+    selector: "app-liquid-action-menu",
+    templateUrl: "./liquid-action-menu.component.html",
+    styleUrls: ["./liquid-action-menu.component.scss"],
+    standalone: false
 })
 export class LiquidActionMenuComponent implements OnDestroy {
   @Input() disabled = false;

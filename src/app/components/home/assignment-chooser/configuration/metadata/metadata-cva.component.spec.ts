@@ -7,9 +7,10 @@ import { SessionDurationPickerComponent } from "@shared/ui/session-duration-pick
 import { MetadataComponent } from "./metadata.component";
 
 @Component({
-  selector: "questions-chooser",
-  template: "",
-  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MockQuestionsChooserComponent), multi: true }],
+    selector: "questions-chooser",
+    template: "",
+    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MockQuestionsChooserComponent), multi: true }],
+    standalone: false
 })
 class MockQuestionsChooserComponent implements ControlValueAccessor {
   registerOnChange(fn: any) {

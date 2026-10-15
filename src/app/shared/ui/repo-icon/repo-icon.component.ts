@@ -1,9 +1,10 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: "app-repo-icon",
-  templateUrl: "./repo-icon.component.html",
-  styleUrls: ["./repo-icon.component.scss"],
+    selector: "app-repo-icon",
+    templateUrl: "./repo-icon.component.html",
+    styleUrls: ["./repo-icon.component.scss"],
+    standalone: false
 })
 export class RepoIconComponent {
   @Input() mode: "default" | "add" | "add-multiple" | "empty" = "default";

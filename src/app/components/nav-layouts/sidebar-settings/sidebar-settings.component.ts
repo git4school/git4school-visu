@@ -19,9 +19,10 @@ import { WhatsNewService } from "@services/whats-new.service";
 import { environment } from "@environments/environment";
 
 @Component({
-  selector: "app-sidebar-settings",
-  templateUrl: "./sidebar-settings.component.html",
-  styleUrls: ["./sidebar-settings.component.scss"],
+    selector: "app-sidebar-settings",
+    templateUrl: "./sidebar-settings.component.html",
+    styleUrls: ["./sidebar-settings.component.scss"],
+    standalone: false
 })
 export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isOpen = false;

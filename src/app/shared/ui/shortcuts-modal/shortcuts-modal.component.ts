@@ -3,9 +3,10 @@ import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { OsUtils } from "@utils/os.utils";
 
 @Component({
-  selector: "app-shortcuts-modal",
-  templateUrl: "./shortcuts-modal.component.html",
-  styleUrls: ["./shortcuts-modal.component.scss"],
+    selector: "app-shortcuts-modal",
+    templateUrl: "./shortcuts-modal.component.html",
+    styleUrls: ["./shortcuts-modal.component.scss"],
+    standalone: false
 })
 export class ShortcutsModalComponent {
   constructor(@Optional() public activeModal: CustomModalRef) {}

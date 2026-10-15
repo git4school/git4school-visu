@@ -3,16 +3,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: "app-session-duration-picker",
-  templateUrl: "./session-duration-picker.component.html",
-  styleUrls: ["./session-duration-picker.component.scss"],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SessionDurationPickerComponent),
-      multi: true,
-    },
-  ],
+    selector: "app-session-duration-picker",
+    templateUrl: "./session-duration-picker.component.html",
+    styleUrls: ["./session-duration-picker.component.scss"],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SessionDurationPickerComponent),
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class SessionDurationPickerComponent implements ControlValueAccessor, OnInit {
   @ViewChild("customInput") customInput: ElementRef<HTMLInputElement>;

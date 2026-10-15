@@ -2,9 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: "app-gitlab-callback",
-  templateUrl: "./gitlab-callback.component.html",
-  styleUrls: ["./gitlab-callback.component.scss"],
+    selector: "app-gitlab-callback",
+    templateUrl: "./gitlab-callback.component.html",
+    styleUrls: ["./gitlab-callback.component.scss"],
+    standalone: false
 })
 export class GitlabCallbackComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}

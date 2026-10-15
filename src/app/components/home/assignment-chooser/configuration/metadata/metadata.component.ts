@@ -14,10 +14,11 @@ import { QuestionsChooserComponent } from "@components/questions-chooser/questio
  * This component lets you modify metadata such as document title, course, year, start date and end date, questions
  */
 @Component({
-  selector: "metadata",
-  templateUrl: "./metadata.component.html",
-  styleUrls: ["../configuration.component.scss", "./metadata.component.scss"],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter }],
+    selector: "metadata",
+    templateUrl: "./metadata.component.html",
+    styleUrls: ["../configuration.component.scss", "./metadata.component.scss"],
+    providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter }],
+    standalone: false
 })
 export class MetadataComponent extends BaseEditConfigurationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() metadata: Metadata;

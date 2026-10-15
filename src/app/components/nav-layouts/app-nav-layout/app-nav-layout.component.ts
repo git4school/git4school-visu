@@ -24,9 +24,10 @@ export interface NavTab {
 }
 
 @Component({
-  selector: "app-app-nav-layout",
-  templateUrl: "./app-nav-layout.component.html",
-  styleUrls: ["./app-nav-layout.component.scss"],
+    selector: "app-app-nav-layout",
+    templateUrl: "./app-nav-layout.component.html",
+    styleUrls: ["./app-nav-layout.component.scss"],
+    standalone: false
 })
 export class AppNavLayoutComponent implements OnInit {
   constructor(

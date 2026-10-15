@@ -20,7 +20,8 @@ import { take } from "rxjs/operators";
  * `ngbDropdownItem` (flèches, Home/End, Entrée).
  */
 @Directive({
-  selector: "[ngbDropdown]",
+    selector: "[ngbDropdown]",
+    standalone: false
 })
 export class DropdownArrowNavDirective implements OnInit, OnDestroy {
   private menuElement: HTMLElement | null = null;

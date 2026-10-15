@@ -10,9 +10,10 @@ import { environment } from "../../../environments/environment";
  * a user guide or help with the structure of the configuration file or the ReadMe of the repositories
  */
 @Component({
-  selector: "home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"],
+    selector: "home",
+    templateUrl: "./home.component.html",
+    styleUrls: ["./home.component.scss"],
+    standalone: false
 })
 export class HomeComponent implements OnInit {
   version = environment.version;

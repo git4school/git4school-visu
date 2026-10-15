@@ -8,9 +8,10 @@ import { Observable, Subject, Subscription } from "rxjs";
 import { debounceTime, map } from "rxjs/operators";
 
 @Component({
-  selector: "app-modal-add-repositories",
-  templateUrl: "./modal-add-repositories.component.html",
-  styleUrls: ["./modal-add-repositories.component.scss"],
+    selector: "app-modal-add-repositories",
+    templateUrl: "./modal-add-repositories.component.html",
+    styleUrls: ["./modal-add-repositories.component.scss"],
+    standalone: false
 })
 export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("reposTable", { read: ElementRef }) datatable: ElementRef;

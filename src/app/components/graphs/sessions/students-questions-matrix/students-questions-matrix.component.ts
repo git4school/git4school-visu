@@ -47,10 +47,11 @@ export interface QuestionColumnSummary {
 }
 
 @Component({
-  selector: "app-students-questions-matrix",
-  templateUrl: "./students-questions-matrix.component.html",
-  styleUrls: ["./students-questions-matrix.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "app-students-questions-matrix",
+    templateUrl: "./students-questions-matrix.component.html",
+    styleUrls: ["./students-questions-matrix.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class StudentsQuestionsMatrixComponent implements OnChanges {
   @Input() repositories: Repository[] = [];

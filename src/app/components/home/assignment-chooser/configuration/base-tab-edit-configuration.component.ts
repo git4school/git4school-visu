@@ -3,7 +3,8 @@ import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { BaseEditConfigurationComponent } from "./base-edit-configuration.component";
 
 @Component({
-  template: "",
+    template: "",
+    standalone: false
 })
 export abstract class BaseTabEditConfigurationComponent<Data> extends BaseEditConfigurationComponent implements OnInit {
   @Input() datas: Data[];

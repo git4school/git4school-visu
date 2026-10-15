@@ -4,10 +4,10 @@ import { GithubAuthService } from "@services/github-auth.service";
 import { TourService } from "@services/tour.service";
 
 @Component({
-  selector: "auth-lang-nav-item",
-  templateUrl: "./auth-lang-nav-item.component.html",
-  styleUrls: ["./auth-lang-nav-item.component.scss"],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "auth-lang-nav-item",
+    templateUrl: "./auth-lang-nav-item.component.html",
+    styleUrls: ["./auth-lang-nav-item.component.scss"],
+    standalone: false
 })
 export class AuthLangNavItemComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix

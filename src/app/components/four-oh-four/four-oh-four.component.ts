@@ -5,9 +5,10 @@ import { TranslateService } from "@ngx-translate/core";
  * This component is used with the 404 error
  */
 @Component({
-  selector: "four-oh-four",
-  templateUrl: "./four-oh-four.component.html",
-  styleUrls: ["./four-oh-four.component.scss"],
+    selector: "four-oh-four",
+    templateUrl: "./four-oh-four.component.html",
+    styleUrls: ["./four-oh-four.component.scss"],
+    standalone: false
 })
 export class FourOhFourComponent implements OnInit {
   /**

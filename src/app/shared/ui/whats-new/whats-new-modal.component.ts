@@ -18,9 +18,10 @@ const KEY_MARKER = /\[\[([^\]]+)\]\]/g;
  * history panel. The content itself lives in `whats-new.data.ts` and in the i18n files.
  */
 @Component({
-  selector: "app-whats-new-modal",
-  templateUrl: "./whats-new-modal.component.html",
-  styleUrls: ["./whats-new-modal.component.scss"],
+    selector: "app-whats-new-modal",
+    templateUrl: "./whats-new-modal.component.html",
+    styleUrls: ["./whats-new-modal.component.scss"],
+    standalone: false
 })
 export class WhatsNewModalComponent {
   /** Release highlighted by the modal. */
